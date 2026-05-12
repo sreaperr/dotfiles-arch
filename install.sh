@@ -4,12 +4,14 @@
 #---------
 #VARIABLES
 #---------
-path_install=~/dotfiles-arch/install.sh
+# Ruta dinámica: funciona independientemente de dónde esté clonado el repo
+path_install="${0:A}"
+DOTFILES_STATIC="$(dirname "$path_install")"
 #-----------------------------------------
 #PERMISOS DE INSTALL.SH
 #-----------------------------------------
 if [ ! -x "$path_install" ]; then
-    echo "EL ARCHIVO NO ES EJECUTABLE" && exit 1
+    echo "EL ARCHIVO NO ES EJECUTABLE. Ejecuta: chmod +x $path_install" && exit 1
 fi
 #-----------------------------------------
 #VERIFICAR QUE NO ES ROOT (paru no funciona como root)
@@ -254,7 +256,7 @@ paru -S --noconfirm gruvbox-material-gtk-theme-git tokyonight-gtk-theme-git
 #SYMLINKS PARA CLONAR ARCHIVOS
 #------------------------------
 echo "CREANDO SYMLINKS..."
-DOTFILES=$(dirname "$path_install")
+DOTFILES="$DOTFILES_STATIC"
 # Crear ~/.config si no existe
 mkdir -p ~/.config
 # Archivos en $HOME
