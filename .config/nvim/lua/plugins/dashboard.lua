@@ -1,9 +1,10 @@
 return {
   "folke/snacks.nvim",
-  opts = {
-    dashboard = {
-      preset = {
-        header = [[
+  opts = function(_, opts)
+    opts.dashboard = opts.dashboard or {}
+    opts.dashboard.preset = opts.dashboard.preset or {}
+
+    opts.dashboard.preset.header = [[
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⠞⠛⠛⠶⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⣠⢤⠀⠀⠀⣴⠟⠁⠀⠀⠀⠀⠈⢧⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⢠⠞⢁⡞⢀⣰⠞⠁⠀⠀⠀⠀⠀⠀⠀⠀⠻⣄⠀⠀⠀⠀⠀⠀⠀⠀
@@ -30,14 +31,13 @@ return {
 ███████╗██████╔╝█████╗  ███████║██████╔╝█████╗  ██████╔╝
 ╚════██║██╔══██╗██╔══╝  ██╔══██║██╔═══╝ ██╔══╝  ██╔══██╗
 ███████║██║  ██║███████╗██║  ██║██║     ███████╗██║  ██║
-╚══════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝     ╚══════╝╚═╝  ╚═╝]],
-      },
-      sections = {
-        { section = "header" },
-        { section = "keys",   gap = 1, padding = 1 },
-        { section = "recent_files", gap = 1, padding = 1 },
-        { section = "startup" },
-      },
-    },
-  },
+╚══════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝     ╚══════╝╚═╝  ╚═╝]]
+
+    opts.dashboard.sections = {
+      { section = "header" },
+      { section = "keys",         gap = 1, padding = 1 },
+      { section = "recent_files", gap = 1, padding = 1 },
+      { section = "startup" },
+    }
+  end,
 }
