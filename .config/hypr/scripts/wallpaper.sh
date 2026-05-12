@@ -8,7 +8,7 @@ WALLPAPER_DIR="$HOME/.config/.wallpaper"
 # Listar imágenes disponibles
 SELECTED=$(ls "$WALLPAPER_DIR" | rofi -dmenu \
     -p "  Fondo" \
-    -theme ~/.config/rofi/theme.rasi \
+    -theme ~/.config/rofi/dropdown.rasi \
     -i -no-custom)
 
 # Salir si no se seleccionó nada

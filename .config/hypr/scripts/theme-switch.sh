@@ -16,7 +16,7 @@ THEMES="Gruvbox\nTokyo Night"
 # Mostrar menú con rofi
 SELECTED=$(echo -e "$THEMES" | rofi -dmenu \
     -p "  Tema" \
-    -theme ~/.config/rofi/theme.rasi \
+    -theme ~/.config/rofi/dropdown.rasi \
     -i -no-custom)
 
 # Salir si no se seleccionó nada

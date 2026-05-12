@@ -1,0 +1,27 @@
+@import "~/.config/rofi/theme.rasi"
+
+window {
+    location:      north;
+    anchor:        north;
+    y-offset:      36px;
+    width:         220px;
+    border-radius: 0px 0px 10px 10px;
+}
+
+mainbox {
+    children: [ listview ];
+    spacing:  0px;
+}
+
+listview {
+    padding: 6px;
+    spacing: 4px;
+    lines:   8;
+}
+
+element {
+    padding:       8px 14px;
+    border-radius: 6px;
+    spacing:       10px;
+    children:      [ element-icon, element-text ];
+}
