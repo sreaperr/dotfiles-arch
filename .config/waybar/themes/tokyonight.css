@@ -19,6 +19,9 @@ window#waybar {
 #workspaces button {
     color: @fg-dim;
     background-color: @bg2;
+    border-radius: 6px;
+    margin: 4px 2px;
+    padding: 0 6px;
 }
 #workspaces button:hover {
     background-color: @bg2;
@@ -33,63 +36,37 @@ window#waybar {
     color: @fg;
 }
 
-#custom-launcher {
-    color: @cyan;
-}
-#custom-separator {
-    color: @bg2;
-}
+#custom-launcher { color: @cyan; padding: 0 10px; font-size: 16px; }
+#custom-separator { color: @bg2; padding: 0 4px; }
+
 #custom-firefox,
 #custom-terminal,
 #custom-files,
 #custom-pavucontrol,
 #custom-wallpaper,
-#custom-theme {
+#custom-theme,
+#custom-powermenu {
     color: @fg-dim;
+    padding: 0 8px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
 }
 #custom-firefox:hover,
 #custom-terminal:hover,
 #custom-files:hover,
 #custom-pavucontrol:hover,
 #custom-wallpaper:hover,
-#custom-theme:hover {
-    color: @cyan;
-    background-color: @bg2;
-}
+#custom-theme:hover { color: @cyan; background-color: @bg2; }
+#custom-powermenu:hover { color: @red; background-color: @bg2; }
 
-#clock {
-    color: @green;
-}
+#clock { color: @green; font-weight: bold; padding: 0 12px; }
 
-#pulseaudio {
-    color: @green;
-    background-color: @bg2;
-}
-#pulseaudio.muted {
-    color: @fg-dim;
-}
-#bluetooth {
-    color: @cyan;
-    background-color: @bg2;
-}
-#bluetooth.off {
-    color: @fg-dim;
-}
-#network {
-    color: @yellow;
-    background-color: @bg2;
-}
-#network.disconnected {
-    color: @red;
-}
-#cpu {
-    color: @purple;
-    background-color: @bg2;
-}
-#memory {
-    color: @cyan;
-    background-color: @bg2;
-}
-#tray {
-    background-color: @bg2;
-}
+#pulseaudio { color: @green; background-color: @bg2; padding: 0 10px; border-radius: 6px; margin: 4px 2px; }
+#pulseaudio.muted { color: @fg-dim; }
+#bluetooth { color: @cyan; background-color: @bg2; padding: 0 10px; border-radius: 6px; margin: 4px 2px; }
+#bluetooth.off { color: @fg-dim; }
+#network { color: @yellow; background-color: @bg2; padding: 0 10px; border-radius: 6px; margin: 4px 2px; }
+#network.disconnected { color: @red; }
+#cpu { color: @purple; background-color: @bg2; padding: 0 10px; border-radius: 6px; margin: 4px 2px; }
+#memory { color: @cyan; background-color: @bg2; padding: 0 10px; border-radius: 6px; margin: 4px 2px; }
+#tray { background-color: @bg2; padding: 0 6px; border-radius: 6px; margin: 4px 2px; }

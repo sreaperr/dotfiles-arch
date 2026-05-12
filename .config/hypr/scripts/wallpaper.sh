@@ -9,6 +9,7 @@ WALLPAPER_DIR="$HOME/.config/.wallpaper"
 SELECTED=$(ls "$WALLPAPER_DIR" | rofi -dmenu \
     -p "  Fondo" \
     -theme ~/.config/rofi/dropdown.rasi \
+    -theme-str 'window { location: north-west; anchor: north-west; x-offset: 390px; y-offset: 36px; }' \
     -i -no-custom)
 
 # Salir si no se seleccionó nada
