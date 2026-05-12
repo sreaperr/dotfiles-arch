@@ -4,7 +4,7 @@
 @import "theme.css";
 
 * {
-    font-family: "Hack Nerd Font";
+    font-family: "Hack Nerd Font", "Font Awesome 6 Free", "Font Awesome 6 Brands", "Noto Color Emoji";
     font-size: 13px;
     min-height: 0;
     border: none;
