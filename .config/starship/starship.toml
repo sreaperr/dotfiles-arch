@@ -2,7 +2,7 @@
 # STARSHIP DE DOTFILES ARCH
 #==========================
 format = """
-┌──($username$hostname)-[$directory](${git_branch}${git_status})-[$cmd_duration][$time]
+┌──($username$hostname) [$directory]($git_branch$git_status)([ $cmd_duration])([ $time])
 ├─($python$nodejs$rust$golang$java$lua$c$kotlin$php$ruby$swift$perl$scala$elixir$haskell$zig$package$terraform$ansible$cmake$conda$helm$kubernetes$docker_context$sudo$memory_usage)
 └─$character """
 
@@ -17,7 +17,7 @@ style_root = "bold red"
 
 [hostname]
 ssh_only = false
-format = "[$hostname]($style)"
+format = "[@$hostname]($style)"
 style = "bold blue"
 
 #-----------
@@ -25,9 +25,11 @@ style = "bold blue"
 #-----------
 [directory]
 format = "[$path]($style)[$read_only]($read_only_style)"
+style = "bold cyan"
 truncation_length = 3
 truncate_to_repo = false
 read_only = " 󰌾"
+read_only_style = "bold red"
 
 #----
 # GIT
@@ -35,9 +37,11 @@ read_only = " 󰌾"
 [git_branch]
 format = "[ $symbol$branch(:$remote_branch)]($style)"
 symbol = " "
+style = "bold purple"
 
 [git_status]
 format = '([$all_status$ahead_behind]($style))'
+style = "bold yellow"
 ahead = "⇡${count}"
 behind = "⇣${count}"
 diverged = "⇕⇡${ahead_count}⇣${behind_count}"
@@ -163,19 +167,19 @@ disabled = false
 #--------------------
 [cmd_duration]
 min_time = 2_000
-format = "[ $duration]($style)"
+format = "[ $duration](bold yellow)"
 
 #-----
 # HORA
 #-----
 [time]
 disabled = false
-format = "[ $time]($style)"
+format = "[ $time](dimmed white)"
 time_format = "%H:%M"
 
 #-------
 # PROMPT
 #-------
 [character]
-success_symbol = "[\\$](bold green)"
-error_symbol = "[\\$](bold red)"
+success_symbol = "[❯](bold green)"
+error_symbol = "[❯](bold red)"

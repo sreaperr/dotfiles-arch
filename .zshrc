@@ -88,4 +88,5 @@ source /usr/share/fzf/completion.zsh
 #============================
 #     == STARSHIP ==
 #============================
+export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
 eval "$(starship init zsh)"
