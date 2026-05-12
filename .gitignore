@@ -5,8 +5,7 @@
 # Archivos temporales de prueba
 preview-themes.html
 
-# Wallpapers (archivos binarios pesados, gestionar por separado)
-.config/.wallpaper/
+# Wallpapers incluidos en el repo
 
 # Archivos de estado generados en runtime
 .config/.current-theme
