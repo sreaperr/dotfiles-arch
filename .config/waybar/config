@@ -15,9 +15,7 @@
         "custom/firefox",
         "custom/terminal",
         "custom/files",
-        "custom/pavucontrol",
-        "custom/theme",
-        "custom/wallpaper"
+        "custom/pavucontrol"
     ],
 
     "modules-center": [
@@ -99,22 +97,10 @@
         "tooltip-format": "Control de audio"
     },
 
-    "custom/theme": {
-        "format": "󰏘",
-        "on-click": "$HOME/.config/hypr/scripts/theme-switch.sh",
-        "tooltip-format": "Cambiar tema"
-    },
-
     "custom/powermenu": {
         "format": "󰐥",
         "on-click": "$HOME/.config/hypr/scripts/powermenu.sh",
         "tooltip-format": "Menú de energía"
-    },
-
-    "custom/wallpaper": {
-        "format": "󰋩",
-        "on-click": "$HOME/.config/hypr/scripts/wallpaper.sh",
-        "tooltip-format": "Cambiar fondo de pantalla"
     },
 
     //------------------
