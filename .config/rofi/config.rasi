@@ -36,10 +36,10 @@ configuration {
     ------------------*/
     matching:             "fuzzy";
     sort:                 true;
-    sorting-method:       "fzf";
+    sorting-method:       "normal";
 
     /*------------------
       TEMA
     ------------------*/
-    @theme "~/.config/rofi/theme.rasi"
+    @theme "${HOME}/.config/rofi/theme.rasi"
 }
