@@ -2,8 +2,8 @@
 # STARSHIP DE DOTFILES ARCH
 #==========================
 format = """
-┌──($username$hostname) [$directory]($git_branch$git_status)([ $cmd_duration])([ $time])
-├─($python$nodejs$rust$golang$java$lua$c$kotlin$php$ruby$swift$perl$scala$elixir$haskell$zig$package$terraform$ansible$cmake$conda$helm$kubernetes$docker_context$sudo$memory_usage)
+┌──($username$hostname) [$directory]($git_branch$git_status)($cmd_duration)($time)
+├─($python$nodejs$rust$golang$java$lua$c$kotlin$php$ruby$swift$perl$scala$elixir$haskell$zig$package$terraform$cmake$conda$helm$kubernetes$docker_context$sudo$memory_usage)
 └─$character """
 
 #---------------
@@ -131,8 +131,7 @@ format = "[ $symbol$workspace]($style)"
 symbol = "󱁢 "
 
 [ansible]
-format = "[ $symbol$version]($style)"
-symbol = "󱂚 "
+disabled = true
 
 [cmake]
 format = "[ $symbol($version)]($style)"
