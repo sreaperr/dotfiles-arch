@@ -20,8 +20,8 @@ WALLPAPER="$WALLPAPER_DIR/$SELECTED"
 TRANSITIONS=(fade wipe slide grow outer)
 TRANSITION=${TRANSITIONS[$RANDOM % ${#TRANSITIONS[@]}]}
 
-# Aplicar fondo con swww
-swww img "$WALLPAPER" \
+# Aplicar fondo con awww
+awww img "$WALLPAPER" \
     --transition-type "$TRANSITION" \
     --transition-duration 1.5 \
     --transition-fps 60

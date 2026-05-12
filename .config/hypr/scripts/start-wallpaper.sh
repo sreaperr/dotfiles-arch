@@ -1,14 +1,14 @@
 #!/bin/bash
-if ! command -v swww &>/dev/null; then
-    notify-send "Wallpaper" "swww no instalado. Instala con: sudo pacman -S swww" 2>/dev/null
+if ! command -v awww &>/dev/null; then
+    notify-send "Wallpaper" "awww no instalado. Instala con: sudo pacman -S awww" 2>/dev/null
     exit 1
 fi
 
-swww-daemon &
+awww-daemon &
 
 # Esperar a que el daemon esté listo (máx 5 segundos)
 TRIES=0
-until swww query &>/dev/null; do
+until awww query &>/dev/null; do
     sleep 0.2
     TRIES=$((TRIES + 1))
     [ $TRIES -ge 25 ] && exit 1
@@ -20,4 +20,4 @@ if [ -z "$WALLPAPER" ] || [ ! -f "$WALLPAPER" ]; then
     WALLPAPER="$HOME/.config/.wallpaper/wallpaper_pc.png"
 fi
 
-swww img "$WALLPAPER" --transition-type fade --transition-duration 1
+awww img "$WALLPAPER" --transition-type fade --transition-duration 1
