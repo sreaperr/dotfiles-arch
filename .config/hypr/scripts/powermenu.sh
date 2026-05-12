@@ -7,8 +7,8 @@ OPCIONES="󰌾  Bloquear\n󰍃  Cerrar sesión\n󰜉  Reiniciar\n󰐥  Apagar"
 
 SELECTED=$(echo -e "$OPCIONES" | rofi -dmenu \
     -p "  Sistema" \
-    -theme ~/.config/rofi/dropdown.rasi \
-    -theme-str 'window { location: north-east; anchor: north-east; x-offset: 0px; y-offset: 36px; }' \
+    -theme ~/.config/rofi/theme.rasi \
+    -theme-str 'window { location: north-east; anchor: north-east; x-offset: 0px; y-offset: 36px; width: 220px; border-radius: 0px 0px 10px 10px; }' \
     -i -no-custom \
     -lines 4)
 
