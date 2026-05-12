@@ -7,7 +7,7 @@ OPCIONES="󰌾  Bloquear\n󰍃  Cerrar sesión\n󰜉  Reiniciar\n󰐥  Apagar"
 
 SELECTED=$(echo -e "$OPCIONES" | rofi -dmenu \
     -p "  Sistema" \
-    -theme "$HOME/.config/rofi/theme.rasi" \
+    -theme ~/.config/rofi/theme.rasi \
     -i -no-custom \
     -lines 4)
 

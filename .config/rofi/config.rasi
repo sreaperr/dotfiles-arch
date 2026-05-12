@@ -6,7 +6,6 @@ configuration {
     modes:                "drun,run,window,ssh,calc";
     show-icons:           true;
     icon-theme:           "Kora-dark";
-    theme:                "theme";
     display-drun:         "  Apps";
     display-run:          "  Ejecutar";
     display-window:       "  Ventanas";

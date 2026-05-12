@@ -18,7 +18,7 @@ else
     # Preguntar modo con rofi
     MODO=$(echo -e "󰍹  Pantalla completa\n  Seleccionar región" | rofi -dmenu \
         -p "  Grabar" \
-        -theme "$HOME/.config/rofi/theme.rasi" \
+        -theme ~/.config/rofi/theme.rasi \
         -i -no-custom -lines 2)
 
     [ -z "$MODO" ] && exit 0
