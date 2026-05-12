@@ -1,12 +1,11 @@
-/* TOKYO NIGHT */
-@define-color bg        #0d0e17;
-@define-color bg-alt    #1a1b2e;
-@define-color fg        #c0caf5;
-@define-color fg-dim    #565f89;
-@define-color accent    #7dcfff;
-@define-color urgent    #f7768e;
-
 * {
+    bg:      #0d0e17;
+    bg-alt:  #1a1b2e;
+    fg:      #c0caf5;
+    fg-dim:  #565f89;
+    accent:  #7dcfff;
+    urgent:  #f7768e;
+
     background-color: transparent;
     text-color:       @fg;
 }

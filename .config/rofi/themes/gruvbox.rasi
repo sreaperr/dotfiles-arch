@@ -1,12 +1,11 @@
-/* GRUVBOX DARK */
-@define-color bg        #1d2021;
-@define-color bg-alt    #3c3836;
-@define-color fg        #ebdbb2;
-@define-color fg-dim    #a89984;
-@define-color accent    #d79921;
-@define-color urgent    #cc241d;
-
 * {
+    bg:      #1d2021;
+    bg-alt:  #3c3836;
+    fg:      #ebdbb2;
+    fg-dim:  #a89984;
+    accent:  #d79921;
+    urgent:  #cc241d;
+
     background-color: transparent;
     text-color:       @fg;
 }
