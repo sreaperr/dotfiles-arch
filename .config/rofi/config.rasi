@@ -1,0 +1,45 @@
+/*==========================
+  ROFI CONFIG - DOTFILES ARCH
+==========================*/
+
+configuration {
+    /*------------------
+      MODOS ACTIVOS
+    ------------------*/
+    modes: "drun,run,window,ssh,calc";
+
+    /*------------------
+      COMPORTAMIENTO
+    ------------------*/
+    show-icons:           true;
+    icon-theme:           "Kora-dark";
+    display-drun:         "  Apps";
+    display-run:          "  Ejecutar";
+    display-window:       "  Ventanas";
+    display-ssh:          "  SSH";
+
+    /*------------------
+      DRUN
+    ------------------*/
+    drun-display-format:  "{name}";
+    drun-match-fields:    "name,generic,exec,categories";
+
+    /*------------------
+      SSH
+    ------------------*/
+    ssh-command:          "kitty -- ssh {host}";
+    parse-known-hosts:    true;
+    parse-hosts:          true;
+
+    /*------------------
+      BÚSQUEDA
+    ------------------*/
+    matching:             "fuzzy";
+    sort:                 true;
+    sorting-method:       "fzf";
+
+    /*------------------
+      TEMA
+    ------------------*/
+    @theme "~/.config/rofi/theme.rasi"
+}

@@ -1,0 +1,22 @@
+#==========================
+# YAZI KEYMAP - DOTFILES ARCH
+#==========================
+
+[manager]
+keymap = [
+    { on = "q", run = "quit", desc = "Salir" },
+    { on = "k", run = "arrow -1", desc = "Arriba" },
+    { on = "j", run = "arrow 1",  desc = "Abajo" },
+    { on = "h", run = "leave",    desc = "Directorio padre" },
+    { on = "l", run = "enter",    desc = "Entrar/Abrir" },
+    { on = "<Space>", run = "select --state=none", desc = "Seleccionar" },
+    { on = ".", run = "hidden toggle", desc = "Mostrar/Ocultar hidden" },
+    { on = "y", run = "yank",    desc = "Copiar" },
+    { on = "x", run = "yank --cut", desc = "Cortar" },
+    { on = "p", run = "paste",   desc = "Pegar" },
+    { on = "d", run = "trash",   desc = "Mover a papelera" },
+    { on = "r", run = "rename",  desc = "Renombrar" },
+    { on = "a", run = "create",  desc = "Crear archivo/directorio" },
+    { on = "/", run = "find",    desc = "Buscar" },
+    { on = "z", run = "plugin zoxide", desc = "Zoxide" },
+]

@@ -1,0 +1,29 @@
+#==========================
+# GITIGNORE - DOTFILES ARCH
+#==========================
+
+# Archivos temporales de prueba
+preview-themes.html
+
+# Wallpapers (archivos binarios pesados, gestionar por separado)
+.config/.wallpaper/
+
+# Archivos de estado generados en runtime
+.config/.current-theme
+.config/.current-cursor
+.config/.current-wallpaper
+
+# Archivos de estado de tmux
+.tmux/
+
+# Archivos sensibles
+.ssh/id_*
+.ssh/known_hosts
+.ssh/authorized_keys
+
+# Caché y temporales
+__pycache__/
+*.pyc
+*.swp
+*.swo
+.DS_Store

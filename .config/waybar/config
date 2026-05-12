@@ -1,0 +1,192 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 36,
+    "spacing": 4,
+    "exclusive": true,
+
+    "modules-left": [
+        "hyprland/workspaces",
+        "custom/launcher",
+        "custom/separator",
+        "custom/firefox",
+        "custom/terminal",
+        "custom/files",
+        "custom/pavucontrol",
+        "custom/theme",
+        "custom/wallpaper"
+    ],
+
+    "modules-center": [
+        "clock"
+    ],
+
+    "modules-right": [
+        "custom/powermenu",
+        "pulseaudio",
+        "bluetooth",
+        "network",
+        "cpu",
+        "memory",
+        "tray"
+    ],
+
+    //------------------
+    // WORKSPACES
+    //------------------
+    "hyprland/workspaces": {
+        "format": "{icon}",
+        "on-click": "activate",
+        "format-icons": {
+            "1": "",
+            "2": "",
+            "3": "",
+            "4": "",
+            "5": "󰠥",
+            "6": "󰇰",
+            "7": "",
+            "8": ""
+        },
+        "persistent-workspaces": {
+            "*": [1, 2, 3, 4, 5, 6, 7, 8]
+        }
+    },
+
+    //------------------
+    // LAUNCHER
+    //------------------
+    "custom/launcher": {
+        "format": "",
+        "on-click": "rofi -show drun",
+        "tooltip": false
+    },
+
+    //------------------
+    // SEPARADOR
+    //------------------
+    "custom/separator": {
+        "format": "|",
+        "tooltip": false
+    },
+
+    //------------------
+    // ATAJOS DE APPS
+    //------------------
+    "custom/firefox": {
+        "format": "",
+        "on-click": "firefox",
+        "tooltip-format": "Firefox"
+    },
+
+    "custom/terminal": {
+        "format": "",
+        "on-click": "kitty",
+        "tooltip-format": "Terminal"
+    },
+
+    "custom/files": {
+        "format": "",
+        "on-click": "kitty -e yazi",
+        "tooltip-format": "Archivos"
+    },
+
+    "custom/pavucontrol": {
+        "format": "󰕾",
+        "on-click": "pavucontrol",
+        "tooltip-format": "Control de audio"
+    },
+
+    "custom/theme": {
+        "format": "󰏘",
+        "on-click": "~/.config/hypr/scripts/theme-switch.sh",
+        "tooltip-format": "Cambiar tema"
+    },
+
+    "custom/powermenu": {
+        "format": "󰐥",
+        "on-click": "~/.config/hypr/scripts/powermenu.sh",
+        "tooltip-format": "Menú de energía"
+    },
+
+    "custom/wallpaper": {
+        "format": "󰋩",
+        "on-click": "~/.config/hypr/scripts/wallpaper.sh",
+        "tooltip-format": "Cambiar fondo de pantalla"
+    },
+
+    //------------------
+    // RELOJ
+    //------------------
+    "clock": {
+        "format": " {:%H:%M}",
+        "format-alt": " {:%A, %d %B %Y}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "on-click": "mode"
+    },
+
+    //------------------
+    // VOLUMEN
+    //------------------
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-muted": "󰝟 muted",
+        "format-icons": {
+            "default": ["󰕿", "󰖀", "󰕾"]
+        },
+        "on-click": "pavucontrol",
+        "tooltip-format": "{desc}"
+    },
+
+    //------------------
+    // BLUETOOTH
+    //------------------
+    "bluetooth": {
+        "format": " {status}",
+        "format-connected": " {device_alias}",
+        "format-connected-battery": " {device_alias} {device_battery_percentage}%",
+        "format-off": "󰂲",
+        "on-click": "blueman-manager",
+        "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} conectados",
+        "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} conectados\n\n{device_enumerate}",
+        "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}"
+    },
+
+    //------------------
+    // RED E IP
+    //------------------
+    "network": {
+        "format-wifi": "  {essid} ({signalStrength}%)",
+        "format-ethernet": "󰈀  {ipaddr}",
+        "format-disconnected": "󰖪  desconectado",
+        "tooltip-format": "{ifname}: {ipaddr}/{cidr}\nGateway: {gwaddr}",
+        "on-click": "nm-connection-editor"
+    },
+
+    //------------------
+    // CPU
+    //------------------
+    "cpu": {
+        "format": " {usage}%",
+        "tooltip-format": "CPU: {usage}%\nCarga: {load}",
+        "interval": 2,
+        "on-click": "kitty -e btop"
+    },
+
+    //------------------
+    // RAM
+    //------------------
+    "memory": {
+        "format": "󰍛 {percentage}%",
+        "tooltip-format": "RAM: {used:0.1f}G / {total:0.1f}G\nSwap: {swapUsed:0.1f}G / {swapTotal:0.1f}G",
+        "interval": 2,
+        "on-click": "kitty -e btop"
+    },
+
+    //------------------
+    // BANDEJA DEL SISTEMA
+    //------------------
+    "tray": {
+        "spacing": 8,
+        "show-passive-items": true
+    }
+}

@@ -1,0 +1,61 @@
+#==========================
+# ZATHURA - DOTFILES ARCH
+#==========================
+
+#-----------
+# COMPORTAMIENTO
+#-----------
+set selection-clipboard clipboard
+set scroll-step 50
+set zoom-step 10
+set zoom-min 10
+set zoom-max 1000
+set pages-per-row 1
+set statusbar-basename true
+set render-loading true
+set adjust-open "best-fit"
+
+#-----------
+# ATAJOS
+#-----------
+# Ya incluye vim-keys por defecto (j/k, gg, G, /, etc.)
+map <C-=> zoom in
+map <C--> zoom out
+map <C-0> zoom default
+map f toggle_fullscreen
+map r rotate
+map R rotate ccw
+map p print
+
+#-----------
+# COLORES (Gruvbox Dark)
+#-----------
+set default-bg         "#282828"
+set default-fg         "#ebdbb2"
+
+set statusbar-bg       "#1d2021"
+set statusbar-fg       "#ebdbb2"
+
+set inputbar-bg        "#1d2021"
+set inputbar-fg        "#ebdbb2"
+
+set notification-bg    "#282828"
+set notification-fg    "#ebdbb2"
+set notification-error-bg  "#cc241d"
+set notification-error-fg  "#ebdbb2"
+set notification-warning-bg "#d79921"
+set notification-warning-fg "#1d2021"
+
+set highlight-color        "#d7992155"
+set highlight-active-color "#fe801955"
+
+set completion-bg      "#3c3836"
+set completion-fg      "#ebdbb2"
+set completion-group-bg "#1d2021"
+set completion-group-fg "#a89984"
+set completion-highlight-bg "#d79921"
+set completion-highlight-fg "#1d2021"
+
+set recolor            true
+set recolor-lightcolor "#282828"
+set recolor-darkcolor  "#ebdbb2"

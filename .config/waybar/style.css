@@ -1,0 +1,92 @@
+/*==========================
+  WAYBAR STYLE - DOTFILES ARCH
+==========================*/
+@import "theme.css";
+
+* {
+    font-family: "Hack Nerd Font";
+    font-size: 13px;
+    min-height: 0;
+    border: none;
+    border-radius: 0;
+}
+
+window#waybar {
+    background-color: @bg;
+    color: @fg;
+    transition-property: background-color;
+    transition-duration: 0.5s;
+}
+
+.modules-left,
+.modules-center,
+.modules-right {
+    padding: 0 8px;
+}
+
+#workspaces button {
+    padding: 0 6px;
+    color: @fg-dim;
+    background-color: transparent;
+    border-radius: 6px;
+    margin: 4px 2px;
+    transition: all 0.2s ease;
+}
+#workspaces button:hover  { background-color: @bg2; color: @fg; }
+#workspaces button.active { background-color: @yellow; color: @bg; border-radius: 6px; }
+#workspaces button.urgent { background-color: @red; color: @fg; }
+
+#custom-launcher { font-size: 16px; padding: 0 10px; color: @orange; }
+#custom-separator { padding: 0 4px; color: @bg2; }
+
+#custom-firefox,
+#custom-terminal,
+#custom-files,
+#custom-pavucontrol,
+#custom-wallpaper,
+#custom-theme {
+    padding: 0 8px;
+    font-size: 14px;
+    color: @fg-dim;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+#custom-firefox:hover,
+#custom-terminal:hover,
+#custom-files:hover,
+#custom-pavucontrol:hover,
+#custom-wallpaper:hover,
+#custom-theme:hover { background-color: @bg2; color: @orange; }
+
+#custom-powermenu { padding: 0 8px; color: @red; border-radius: 6px; transition: all 0.2s ease; }
+#custom-powermenu:hover { background-color: @bg2; }
+
+#clock { font-weight: bold; padding: 0 12px; color: @orange; }
+
+#pulseaudio,
+#bluetooth,
+#network,
+#cpu,
+#memory,
+#tray {
+    padding: 0 10px;
+    border-radius: 6px;
+    margin: 4px 2px;
+    transition: all 0.2s ease;
+}
+#pulseaudio:hover,
+#bluetooth:hover,
+#network:hover,
+#cpu:hover,
+#memory:hover { background-color: @bg2; }
+
+#pulseaudio.muted    { color: @fg-dim; }
+#bluetooth.off       { color: @fg-dim; }
+#network.disconnected { color: @red; }
+#cpu.warning         { color: @yellow; }
+#cpu.critical        { color: @red; }
+#memory.warning      { color: @yellow; }
+#memory.critical     { color: @red; }
+
+#tray { padding: 0 6px; }
+#tray > .passive { color: @fg-dim; }

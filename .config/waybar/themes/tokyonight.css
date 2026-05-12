@@ -1,0 +1,95 @@
+/* TOKYO NIGHT */
+@define-color bg       #0d0e17;
+@define-color bg1      #131421;
+@define-color bg2      #1a1b2e;
+@define-color fg       #c0caf5;
+@define-color fg-dim   #565f89;
+@define-color cyan     #7dcfff;
+@define-color green    #9ece6a;
+@define-color purple   #bb9af7;
+@define-color red      #f7768e;
+@define-color orange   #ff9e64;
+@define-color yellow   #e0af68;
+
+window#waybar {
+    background-color: @bg;
+    color: @fg;
+}
+
+#workspaces button {
+    color: @fg-dim;
+    background-color: @bg2;
+}
+#workspaces button:hover {
+    background-color: @bg2;
+    color: @fg;
+}
+#workspaces button.active {
+    background-color: @cyan;
+    color: @bg;
+}
+#workspaces button.urgent {
+    background-color: @red;
+    color: @fg;
+}
+
+#custom-launcher {
+    color: @cyan;
+}
+#custom-separator {
+    color: @bg2;
+}
+#custom-firefox,
+#custom-terminal,
+#custom-files,
+#custom-pavucontrol,
+#custom-wallpaper,
+#custom-theme {
+    color: @fg-dim;
+}
+#custom-firefox:hover,
+#custom-terminal:hover,
+#custom-files:hover,
+#custom-pavucontrol:hover,
+#custom-wallpaper:hover,
+#custom-theme:hover {
+    color: @cyan;
+    background-color: @bg2;
+}
+
+#clock {
+    color: @green;
+}
+
+#pulseaudio {
+    color: @green;
+    background-color: @bg2;
+}
+#pulseaudio.muted {
+    color: @fg-dim;
+}
+#bluetooth {
+    color: @cyan;
+    background-color: @bg2;
+}
+#bluetooth.off {
+    color: @fg-dim;
+}
+#network {
+    color: @yellow;
+    background-color: @bg2;
+}
+#network.disconnected {
+    color: @red;
+}
+#cpu {
+    color: @purple;
+    background-color: @bg2;
+}
+#memory {
+    color: @cyan;
+    background-color: @bg2;
+}
+#tray {
+    background-color: @bg2;
+}
