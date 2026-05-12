@@ -272,6 +272,8 @@ ln -sf "$DOTFILES/.config/rofi" ~/.config/rofi
 ln -sf "$DOTFILES/.config/starship" ~/.config/starship
 ln -sf "$DOTFILES/.config/tmux" ~/.config/tmux
 ln -sf "$DOTFILES/.config/yazi" ~/.config/yazi
+mkdir -p "$DOTFILES/.config/.wallpaper"
+ln -sf "$DOTFILES/.config/.wallpaper" ~/.config/.wallpaper
 ln -sf "$DOTFILES/.config/fastfetch" ~/.config/fastfetch
 ln -sf "$DOTFILES/.config/btop" ~/.config/btop
 ln -sf "$DOTFILES/.config/mpv" ~/.config/mpv
