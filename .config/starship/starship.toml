@@ -130,9 +130,6 @@ symbol = "󰏗 "
 format = "[ $symbol$workspace]($style)"
 symbol = "󱁢 "
 
-[ansible]
-disabled = true
-
 [cmake]
 format = "[ $symbol($version)]($style)"
 symbol = " "
