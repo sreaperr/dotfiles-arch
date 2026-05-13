@@ -30,6 +30,8 @@ case "$SELECTED" in
         CURSOR_SIZE=24
         BTOP_THEME="gruvbox_dark_v2"
         GTK_THEME="Gruvbox-Material-Dark"
+        ICON_THEME="Papirus-Dark"
+        PAPIRUS_COLOR="orange"
         ;;
     "Tokyo Night")
         THEME="tokyonight"
@@ -37,6 +39,8 @@ case "$SELECTED" in
         CURSOR_SIZE=24
         BTOP_THEME="tokyo-night"
         GTK_THEME="Tokyonight-Dark"
+        ICON_THEME="Papirus-Dark"
+        PAPIRUS_COLOR="cyan"
         ;;
     *)
         exit 1
@@ -67,8 +71,14 @@ sed -i "s/^color_theme = .*/color_theme = \"$BTOP_THEME\"/" "$HOME/.config/btop/
 
 # Aplicar tema GTK
 gsettings set org.gnome.desktop.interface gtk-theme "$GTK_THEME"
+gsettings set org.gnome.desktop.interface icon-theme "$ICON_THEME"
 sed -i "s/^gtk-theme-name.*/gtk-theme-name        = $GTK_THEME/" "$HOME/.config/gtk-3.0/settings.ini"
+sed -i "s/^gtk-icon-theme-name.*/gtk-icon-theme-name   = $ICON_THEME/" "$HOME/.config/gtk-3.0/settings.ini"
 sed -i "s/^gtk-theme-name.*/gtk-theme-name        = $GTK_THEME/" "$HOME/.config/gtk-4.0/settings.ini"
+sed -i "s/^gtk-icon-theme-name.*/gtk-icon-theme-name   = $ICON_THEME/" "$HOME/.config/gtk-4.0/settings.ini"
+
+# Cambiar color de carpetas Papirus
+papirus-folders -C "$PAPIRUS_COLOR" --theme Papirus-Dark
 
 # Aplicar cursor
 hyprctl setcursor "$CURSOR" $CURSOR_SIZE
