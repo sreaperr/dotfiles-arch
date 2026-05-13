@@ -1,5 +1,15 @@
 local theme = vim.fn.system("cat ~/.config/.current-theme 2>/dev/null"):gsub("\n", "")
 
+vim.api.nvim_create_autocmd("ColorScheme", {
+  callback = function(args)
+    local name = args.match
+    local slug = name:find("tokyonight") and "tokyonight" or name:find("gruvbox") and "gruvbox"
+    if slug then
+      vim.fn.system("echo " .. slug .. " > ~/.config/.current-theme")
+    end
+  end,
+})
+
 return {
   --==========================
   -- GRUVBOX

@@ -5,7 +5,7 @@
 
 * {
     font-family: "Hack Nerd Font", "Font Awesome 6 Free", "Font Awesome 6 Brands", "Noto Color Emoji";
-    font-size: 13px;
+    font-size: 14px;
     min-height: 0;
     border: none;
     border-radius: 0;
@@ -60,16 +60,12 @@ window#waybar {
 #custom-wallpaper:hover,
 #custom-theme:hover { background-color: @bg2; color: @orange; }
 
-#custom-powermenu { padding: 0 8px; color: @red; border-radius: 6px; transition: all 0.2s ease; }
-#custom-powermenu:hover { background-color: @bg2; }
-
 #clock { font-weight: bold; padding: 0 12px; color: @orange; }
 
 #pulseaudio,
 #bluetooth,
 #network,
-#cpu,
-#memory,
+#custom-sysinfo,
 #tray {
     padding: 0 10px;
     border-radius: 6px;
@@ -79,16 +75,13 @@ window#waybar {
 #pulseaudio:hover,
 #bluetooth:hover,
 #network:hover,
-#cpu:hover,
-#memory:hover { background-color: @bg2; }
+#custom-sysinfo:hover { background-color: @bg2; }
 
-#pulseaudio.muted    { color: @fg-dim; }
-#bluetooth.off       { color: @fg-dim; }
+#pulseaudio.muted     { color: @fg-dim; }
+#bluetooth            { color: #0082fc; }
+#bluetooth.connected  { color: #0082fc; }
+#bluetooth.off        { color: @fg-dim; }
 #network.disconnected { color: @red; }
-#cpu.warning         { color: @yellow; }
-#cpu.critical        { color: @red; }
-#memory.warning      { color: @yellow; }
-#memory.critical     { color: @red; }
 
 #tray { padding: 0 6px; }
 #tray > .passive { color: @fg-dim; }

@@ -54,6 +54,14 @@ alias path="echo $PATH | tr ':' '\n'"
 alias keybinds="cat ~/.config/hypr/keybinds.conf"
 alias top="btop"
 alias info="fastfetch"
+
+fastfetch() {
+    local theme=$(cat ~/.config/.current-theme 2>/dev/null)
+    local config="$HOME/.config/fastfetch/config.jsonc"
+    [[ "$theme" == "gruvbox"    ]] && config="$HOME/.config/fastfetch/config-gruvbox.jsonc"
+    [[ "$theme" == "tokyonight" ]] && config="$HOME/.config/fastfetch/config-tokyonight.jsonc"
+    command fastfetch --config "$config" "$@"
+}
 # NEOVIM
 alias vim="nvim"
 alias vi="nvim"
