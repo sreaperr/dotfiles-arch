@@ -26,8 +26,7 @@
         "pulseaudio",
         "bluetooth",
         "network",
-        "cpu",
-        "memory",
+        "custom/sysinfo",
         "tray"
     ],
 
@@ -151,23 +150,14 @@
     },
 
     //------------------
-    // CPU
+    // CPU + RAM (custom)
     //------------------
-    "cpu": {
-        "format": " {usage}%",
-        "tooltip-format": "CPU: {usage}%\nCarga: {load}",
+    "custom/sysinfo": {
+        "exec": "~/.config/waybar/sysinfo.sh",
         "interval": 2,
-        "on-click": "kitty -e btop"
-    },
-
-    //------------------
-    // RAM
-    //------------------
-    "memory": {
-        "format": "󰍛 {percentage}%",
-        "tooltip-format": "RAM: {used:0.1f}G / {total:0.1f}G\nSwap: {swapUsed:0.1f}G / {swapTotal:0.1f}G",
-        "interval": 2,
-        "on-click": "kitty -e btop"
+        "format": "{}",
+        "on-click": "kitty -e btop",
+        "tooltip": false
     },
 
     //------------------

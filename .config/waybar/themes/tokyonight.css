@@ -69,6 +69,5 @@ window#waybar {
 #bluetooth.off { color: @fg-dim; }
 #network { color: @yellow; background-color: @bg2; padding: 0 10px; border-radius: 6px; margin: 4px 2px; }
 #network.disconnected { color: @red; }
-#cpu { color: @purple; background-color: @bg2; padding: 0 10px; border-radius: 6px; margin: 4px 2px; }
-#memory { color: @cyan; background-color: @bg2; padding: 0 10px; border-radius: 6px; margin: 4px 2px; }
+#custom-sysinfo { color: @purple; background-color: @bg2; padding: 0 10px; border-radius: 6px; margin: 4px 2px; }
 #tray { background-color: @bg2; padding: 0 6px; border-radius: 6px; margin: 4px 2px; }
