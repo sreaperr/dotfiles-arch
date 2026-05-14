@@ -1,0 +1,23 @@
+[Unit]
+Description=Show system info on tty1 before login
+Before=getty@tty1.service
+After=systemd-user-sessions.service
+
+[Service]
+Type=oneshot
+User=sreaper
+ExecStart=/bin/bash -c '\
+    theme=$(cat /home/sreaper/.config/.current-theme 2>/dev/null); \
+    config=/home/sreaper/.config/fastfetch/config.jsonc; \
+    [[ "$theme" == "gruvbox"    ]] && config=/home/sreaper/.config/fastfetch/config-gruvbox.jsonc; \
+    [[ "$theme" == "tokyonight" ]] && config=/home/sreaper/.config/fastfetch/config-tokyonight.jsonc; \
+    /usr/bin/fastfetch --config "$config"'
+StandardInput=tty
+StandardOutput=tty
+TTYPath=/dev/tty1
+TTYReset=no
+TTYVHangup=no
+RemainAfterExit=yes
+
+[Install]
+WantedBy=getty.target

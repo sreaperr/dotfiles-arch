@@ -89,12 +89,6 @@
         "tooltip-format": "Archivos"
     },
 
-    "custom/pavucontrol": {
-        "format": "󰕾",
-        "on-click": "pavucontrol",
-        "tooltip-format": "Control de audio"
-    },
-
     "custom/powermenu": {
         "format": "󰐥",
         "on-click": "$HOME/.config/hypr/scripts/powermenu.sh",

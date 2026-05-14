@@ -45,8 +45,5 @@ map("n", "<leader>bd", "<cmd>bdelete<cr>", { desc = "Cerrar buffer" })
 --==========================
 -- UTILIDADES
 --==========================
--- Limpiar búsqueda
-map("n", "<Esc>", "<cmd>nohlsearch<cr>")
-
 -- Abrir terminal
 map("n", "<leader>tt", "<cmd>terminal<cr>", { desc = "Abrir terminal" })
