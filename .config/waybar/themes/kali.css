@@ -1,0 +1,73 @@
+/* KALI MODE */
+@define-color bg            #000000;
+@define-color bg-alpha      rgba(0, 0, 0, 0.85);
+@define-color bg-border     rgba(0, 255, 65, 0.25);
+@define-color bg1      #080d14;
+@define-color bg2      #0a0a0a;
+@define-color fg       #e2eaf8;
+@define-color fg-dim   #00802a;
+@define-color green    #00ff41;
+@define-color pink     #ff2d78;
+@define-color cyan     #00d4ff;
+@define-color yellow   #ffd700;
+@define-color red      #ff1744;
+@define-color blue     #4da6ff;
+
+window#waybar {
+    background-color: @bg;
+    color: @fg;
+}
+
+#workspaces button {
+    color: @fg-dim;
+    background-color: @bg2;
+    border-radius: 6px;
+    margin: 4px 2px;
+    padding: 0 6px;
+}
+#workspaces button:hover {
+    background-color: @bg2;
+    color: @green;
+}
+#workspaces button.active {
+    background-color: @pink;
+    color: #ffffff;
+}
+#workspaces button.urgent {
+    background-color: @red;
+    color: @fg;
+}
+
+#custom-launcher { color: @green; padding: 0 10px; font-size: 16px; }
+#custom-separator { color: @bg2; padding: 0 4px; }
+
+#custom-firefox,
+#custom-terminal,
+#custom-files,
+#custom-pavucontrol,
+#custom-wallpaper,
+#custom-theme,
+#custom-powermenu {
+    color: @fg-dim;
+    padding: 0 8px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+#custom-firefox:hover,
+#custom-terminal:hover,
+#custom-files:hover,
+#custom-pavucontrol:hover,
+#custom-wallpaper:hover,
+#custom-theme:hover { color: @green; background-color: @bg2; }
+#custom-powermenu:hover { color: @pink; background-color: @bg2; }
+
+#clock { color: @green; font-weight: bold; padding: 0 12px; }
+
+#pulseaudio { color: @cyan; background-color: @bg2; padding: 0 10px; border-radius: 6px; margin: 4px 2px; }
+#pulseaudio.muted { color: @fg-dim; }
+#bluetooth { color: @blue; background-color: @bg2; padding: 0 10px; border-radius: 6px; margin: 4px 2px; }
+#bluetooth.off { color: @fg-dim; }
+#network { color: @green; background-color: @bg2; padding: 0 10px; border-radius: 6px; margin: 4px 2px; }
+#network.disconnected { color: @red; }
+#custom-sysinfo { color: @pink; background-color: @bg2; padding: 0 10px; border-radius: 6px; margin: 4px 2px; }
+#tray { background-color: @bg2; padding: 0 6px; border-radius: 6px; margin: 4px 2px; }

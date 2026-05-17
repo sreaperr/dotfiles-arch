@@ -35,7 +35,7 @@ window#waybar {
     transition: all 0.2s ease;
 }
 #workspaces button:hover  { background-color: @bg2; color: @fg; }
-#workspaces button.active { background-color: @yellow; color: @bg; border-radius: 6px; }
+#workspaces button.active { border-radius: 6px; }
 #workspaces button.urgent { background-color: @red; color: @fg; }
 
 #custom-launcher { font-size: 16px; padding: 0 10px; color: @orange; }

@@ -1,0 +1,8 @@
+/* KALI MODE */
+@define-color bg       #000000;
+@define-color bg-alt   #0a0a0a;
+@define-color fg       #e2eaf8;
+@define-color fg-dim   #00802a;
+@define-color accent   #00ff41;
+@define-color border   #ff2d78;
+@define-color urgent   #ff1744;

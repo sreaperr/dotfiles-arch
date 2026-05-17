@@ -1,0 +1,78 @@
+* {
+    bg:       #000000;
+    bg-alt:   #0a0a0a;
+    fg:       #e2eaf8;
+    green:    #00ff41;
+    pink:     #ff2d78;
+    dim:      #00802a;
+
+    background-color: transparent;
+    text-color:       @fg;
+    border-color:     @pink;
+}
+
+window {
+    background-color: @bg;
+    border:           2px;
+    border-color:     @pink;
+    border-radius:    6px;
+    width:            420px;
+    padding:          12px;
+}
+
+mainbox {
+    background-color: @bg;
+    spacing:          0;
+}
+
+inputbar {
+    background-color: @bg-alt;
+    border:           0 0 2px 0;
+    border-color:     @pink;
+    padding:          8px 12px;
+    children:         [prompt, entry];
+}
+
+prompt {
+    text-color:       @green;
+    font:             "JetBrainsMono Nerd Font Bold 11";
+    padding:          0 6px 0 0;
+}
+
+entry {
+    text-color:       @fg;
+    font:             "JetBrainsMono Nerd Font 11";
+    placeholder:      "";
+    placeholder-color: @dim;
+}
+
+listview {
+    background-color: @bg;
+    padding:          6px 0;
+    spacing:          2px;
+    lines:            8;
+    scrollbar:        false;
+}
+
+element {
+    background-color: transparent;
+    padding:          8px 12px;
+    border-radius:    4px;
+}
+
+element selected {
+    background-color: @pink;
+    text-color:       #ffffff;
+}
+
+element-text {
+    background-color: transparent;
+    text-color:       inherit;
+    font:             "JetBrainsMono Nerd Font 11";
+}
+
+element-icon {
+    background-color: transparent;
+    size:             18px;
+    padding:          0 8px 0 0;
+}

@@ -3,7 +3,9 @@ local theme = vim.fn.system("cat ~/.config/.current-theme 2>/dev/null"):gsub("\n
 vim.api.nvim_create_autocmd("ColorScheme", {
   callback = function(args)
     local name = args.match
-    local slug = name:find("tokyonight") and "tokyonight" or name:find("gruvbox") and "gruvbox"
+    local slug = name:find("tokyonight") and "tokyonight"
+      or name:find("gruvbox") and "gruvbox"
+      or name:find("kali") and "kali"
     if slug then
       vim.fn.system("echo " .. slug .. " > ~/.config/.current-theme")
     end
@@ -61,7 +63,9 @@ return {
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = theme == "tokyonight" and "tokyonight" or "gruvbox",
+      colorscheme = theme == "tokyonight" and "tokyonight"
+        or theme == "kali" and "kali"
+        or "gruvbox",
     },
   },
 }
