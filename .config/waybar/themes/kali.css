@@ -61,7 +61,7 @@ window#waybar {
 #custom-theme:hover { color: @green; background-color: @bg2; }
 #custom-powermenu:hover { color: @pink; background-color: @bg2; }
 
-#clock { color: @green; font-weight: bold; padding: 0 12px; }
+#clock { color: @pink; font-weight: bold; padding: 0 12px; }
 
 #pulseaudio { color: @cyan; background-color: @bg2; padding: 0 10px; border-radius: 6px; margin: 4px 2px; }
 #pulseaudio.muted { color: @fg-dim; }

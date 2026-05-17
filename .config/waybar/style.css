@@ -60,7 +60,7 @@ window#waybar {
 #custom-wallpaper:hover,
 #custom-theme:hover { background-color: @bg2; color: @orange; }
 
-#clock { font-weight: bold; padding: 0 12px; color: @orange; }
+#clock { font-weight: bold; padding: 0 12px; }
 
 #pulseaudio,
 #bluetooth,
