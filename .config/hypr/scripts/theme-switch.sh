@@ -10,18 +10,15 @@ ROFI_THEMES="$DOTFILES/.config/rofi/themes"
 SWAYNC_THEMES="$DOTFILES/.config/swaync/themes"
 HYPR_THEMES="$DOTFILES/.config/hypr/themes"
 YAZI_THEMES="$DOTFILES/.config/yazi/themes"
+STARSHIP_THEMES="$DOTFILES/.config/starship/themes"
 
 # Opciones del menú de rofi
-THEMES="Gruvbox\nTokyo Night"
-
-# Mostrar menú con rofi
-SELECTED=$(echo -e "$THEMES" | rofi -dmenu \
+SELECTED=$(echo -e "Gruvbox\nTokyo Night\nKali" | rofi -dmenu \
     -p "  Tema" \
     -theme ~/.config/rofi/theme.rasi \
     -theme-str 'window { location: center; anchor: center; width: 220px; }' \
     -i -no-custom)
 
-# Salir si no se seleccionó nada
 [ -z "$SELECTED" ] && exit 0
 
 case "$SELECTED" in
@@ -43,6 +40,15 @@ case "$SELECTED" in
         ICON_THEME="Papirus-Dark"
         PAPIRUS_COLOR="cyan"
         ;;
+    "Kali")
+        THEME="kali"
+        CURSOR="Bibata-Modern-Classic"
+        CURSOR_SIZE=24
+        BTOP_THEME="dracula"
+        GTK_THEME="Kali-Dark"
+        ICON_THEME="Papirus-Dark"
+        PAPIRUS_COLOR="red"
+        ;;
     *)
         exit 1
         ;;
@@ -53,6 +59,13 @@ ln -sf "$WAYBAR_THEMES/$THEME.css" "$HOME/.config/waybar/theme.css"
 
 # Aplicar tema en yazi
 ln -sf "$YAZI_THEMES/$THEME.toml" "$HOME/.config/yazi/theme.toml"
+
+# Aplicar tema en starship
+if [[ "$THEME" == "kali" ]]; then
+    ln -sf "$STARSHIP_THEMES/kali.toml" "$HOME/.config/starship/starship.toml"
+else
+    ln -sf "$STARSHIP_THEMES/arch.toml" "$HOME/.config/starship/starship.toml"
+fi
 
 # Aplicar tema en kitty
 ln -sf "$KITTY_THEMES/$THEME.conf" "$HOME/.config/kitty/theme.conf"
