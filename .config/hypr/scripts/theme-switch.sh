@@ -84,6 +84,13 @@ papirus-folders -C "$PAPIRUS_COLOR" --theme Papirus-Dark
 hyprctl setcursor "$CURSOR" $CURSOR_SIZE
 gsettings set org.gnome.desktop.interface cursor-theme "$CURSOR"
 gsettings set org.gnome.desktop.interface cursor-size $CURSOR_SIZE
+sed -i "s/^gtk-cursor-theme-name.*/gtk-cursor-theme-name = $CURSOR/" "$HOME/.config/gtk-3.0/settings.ini"
+sed -i "s/^gtk-cursor-theme-size.*/gtk-cursor-theme-size = $CURSOR_SIZE/" "$HOME/.config/gtk-3.0/settings.ini"
+sed -i "s/^gtk-cursor-theme-name.*/gtk-cursor-theme-name = $CURSOR/" "$HOME/.config/gtk-4.0/settings.ini"
+sed -i "s/^gtk-cursor-theme-size.*/gtk-cursor-theme-size = $CURSOR_SIZE/" "$HOME/.config/gtk-4.0/settings.ini"
+mkdir -p "$HOME/.icons/default"
+printf '[Icon Theme]\nName=Default\nComment=Default Cursor Theme\nInherits=%s\n' "$CURSOR" > "$HOME/.icons/default/index.theme"
+sed -i "s/^env = XCURSOR_THEME,.*/env = XCURSOR_THEME,$CURSOR/" "$HOME/.config/hypr/hyprland.conf"
 echo "$CURSOR" > "$HOME/.config/.current-cursor"
 
 # Guardar tema activo

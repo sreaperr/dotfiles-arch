@@ -33,6 +33,22 @@ esac
 
 [ "$MODE" = "$CURRENT_MODE" ] && exit 0
 
+apply_cursor() {
+    local CURSOR="$1"
+    local CURSOR_SIZE=24
+    hyprctl setcursor "$CURSOR" $CURSOR_SIZE
+    gsettings set org.gnome.desktop.interface cursor-theme "$CURSOR"
+    gsettings set org.gnome.desktop.interface cursor-size $CURSOR_SIZE
+    sed -i "s/^gtk-cursor-theme-name.*/gtk-cursor-theme-name = $CURSOR/" "$HOME/.config/gtk-3.0/settings.ini"
+    sed -i "s/^gtk-cursor-theme-size.*/gtk-cursor-theme-size = $CURSOR_SIZE/" "$HOME/.config/gtk-3.0/settings.ini"
+    sed -i "s/^gtk-cursor-theme-name.*/gtk-cursor-theme-name = $CURSOR/" "$HOME/.config/gtk-4.0/settings.ini"
+    sed -i "s/^gtk-cursor-theme-size.*/gtk-cursor-theme-size = $CURSOR_SIZE/" "$HOME/.config/gtk-4.0/settings.ini"
+    mkdir -p "$HOME/.icons/default"
+    printf '[Icon Theme]\nName=Default\nComment=Default Cursor Theme\nInherits=%s\n' "$CURSOR" > "$HOME/.icons/default/index.theme"
+    sed -i "s/^env = XCURSOR_THEME,.*/env = XCURSOR_THEME,$CURSOR/" "$HOME/.config/hypr/hyprland.conf"
+    echo "$CURSOR" > "$HOME/.config/.current-cursor"
+}
+
 apply_kali() {
     # Guardar tema arch activo para restaurarlo después
     cp ~/.config/.current-theme ~/.config/.arch-theme-backup 2>/dev/null
@@ -62,6 +78,9 @@ apply_kali() {
 
     # Starship
     ln -sf "$STARSHIP_THEMES/kali.toml" ~/.config/starship/starship.toml
+
+    # Cursor
+    apply_cursor "Bibata-Modern-Classic"
 
     # Nvim
     echo "kali" > ~/.config/.current-theme
@@ -102,6 +121,12 @@ apply_arch() {
 
     # Starship
     ln -sf "$STARSHIP_THEMES/arch.toml" ~/.config/starship/starship.toml
+
+    # Cursor (gruvbox→Amber, resto→Ice)
+    case "$ARCH_THEME" in
+        gruvbox) apply_cursor "Bibata-Modern-Amber" ;;
+        *)       apply_cursor "Bibata-Modern-Ice" ;;
+    esac
 
     # Nvim
     echo "$ARCH_THEME" > ~/.config/.current-theme
