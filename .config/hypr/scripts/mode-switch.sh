@@ -90,7 +90,7 @@ apply_kali() {
     echo "kali" > ~/.config/.current-theme
 
     echo "kali" > ~/.config/.current-mode
-    pkill waybar; waybar &
+    systemctl --user restart waybar
     pkill swaync; swaync &
     notify-send " Kali Mode" "Modo pentesting activado" -t 3000
 }
@@ -139,7 +139,7 @@ apply_arch() {
     echo "$ARCH_THEME" > ~/.config/.current-theme
 
     echo "arch" > ~/.config/.current-mode
-    pkill waybar; waybar &
+    systemctl --user restart waybar
     pkill swaync; swaync &
     notify-send " Arch Mode" "Modo escritorio activado" -t 3000
 }

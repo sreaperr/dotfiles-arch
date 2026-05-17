@@ -101,7 +101,7 @@ echo "$CURSOR" > "$HOME/.config/.current-cursor"
 echo "$THEME" > "$HOME/.config/.current-theme"
 
 # Recargar waybar
-pkill waybar && waybar &
+systemctl --user restart waybar
 
 # Recargar swaync
 pkill swaync && swaync &
