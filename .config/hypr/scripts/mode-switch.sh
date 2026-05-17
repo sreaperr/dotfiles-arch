@@ -12,6 +12,7 @@ ROFI_THEMES="$DOTFILES_ARCH/.config/rofi/themes"
 SWAYNC_THEMES="$DOTFILES_ARCH/.config/swaync/themes"
 HYPR_THEMES="$DOTFILES_ARCH/.config/hypr/themes"
 STARSHIP_THEMES="$DOTFILES_ARCH/.config/starship/themes"
+YAZI_THEMES="$DOTFILES_ARCH/.config/yazi/themes"
 
 CURRENT_MODE=$(cat ~/.config/.current-mode 2>/dev/null || echo "arch")
 
@@ -79,6 +80,9 @@ apply_kali() {
     # Starship
     ln -sf "$STARSHIP_THEMES/kali.toml" ~/.config/starship/starship.toml
 
+    # Yazi
+    ln -sf "$YAZI_THEMES/kali.toml" ~/.config/yazi/theme.toml
+
     # Cursor
     apply_cursor "Bibata-Modern-Classic"
 
@@ -121,6 +125,9 @@ apply_arch() {
 
     # Starship
     ln -sf "$STARSHIP_THEMES/arch.toml" ~/.config/starship/starship.toml
+
+    # Yazi
+    ln -sf "$YAZI_THEMES/$ARCH_THEME.toml" ~/.config/yazi/theme.toml
 
     # Cursor (gruvbox→Amber, resto→Ice)
     case "$ARCH_THEME" in

@@ -9,6 +9,7 @@ KITTY_THEMES="$DOTFILES/.config/kitty/themes"
 ROFI_THEMES="$DOTFILES/.config/rofi/themes"
 SWAYNC_THEMES="$DOTFILES/.config/swaync/themes"
 HYPR_THEMES="$DOTFILES/.config/hypr/themes"
+YAZI_THEMES="$DOTFILES/.config/yazi/themes"
 
 # Opciones del menú de rofi
 THEMES="Gruvbox\nTokyo Night"
@@ -49,6 +50,9 @@ esac
 
 # Aplicar tema en waybar
 ln -sf "$WAYBAR_THEMES/$THEME.css" "$HOME/.config/waybar/theme.css"
+
+# Aplicar tema en yazi
+ln -sf "$YAZI_THEMES/$THEME.toml" "$HOME/.config/yazi/theme.toml"
 
 # Aplicar tema en kitty
 ln -sf "$KITTY_THEMES/$THEME.conf" "$HOME/.config/kitty/theme.conf"
