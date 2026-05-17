@@ -15,7 +15,6 @@ marker_selected = { fg = "#e0af68", bg = "#e0af68" }
 
 tab_active   = { fg = "#1a1b2e", bg = "#7aa2f7", bold = true }
 tab_inactive = { fg = "#565f89", bg = "#1f2335" }
-tab_width    = 1
 
 count_copied   = { fg = "#1a1b2e", bg = "#9ece6a" }
 count_cut      = { fg = "#1a1b2e", bg = "#f7768e" }
@@ -106,6 +105,6 @@ rules = [
   { mime = "application/x-bzip2",      fg = "#e0af68" },
   { mime = "application/7z-compressed",fg = "#e0af68" },
   { mime = "application/x-rar",        fg = "#e0af68" },
-  { name = "*/",  fg = "#7aa2f7" },
-  { name = "*",   fg = "#c0caf5" },
+  { url = "*/",  fg = "#7aa2f7" },
+  { url = "*",   fg = "#c0caf5" },
 ]
