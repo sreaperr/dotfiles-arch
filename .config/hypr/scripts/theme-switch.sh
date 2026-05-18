@@ -19,6 +19,11 @@ SELECTED=$(echo -e "Gruvbox\nTokyo Night\nKali" | rofi -dmenu \
     -theme-str 'window { location: center; anchor: center; width: 220px; }' \
     -i -no-custom)
 
+# Guardar wallpaper del tema actual antes de cambiar
+PREV_THEME=$(cat "$HOME/.config/.current-theme" 2>/dev/null)
+CURRENT_WALLPAPER=$(cat "$HOME/.config/.current-wallpaper" 2>/dev/null)
+[ -n "$PREV_THEME" ] && [ -n "$CURRENT_WALLPAPER" ] && echo "$CURRENT_WALLPAPER" > "$HOME/.config/.wallpaper-$PREV_THEME"
+
 [ -z "$SELECTED" ] && exit 0
 
 case "$SELECTED" in
@@ -66,6 +71,7 @@ if [[ "$THEME" == "kali" ]]; then
 else
     ln -sf "$STARSHIP_THEMES/arch.toml" "$HOME/.config/starship/starship.toml"
 fi
+rm -rf "$HOME/.cache/starship/" 2>/dev/null
 
 # Aplicar tema en kitty
 ln -sf "$KITTY_THEMES/$THEME.conf" "$HOME/.config/kitty/theme.conf"
@@ -112,6 +118,19 @@ echo "$CURSOR" > "$HOME/.config/.current-cursor"
 
 # Guardar tema activo
 echo "$THEME" > "$HOME/.config/.current-theme"
+
+# Aplicar wallpaper del nuevo tema (si hay uno guardado para él)
+THEME_WALLPAPER_FILE="$HOME/.config/.wallpaper-$THEME"
+if [ -f "$THEME_WALLPAPER_FILE" ]; then
+    THEME_WALLPAPER=$(cat "$THEME_WALLPAPER_FILE")
+    if [ -f "$THEME_WALLPAPER" ]; then
+        awww img "$THEME_WALLPAPER" \
+            --transition-type fade \
+            --transition-duration 1.5 \
+            --transition-fps 60
+        echo "$THEME_WALLPAPER" > "$HOME/.config/.current-wallpaper"
+    fi
+fi
 
 # Recargar waybar
 systemctl --user restart waybar
