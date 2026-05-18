@@ -15,7 +15,7 @@ case "$THEME" in
         CURSOR_SIZE=24
         ;;
     "kali")
-        GTK_THEME="Kali-Dark"
+        GTK_THEME="Adwaita-dark"
         ICON_THEME="Papirus-Dark"
         CURSOR="Bibata-Modern-Classic"
         CURSOR_SIZE=24

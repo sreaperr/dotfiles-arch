@@ -42,7 +42,7 @@ case "$SELECTED" in
         CURSOR="Bibata-Modern-Classic"
         CURSOR_SIZE=24
         BTOP_THEME="dracula"
-        GTK_THEME="Kali-Dark"
+        GTK_THEME="Adwaita-dark"
         ICON_THEME="Papirus-Dark"
         PAPIRUS_COLOR="red"
         ;;
