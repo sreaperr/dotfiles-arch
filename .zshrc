@@ -48,7 +48,7 @@ alias gs="git status"
 alias gl="git log --oneline --graph"
 # SISTEMA
 alias update="sudo pacman -Syu"
-alias cleanup="sudo pacman -Rns $(pacman -Qtdq)"
+cleanup() { sudo pacman -Rns $(pacman -Qtdq); }
 alias reload="source ~/.zshrc"
 alias path="echo $PATH | tr ':' '\n'"
 alias keybinds="cat ~/.config/hypr/keybinds.conf"
