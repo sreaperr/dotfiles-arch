@@ -18,7 +18,7 @@ style_root = "bold #ff1744"
 [hostname]
 ssh_only = false
 format = "[   $hostname]($style)"
-style = "bold #00d4ff"
+style = "bold #00ff41"
 
 #-----------
 # DIRECTORIO
