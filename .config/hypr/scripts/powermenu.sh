@@ -22,9 +22,19 @@ case "$SELECTED" in
         hyprctl dispatch exit
         ;;
     *"Reiniciar"*)
-        systemctl reboot
+        CONFIRM=$(echo -e "Sí\nNo" | rofi -dmenu \
+            -p "  ¿Reiniciar?" \
+            -theme ~/.config/rofi/theme.rasi \
+            -theme-str 'window { location: center; anchor: center; width: 220px; }' \
+            -i -no-custom -lines 2)
+        [ "$CONFIRM" = "Sí" ] && systemctl reboot
         ;;
     *"Apagar"*)
-        systemctl poweroff
+        CONFIRM=$(echo -e "Sí\nNo" | rofi -dmenu \
+            -p "  ¿Apagar?" \
+            -theme ~/.config/rofi/theme.rasi \
+            -theme-str 'window { location: center; anchor: center; width: 220px; }' \
+            -i -no-custom -lines 2)
+        [ "$CONFIRM" = "Sí" ] && systemctl poweroff
         ;;
 esac

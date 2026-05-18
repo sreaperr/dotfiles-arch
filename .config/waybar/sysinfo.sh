@@ -1,5 +1,5 @@
 #!/bin/bash
-PREV_FILE="/tmp/waybar_sysinfo_prev"
+PREV_FILE="${XDG_RUNTIME_DIR:-$HOME/.cache}/waybar_sysinfo_prev"
 CURR=$(awk '/^cpu / {print $2+$3+$4, $2+$3+$4+$5+$6+$7+$8; exit}' /proc/stat)
 ACTIVE=${CURR% *}
 TOTAL=${CURR#* }

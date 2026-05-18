@@ -25,14 +25,14 @@ Dotfiles personalizados para **Arch Linux + Hyprland** como entorno de escritori
 
 ## Temas
 
-Dos temas intercambiables con un click desde la barra:
+Tres temas intercambiables con un click desde la barra:
 
-| | Gruvbox Dark | Tokyo Night |
-|---|---|---|
-| Cursor | Bibata-Modern-Amber | Bibata-Modern-Ice |
-| Iconos | Kora-dark | Kora-dark |
-| GTK | Gruvbox-Material-Dark | Tokyonight-Dark |
-| Bordes | Gradiente ámbar → naranja | Gradiente cyan → púrpura |
+| | Gruvbox Dark | Tokyo Night | Kali |
+|---|---|---|---|
+| Cursor | Bibata-Modern-Amber | Bibata-Modern-Ice | Bibata-Modern-Classic |
+| Iconos | Papirus-Dark (naranja) | Papirus-Dark (cyan) | Papirus-Dark (rojo) |
+| GTK | Gruvbox-Material-Dark | Tokyonight-Dark | Kali-Dark |
+| Bordes | Gradiente ámbar → naranja | Gradiente cyan → púrpura | Rosa (#ff2d78) |
 
 ---
 
@@ -46,6 +46,8 @@ chmod +x install.sh
 ```
 
 El script instala todos los paquetes, crea los symlinks y aplica el tema Gruvbox por defecto.
+
+> **Post-instalación:** Cierra sesión completamente y vuelve a entrar para que los cambios de grupo (docker), shell (zsh) y variables de entorno surtan efecto.
 
 ---
 
@@ -127,7 +129,41 @@ dotfiles-arch/
 
 ## Cambiar tema
 
-Click en el icono `󰏘` de la barra → selecciona Gruvbox o Tokyo Night → cambia todo el sistema al instante.
+Click en el icono `󰏘` de la barra → selecciona Gruvbox, Tokyo Night o Kali → cambia todo el sistema al instante.
+
+---
+
+## Dependencias de scripts
+
+Los scripts de `.config/hypr/scripts/` requieren: `rofi`, `hyprctl`, `awww`, `notify-send`, `gsettings`, `papirus-folders`. Todos se instalan con `install.sh`.
+
+---
+
+## Troubleshooting
+
+**Hyprland no arranca**
+```bash
+# Revisa el log de la última sesión
+cat ~/.local/share/hyprland/hyprland.log | tail -50
+```
+
+**Los temas no se aplican al arrancar**
+```bash
+# Ejecuta manualmente el script de arranque
+~/.config/hypr/scripts/theme-startup.sh
+```
+
+**Iconos o cursor incorrectos tras reiniciar**
+```bash
+# El cursor guardado puede estar desincronizado; aplica el tema manualmente
+~/.config/hypr/scripts/theme-switch.sh
+```
+
+**awww no carga el fondo**
+```bash
+# Comprueba que el daemon esté corriendo
+awww query || awww init
+```
 
 ---
 

@@ -78,6 +78,7 @@ sudo pacman -S --noconfirm docker timeshift
 sudo systemctl enable docker
 # Añadir usuario al grupo docker para usarlo sin sudo
 sudo usermod -aG docker $USER
+echo "NOTA: El grupo 'docker' requiere cerrar sesión completamente para tener efecto."
 #-----------------------
 #RED Y DIAGNÓSTICO
 #-----------------------
@@ -231,9 +232,10 @@ sudo pacman -S --noconfirm noto-fonts-emoji
 #INSTALACIÓN DE PARU (AUR HELPER)
 #-----------------------
 echo "INSTALANDO PARU..."
-git clone https://aur.archlinux.org/paru.git /tmp/paru
-cd /tmp/paru && makepkg -si --noconfirm
-cd -
+PARU_BUILD=$(mktemp -d)
+git clone https://aur.archlinux.org/paru.git "$PARU_BUILD"
+(cd "$PARU_BUILD" && makepkg -si --noconfirm)
+rm -rf "$PARU_BUILD"
 #-----------------------
 #PAQUETES AUR
 #-----------------------
@@ -290,6 +292,7 @@ chmod 600 ~/.ssh/config
 sudo mkdir -p /etc/keyd
 sudo ln -sf "$DOTFILES/.config/keyd/default.conf" /etc/keyd/default.conf
 # Aplicar configs de sistema
+[ -f /etc/pacman.conf ] && sudo cp /etc/pacman.conf /etc/pacman.conf.bak
 sudo cp "$DOTFILES/etc/pacman.conf" /etc/pacman.conf
 sudo cp "$DOTFILES/etc/reflector.conf" /etc/xdg/reflector/reflector.conf
 sudo mkdir -p /etc/modprobe.d
@@ -321,7 +324,9 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 #-----------------------
 echo "INSTALANDO OH MY ZSH..."
 # --unattended evita que el instalador lance zsh interactivo y rompa el script
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+fi
 # PLUGINS EXTERNOS DE OH-MY-ZSH
 git clone https://github.com/zsh-users/zsh-autosuggestions \
   ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions

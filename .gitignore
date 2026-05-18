@@ -21,8 +21,8 @@ preview-themes.html
 .ssh/authorized_keys
 
 # Caché y temporales
-__pycache__/
-*.pyc
-*.swp
-*.swo
-.DS_Store
+*.log
+*.tmp
+
+# Estado por tema (generado en runtime)
+.config/.wallpaper-*

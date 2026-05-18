@@ -7,7 +7,7 @@ VIDEOS_DIR="$HOME/Vídeos/grabaciones"
 mkdir -p "$VIDEOS_DIR"
 TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
 OUTPUT="$VIDEOS_DIR/grabacion_$TIMESTAMP.mp4"
-PIDFILE="/tmp/wf-recorder.pid"
+PIDFILE="${XDG_RUNTIME_DIR:-$HOME/.cache}/wf-recorder.pid"
 
 if pgrep -x wf-recorder > /dev/null; then
     # Si ya está grabando, detener

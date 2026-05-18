@@ -25,7 +25,7 @@ export MOZ_ENABLE_WAYLAND=1
 #ACELERACIÓN DE HARDWARE PARA FIREFOX
 export MOZ_WEBRENDER=1
 #VARIABLE PARA QUE SE MANTENGA EL CURSOR
-export XCURSOR_THEME=Bibata-Modern-Amber
+export XCURSOR_THEME=$(cat "$HOME/.config/.current-cursor" 2>/dev/null || echo "Bibata-Modern-Amber")
 export XCURSOR_SIZE=24
 #DIRECTORIOS BASE
 export XDG_CONFIG_HOME=$HOME/.config
