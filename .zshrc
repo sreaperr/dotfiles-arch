@@ -38,7 +38,7 @@ alias ps="procs"
 alias du="dust"
 alias df="duf"
 # RED
-alias ip="ip -color"
+alias ip="ip a"
 alias ping="ping -c 5"
 alias myip="curl ifconfig.me"
 alias ports="ss -tulnp"
