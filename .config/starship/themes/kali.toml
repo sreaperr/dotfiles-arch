@@ -17,7 +17,7 @@ style_root = "bold #ff1744"
 
 [hostname]
 ssh_only = false
-format = "[ $hostname]($style)"
+format = "[   $hostname]($style)"
 style = "bold #00d4ff"
 
 #-----------
@@ -170,7 +170,7 @@ format = "[ $duration](bold #ffd700)"
 #-----
 [time]
 disabled = false
-format = "[ $time](dimmed #e2eaf8)"
+format = "[ $time](bold #ff2d78)"
 time_format = "%H:%M"
 
 #-------
