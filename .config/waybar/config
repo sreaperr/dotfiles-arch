@@ -7,29 +7,23 @@
     "margin-top": 6,
     "margin-left": 10,
     "margin-right": 10,
-
     "modules-left": [
-        "hyprland/workspaces",
         "custom/launcher",
-        "custom/separator",
-        "custom/firefox",
-        "custom/terminal",
-        "custom/files"
+        "hyprland/workspaces"
     ],
-
     "modules-center": [
         "clock"
     ],
-
     "modules-right": [
-        "custom/powermenu",
+        "custom/separator",
+        "custom/spotify",
+        "custom/discord",
+        "custom/files",
         "pulseaudio",
         "bluetooth",
         "network",
-        "custom/sysinfo",
-        "tray"
+        "custom/sysinfo"
     ],
-
     //------------------
     // WORKSPACES
     //------------------
@@ -37,29 +31,36 @@
         "format": "{icon}",
         "on-click": "activate",
         "format-icons": {
-            "1": "󰣇",
-            "2": "󰞷",
-            "3": "",
-            "4": "󰖟",
-            "5": "",
-            "6": "",
-            "7": "󰭹",
-            "8": ""
+            "1": "󰣇 ",
+            "2": "󰆍 ",
+            "3": "󱓇 ",
+            "4": " ",
+            "5": " ",
+            "6": " ",
+            "7": " ",
+            "8": " "
         },
         "persistent-workspaces": {
-            "*": [1, 2, 3, 4, 5, 6, 7, 8]
+            "*": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+            ]
         }
     },
-
     //------------------
     // LAUNCHER
     //------------------
     "custom/launcher": {
-        "format": "",
-        "on-click": "rofi -show drun",
+        "format": " ",
+        "on-click": "bash ~/.config/waybar/launcher-menu.sh",
         "tooltip": false
     },
-
     //------------------
     // SEPARADOR
     //------------------
@@ -67,34 +68,29 @@
         "format": "|",
         "tooltip": false
     },
-
     //------------------
     // ATAJOS DE APPS
     //------------------
-    "custom/firefox": {
-        "format": "",
-        "on-click": "firefox",
-        "tooltip-format": "Firefox"
+    "custom/spotify": {
+        "format": "󰓇",
+        "on-click": "bash ~/.config/waybar/spotify-menu.sh",
+        "tooltip-format": "Spotify"
     },
-
+    "custom/discord": {
+        "format": "󰙯",
+        "on-click": "discord",
+        "tooltip-format": "Discord"
+    },
     "custom/terminal": {
-        "format": "",
+        "format": " ",
         "on-click": "kitty",
         "tooltip-format": "Terminal"
     },
-
     "custom/files": {
-        "format": "",
+        "format": "",
         "on-click": "kitty -e yazi",
         "tooltip-format": "Archivos"
     },
-
-    "custom/powermenu": {
-        "format": "󰐥",
-        "on-click": "$HOME/.config/hypr/scripts/powermenu.sh",
-        "tooltip-format": "Menú de energía"
-    },
-
     //------------------
     // RELOJ
     //------------------
@@ -104,7 +100,6 @@
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
         "on-click": "mode"
     },
-
     //------------------
     // VOLUMEN
     //------------------
@@ -112,12 +107,15 @@
         "format": "{icon} {volume}%",
         "format-muted": "󰝟 muted",
         "format-icons": {
-            "default": ["󰕿", "󰖀", "󰕾"]
+            "default": [
+                "󰕿",
+                "󰖀",
+                "󰕾"
+            ]
         },
-        "on-click": "pavucontrol",
+        "on-click": "bash ~/.config/waybar/audio-menu.sh",
         "tooltip-format": "{desc}"
     },
-
     //------------------
     // BLUETOOTH
     //------------------
@@ -126,12 +124,11 @@
         "format-connected": "󰂱",
         "format-connected-battery": "󰂱 {device_battery_percentage}%",
         "format-off": "󰂲",
-        "on-click": "bash -c \"if bluetoothctl show | grep -q 'Powered: yes'; then bluetoothctl power off; else bluetoothctl power on; fi\"",
+        "on-click": "bash ~/.config/waybar/bluetooth-menu.sh",
         "tooltip-format": "{controller_alias} · {controller_address}\n{num_connections} conectados",
         "tooltip-format-connected": "{controller_alias} · {controller_address}\n{num_connections} conectados\n\n{device_enumerate}",
         "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}"
     },
-
     //------------------
     // RED E IP
     //------------------
@@ -140,9 +137,8 @@
         "format-ethernet": "󰈀  {ipaddr}",
         "format-disconnected": "󰖪  desconectado",
         "tooltip-format": "{ifname}: {ipaddr}/{cidr}\nGateway: {gwaddr}",
-        "on-click": "nm-connection-editor"
+        "on-click": "bash ~/.config/waybar/network-menu.sh"
     },
-
     //------------------
     // CPU + RAM (custom)
     //------------------
@@ -153,7 +149,6 @@
         "on-click": "kitty -e btop",
         "tooltip": false
     },
-
     //------------------
     // BANDEJA DEL SISTEMA
     //------------------

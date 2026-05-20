@@ -1,73 +1,46 @@
 /* KALI MODE */
+
+/* ── Variables de color del tema ── */
 @define-color bg            #000000;
 @define-color bg-alpha      rgba(0, 0, 0, 0.85);
-@define-color bg-border     rgba(0, 255, 65, 0.25);
-@define-color bg1      #080d14;
-@define-color bg2      #0a0a0a;
-@define-color fg       #e2eaf8;
-@define-color fg-dim   #00802a;
-@define-color green    #00ff41;
-@define-color pink     #ff2d78;
-@define-color cyan     #00d4ff;
-@define-color yellow   #ffd700;
-@define-color red      #ff1744;
-@define-color blue     #4da6ff;
+@define-color bg-border     rgba(0, 255, 65, 0.25);   /* borde verde oscuro translúcido */
+@define-color bg1           #080d14;
+@define-color bg2           #0d1a0f;                   /* fondo del chip en hover — verde muy oscuro */
+@define-color fg            #e2eaf8;                   /* texto principal */
+@define-color fg-dim        #00b33c;                   /* texto tenue (verde medio, legible sobre negro) */
+@define-color cyan          #00d4ff;                   /* color de hover y workspace activo */
+@define-color green         #00ff41;
+@define-color pink          #ff2d78;
+@define-color yellow        #ffd700;
+@define-color red           #ff1744;
+@define-color blue          #4da6ff;
 
-window#waybar {
-    background-color: @bg;
-    color: @fg;
-}
+/* ── WORKSPACES ── verde medio en reposo, cyan al activar (style.css) */
+#workspaces button { color: @fg-dim; }
 
-#workspaces button {
-    color: @fg-dim;
-    background-color: @bg2;
-    border-radius: 6px;
-    margin: 4px 2px;
-    padding: 0 6px;
-}
-#workspaces button:hover {
-    background-color: @bg2;
-    color: @green;
-}
-#workspaces button.active {
-    background-color: @pink;
-    color: #ffffff;
-}
-#workspaces button.urgent {
-    background-color: @red;
-    color: @fg;
-}
+/* ── LAUNCHER ── */
+#custom-launcher { color: @fg-dim; font-size: 16px; padding: 0 10px; }
 
-#custom-launcher { color: @green; padding: 0 10px; font-size: 16px; }
+/* ── SEPARADOR ── */
 #custom-separator { color: @bg2; padding: 0 4px; }
 
-#custom-firefox,
+/* ── ATAJOS DE APPS ── Spotify, Discord, terminal, archivos */
+#custom-spotify,
+#custom-discord,
 #custom-terminal,
-#custom-files,
-#custom-pavucontrol,
-#custom-wallpaper,
-#custom-theme,
-#custom-powermenu {
-    color: @fg-dim;
-    padding: 0 8px;
-    border-radius: 6px;
-    transition: all 0.2s ease;
-}
-#custom-firefox:hover,
-#custom-terminal:hover,
-#custom-files:hover,
-#custom-pavucontrol:hover,
-#custom-wallpaper:hover,
-#custom-theme:hover { color: @green; background-color: @bg2; }
-#custom-powermenu:hover { color: @pink; background-color: @bg2; }
+#custom-files { color: @fg-dim; }
 
-#clock { color: @pink; font-weight: bold; padding: 0 12px; }
+/* ── RELOJ ── */
+#clock { color: @fg-dim; font-weight: bold; padding: 0 12px; }
 
-#pulseaudio { color: @cyan; background-color: @bg2; padding: 0 10px; border-radius: 6px; margin: 4px 2px; }
-#pulseaudio.muted { color: @fg-dim; }
-#bluetooth { color: @blue; background-color: @bg2; padding: 0 10px; border-radius: 6px; margin: 4px 2px; }
-#bluetooth.off { color: @fg-dim; }
-#network { color: @green; background-color: @bg2; padding: 0 10px; border-radius: 6px; margin: 4px 2px; }
-#network.disconnected { color: @red; }
-#custom-sysinfo { color: @pink; background-color: @bg2; padding: 0 10px; border-radius: 6px; margin: 4px 2px; }
-#tray { background-color: @bg2; padding: 0 6px; border-radius: 6px; margin: 4px 2px; }
+/* ── VOLUMEN ── */
+#pulseaudio { color: @fg-dim; }
+
+/* ── RED ── */
+#network { color: @fg-dim; }
+
+/* ── INFO DEL SISTEMA ── */
+#custom-sysinfo { color: @fg-dim; }
+
+/* ── BANDEJA ── */
+#tray { padding: 0 6px; }

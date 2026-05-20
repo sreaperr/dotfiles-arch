@@ -28,6 +28,13 @@
         "dnd",
         "notifications"
     ],
+    "scripts": {
+        "focus-on-click": {
+            "exec": "~/.config/swaync/focus-notify-app.sh",
+            "app-name": ".*",
+            "run-on": "action"
+        }
+    },
     "widget-config": {
         "title": {
             "text": "Notificaciones",

@@ -29,10 +29,15 @@ apply_theme_symlinks() {
 
 apply_gtk_cursor() {
     local GTK_THEME=$1 ICON_THEME=$2 CURSOR=$3 CURSOR_SIZE=$4
+    local content
+    content="[Settings]
+gtk-theme-name        = $GTK_THEME
+gtk-icon-theme-name   = $ICON_THEME
+gtk-cursor-theme-name = $CURSOR
+gtk-cursor-theme-size = $CURSOR_SIZE
+gtk-font-name         = Hack Nerd Font 11
+gtk-application-prefer-dark-theme = 1"
     for ini in "$HOME/.config/gtk-3.0/settings.ini" "$HOME/.config/gtk-4.0/settings.ini"; do
-        sed -i "s/^gtk-theme-name.*/gtk-theme-name        = $GTK_THEME/"         "$ini"
-        sed -i "s/^gtk-icon-theme-name.*/gtk-icon-theme-name   = $ICON_THEME/"   "$ini"
-        sed -i "s/^gtk-cursor-theme-name.*/gtk-cursor-theme-name = $CURSOR/"     "$ini"
-        sed -i "s/^gtk-cursor-theme-size.*/gtk-cursor-theme-size = $CURSOR_SIZE/" "$ini"
+        printf '%s\n' "$content" > "$ini"
     done
 }

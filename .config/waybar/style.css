@@ -1,8 +1,11 @@
 /*==========================
   WAYBAR STYLE - DOTFILES ARCH
 ==========================*/
+
+/* Tema activo — define las variables @bg, @fg, @bg2, @cyan, etc. */
 @import "theme.css";
 
+/* Reset global: fuente Nerd Font y sin bordes/radios por defecto */
 * {
     font-family: "Hack Nerd Font", "Font Awesome 6 Free", "Font Awesome 6 Brands", "Noto Color Emoji";
     font-size: 14px;
@@ -11,6 +14,7 @@
     border-radius: 0;
 }
 
+/* Ventana principal: fondo semitransparente, bordes redondeados y borde sutil */
 window#waybar {
     background-color: @bg-alpha;
     color: @fg;
@@ -20,68 +24,91 @@ window#waybar {
     transition-duration: 0.5s;
 }
 
+/* Padding horizontal en cada zona (izquierda, centro, derecha) */
 .modules-left,
 .modules-center,
 .modules-right {
     padding: 0 8px;
 }
 
-#workspaces button {
-    padding: 0 6px;
-    color: @fg-dim;
-    background-color: transparent;
-    border-radius: 6px;
-    margin: 4px 2px;
-    transition: all 0.2s ease;
-}
-#workspaces button:hover  { background-color: @bg2; color: @fg; }
-#workspaces button.active { border-radius: 6px; }
-#workspaces button.urgent { background-color: @red; color: @fg; }
-
-#custom-launcher { font-size: 16px; padding: 0 10px; color: @orange; }
-#custom-separator { padding: 0 4px; color: @bg2; }
-
-#custom-firefox,
+/* ──────────────────────────────────────────
+   CHIP BASE — todos los módulos son
+   transparentes en reposo: se funden con
+   el fondo de la barra.
+   ────────────────────────────────────────── */
+#workspaces button,
+#custom-launcher,
+#custom-spotify,
+#custom-discord,
 #custom-terminal,
 #custom-files,
-#custom-pavucontrol,
-#custom-wallpaper,
-#custom-theme {
-    padding: 0 8px;
-    font-size: 14px;
-    color: @fg-dim;
-    border-radius: 6px;
-    transition: all 0.2s ease;
-}
-#custom-firefox:hover,
-#custom-terminal:hover,
-#custom-files:hover,
-#custom-pavucontrol:hover,
-#custom-wallpaper:hover,
-#custom-theme:hover { background-color: @bg2; color: @orange; }
-
-#clock { font-weight: bold; padding: 0 12px; }
-
+#clock,
 #pulseaudio,
 #bluetooth,
 #network,
 #custom-sysinfo,
 #tray {
     padding: 0 10px;
+    background-color: transparent; /* sin chip propio — funde con la barra */
     border-radius: 6px;
     margin: 4px 2px;
-    transition: all 0.2s ease;
+    transition: all 0.2s ease;     /* animación suave en hover/active */
 }
+
+/* ──────────────────────────────────────────
+   HOVER — al pasar el cursor aparece un
+   chip @bg2 y el icono/texto cambia a cyan.
+   ────────────────────────────────────────── */
+#workspaces button:hover,
+#custom-launcher:hover,
+#custom-spotify:hover,
+#custom-discord:hover,
+#custom-Google-chrome:hover,
+#custom-terminal:hover,
+#custom-files:hover,
+#clock:hover,
 #pulseaudio:hover,
 #bluetooth:hover,
 #network:hover,
-#custom-sysinfo:hover { background-color: @bg2; }
+#custom-sysinfo:hover {
+    background-color: @bg2; /* chip sutil aparece al hacer hover */
+    color: @cyan;           /* color cyan al pasar el cursor */
+}
 
-#pulseaudio.muted     { color: @fg-dim; }
-#bluetooth            { color: #0082fc; }
-#bluetooth.connected  { color: #0082fc; }
-#bluetooth.off        { color: @fg-dim; }
+/* ── WORKSPACES ── */
+#workspaces button.active {
+    background-color: @cyan; /* chip cyan en el workspace activo */
+    color: @bg;              /* texto oscuro para contraste sobre cyan */
+    border-radius: 6px;
+}
+/* Workspace con notificación urgente */
+#workspaces button.urgent { background-color: @red; color: @fg; }
+
+/* ── LAUNCHER ── icono del menú, tamaño mayor */
+#custom-launcher { font-size: 16px; }
+
+/* ── SEPARADOR ── línea divisoria sin chip */
+#custom-separator {
+    padding: 0 4px;
+    color: @bg2;
+    background-color: transparent;
+    margin: 0;
+}
+
+/* ── RELOJ ── negrita */
+#clock { font-weight: bold; }
+
+/* ── VOLUMEN ── silenciado */
+#pulseaudio.muted { color: @fg-dim; }
+
+/* ── BLUETOOTH ── cyan en todos sus estados */
+#bluetooth           { color: @cyan; }
+#bluetooth.connected { color: @cyan; }
+#bluetooth.off       { color: @fg-dim; } /* apagado: tenue */
+
+/* ── RED ── sin conexión */
 #network.disconnected { color: @red; }
 
+/* ── BANDEJA ── padding reducido; sin hover (elemento pasivo) */
 #tray { padding: 0 6px; }
 #tray > .passive { color: @fg-dim; }

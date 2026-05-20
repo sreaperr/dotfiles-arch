@@ -23,7 +23,7 @@ source $ZSH/oh-my-zsh.sh
 # NAVEGACIÓN Y ARCHIVOS
 alias ..="cd .."
 alias ...="cd ../.."
-alias ls="eza --icons"
+alias list="eza --icons"
 alias ll="eza -lah --icons"
 alias lt="eza --tree --icons"
 alias yy="yazi"

@@ -1,22 +1,29 @@
+/* Dropdown del launcher de waybar.
+   Importa el tema activo (theme.rasi → symlink al tema actual)
+   para heredar colores, fuentes y estilos automáticamente. */
 @import "~/.config/rofi/theme.rasi"
 
+/* Ventana anclada en la esquina superior-izquierda,
+   justo debajo del launcher de waybar */
 window {
-    location:      north;
-    anchor:        north;
-    y-offset:      36px;
+    location:      northwest;          /* esquina top-left de la pantalla */
+    anchor:        northwest;          /* anclar la esquina del menú al punto */
+    x-offset:      10px;              /* alineado con el margin-left de waybar */
+    y-offset:      0px;               /* pegado al waybar — rofi parte desde el borde de la barra */
     width:         220px;
-    border-radius: 0px 0px 10px 10px;
+    border-radius: 10px;
 }
 
 mainbox {
-    children: [ listview ];
+    children: [ inputbar, listview ];
     spacing:  0px;
 }
 
 listview {
-    padding: 6px;
-    spacing: 4px;
-    lines:   8;
+    padding:   6px;
+    spacing:   4px;
+    lines:     8;
+    scrollbar: false;
 }
 
 element {

@@ -1,73 +1,60 @@
 /* GRUVBOX DARK */
+
+/* ── Variables de color del tema ── */
 @define-color bg            #1d2021;
 @define-color bg-alpha      rgba(29, 32, 33, 0.82);
-@define-color bg-border     rgba(60, 56, 54, 0.55);
-@define-color bg1      #282828;
-@define-color bg2      #3c3836;
-@define-color fg       #ebdbb2;
-@define-color fg-dim   #a89984;
-@define-color orange   #fe8019;
-@define-color yellow   #d79921;
-@define-color blue     #458588;
-@define-color purple   #b16286;
-@define-color green    #b8bb26;
-@define-color red      #cc241d;
+@define-color bg-border     rgba(60, 56, 54, 0.55);   /* borde marrón translúcido */
+@define-color bg1           #282828;
+@define-color bg2           #3c3836;                   /* fondo del chip en hover */
+@define-color fg            #ebdbb2;                   /* texto principal (crema) */
+@define-color fg-dim        #a89984;                   /* texto tenue */
+@define-color cyan          #8ec07c;                   /* aqua/cyan de gruvbox — hover y activo */
+@define-color orange        #fe8019;
+@define-color yellow        #d79921;
+@define-color blue          #458588;
+@define-color purple        #b16286;
+@define-color green         #b8bb26;
+@define-color red           #cc241d;
 
+/* Ventana: marrón oscuro gruvbox */
 window#waybar {
     background-color: @bg;
     color: @fg;
 }
 
-#workspaces button {
-    color: @fg-dim;
-    background-color: @bg2;
-    border-radius: 6px;
-    margin: 4px 2px;
-    padding: 0 6px;
-}
-#workspaces button:hover {
-    background-color: @bg2;
-    color: @fg;
-}
-#workspaces button.active {
-    background-color: @yellow;
-    color: @bg;
-}
-#workspaces button.urgent {
-    background-color: @red;
-    color: @fg;
-}
+/* ── WORKSPACES ── color tenue en reposo, cyan al activar (style.css) */
+#workspaces button        { color: @fg-dim; }
+#workspaces button.urgent { background-color: @red; color: @fg; }
 
-#custom-launcher { color: @orange; padding: 0 10px; font-size: 16px; }
+/* ── LAUNCHER ── */
+#custom-launcher { color: @fg-dim; font-size: 16px; padding: 0 10px; }
+
+/* ── SEPARADOR ── */
 #custom-separator { color: @bg2; padding: 0 4px; }
 
-#custom-firefox,
+/* ── ATAJOS DE APPS ── Spotify, Discord, terminal, archivos */
+#custom-spotify,
+#custom-discord,
 #custom-terminal,
-#custom-files,
-#custom-pavucontrol,
-#custom-wallpaper,
-#custom-theme,
-#custom-powermenu {
-    color: @fg-dim;
-    padding: 0 8px;
-    border-radius: 6px;
-    transition: all 0.2s ease;
-}
-#custom-firefox:hover,
-#custom-terminal:hover,
-#custom-files:hover,
-#custom-pavucontrol:hover,
-#custom-wallpaper:hover,
-#custom-theme:hover { color: @orange; background-color: @bg2; }
-#custom-powermenu:hover { color: @red; background-color: @bg2; }
+#custom-files { color: @fg-dim; }
 
-#clock { color: @orange; font-weight: bold; padding: 0 12px; }
+/* ── RELOJ ── */
+#clock { color: @fg-dim; font-weight: bold; padding: 0 12px; }
 
-#pulseaudio { color: @green; background-color: @bg2; padding: 0 10px; border-radius: 6px; margin: 4px 2px; }
+/* ── VOLUMEN ── */
+#pulseaudio       { color: @fg-dim; }
 #pulseaudio.muted { color: @fg-dim; }
-#bluetooth { color: @blue; background-color: @bg2; padding: 0 10px; border-radius: 6px; margin: 4px 2px; }
+
+/* ── BLUETOOTH ── cyan siempre (style.css lo define, aquí se refuerza) */
+#bluetooth     { color: @cyan; }
 #bluetooth.off { color: @fg-dim; }
-#network { color: @yellow; background-color: @bg2; padding: 0 10px; border-radius: 6px; margin: 4px 2px; }
+
+/* ── RED ── */
+#network              { color: @fg-dim; }
 #network.disconnected { color: @red; }
-#custom-sysinfo { color: @purple; background-color: @bg2; padding: 0 10px; border-radius: 6px; margin: 4px 2px; }
-#tray { background-color: @bg2; padding: 0 6px; border-radius: 6px; margin: 4px 2px; }
+
+/* ── INFO DEL SISTEMA ── */
+#custom-sysinfo { color: @fg-dim; }
+
+/* ── BANDEJA ── */
+#tray { padding: 0 6px; }

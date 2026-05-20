@@ -1,73 +1,59 @@
 /* TOKYO NIGHT */
+
+/* ── Variables de color del tema ── */
 @define-color bg            #0d0e17;
 @define-color bg-alpha      rgba(13, 14, 23, 0.82);
-@define-color bg-border     rgba(26, 27, 46, 0.55);
-@define-color bg1      #131421;
-@define-color bg2      #1a1b2e;
-@define-color fg       #c0caf5;
-@define-color fg-dim   #565f89;
-@define-color cyan     #7dcfff;
-@define-color green    #9ece6a;
-@define-color purple   #bb9af7;
-@define-color red      #f7768e;
-@define-color orange   #ff9e64;
-@define-color yellow   #e0af68;
+@define-color bg-border     rgba(26, 27, 46, 0.55);   /* borde azul oscuro translúcido */
+@define-color bg1           #131421;
+@define-color bg2           #1a1b2e;                   /* fondo del chip en hover */
+@define-color fg            #c0caf5;                   /* texto principal */
+@define-color fg-dim        #565f89;                   /* texto tenue */
+@define-color cyan          #7dcfff;                   /* color de hover y workspace activo */
+@define-color green         #9ece6a;
+@define-color purple        #bb9af7;
+@define-color red           #f7768e;
+@define-color orange        #ff9e64;
+@define-color yellow        #e0af68;
 
+/* Ventana: azul noche oscuro */
 window#waybar {
     background-color: @bg;
     color: @fg;
 }
 
-#workspaces button {
-    color: @fg-dim;
-    background-color: @bg2;
-    border-radius: 6px;
-    margin: 4px 2px;
-    padding: 0 6px;
-}
-#workspaces button:hover {
-    background-color: @bg2;
-    color: @fg;
-}
-#workspaces button.active {
-    background-color: @cyan;
-    color: @bg;
-}
-#workspaces button.urgent {
-    background-color: @red;
-    color: @fg;
-}
+/* ── WORKSPACES ── color tenue en reposo, cyan al activar (style.css) */
+#workspaces button        { color: @fg-dim; }
+#workspaces button.urgent { background-color: @red; color: @fg; }
 
-#custom-launcher { color: @cyan; padding: 0 10px; font-size: 16px; }
+/* ── LAUNCHER ── */
+#custom-launcher { color: @fg; font-size: 16px; padding: 0 10px; }
+
+/* ── SEPARADOR ── */
 #custom-separator { color: @bg2; padding: 0 4px; }
 
-#custom-firefox,
+/* ── ATAJOS DE APPS ── Spotify, Discord, terminal, archivos */
+#custom-spotify,
+#custom-discord,
 #custom-terminal,
-#custom-files,
-#custom-pavucontrol,
-#custom-wallpaper,
-#custom-theme,
-#custom-powermenu {
-    color: @fg-dim;
-    padding: 0 8px;
-    border-radius: 6px;
-    transition: all 0.2s ease;
-}
-#custom-firefox:hover,
-#custom-terminal:hover,
-#custom-files:hover,
-#custom-pavucontrol:hover,
-#custom-wallpaper:hover,
-#custom-theme:hover { color: @cyan; background-color: @bg2; }
-#custom-powermenu:hover { color: @red; background-color: @bg2; }
+#custom-files { color: @fg; }
 
-#clock { color: @cyan; font-weight: bold; padding: 0 12px; }
+/* ── RELOJ ── */
+#clock { color: @fg; font-weight: bold; padding: 0 12px; }
 
-#pulseaudio { color: @green; background-color: @bg2; padding: 0 10px; border-radius: 6px; margin: 4px 2px; }
-#pulseaudio.muted { color: @fg-dim; }
-#bluetooth { color: @cyan; background-color: @bg2; padding: 0 10px; border-radius: 6px; margin: 4px 2px; }
+/* ── VOLUMEN ── */
+#pulseaudio       { color: @fg; }
+#pulseaudio.muted { color: @red; }
+
+/* ── BLUETOOTH ── cyan siempre (style.css lo define, aquí se refuerza) */
+#bluetooth     { color: @cyan; }
 #bluetooth.off { color: @fg-dim; }
-#network { color: @yellow; background-color: @bg2; padding: 0 10px; border-radius: 6px; margin: 4px 2px; }
+
+/* ── RED ── */
+#network              { color: @fg; }
 #network.disconnected { color: @red; }
-#custom-sysinfo { color: @purple; background-color: @bg2; padding: 0 10px; border-radius: 6px; margin: 4px 2px; }
-#tray { background-color: @bg2; padding: 0 6px; border-radius: 6px; margin: 4px 2px; }
+
+/* ── INFO DEL SISTEMA ── */
+#custom-sysinfo { color: @fg; }
+
+/* ── BANDEJA ── */
+#tray { padding: 0 6px; }
