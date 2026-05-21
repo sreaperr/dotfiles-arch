@@ -1,0 +1,211 @@
+;; =============================================
+;; CONTROL CENTER — eww
+;; Panel lateral derecho: brillo, volumen,
+;; bluetooth, wifi, media, calendario, sistema
+;; Activar/desactivar: SUPER + C
+;; =============================================
+
+;; --- DATOS DINÁMICOS ---
+
+(defpoll brillo
+  :interval "1s"
+  :initial "50"
+  `brightnessctl -m | awk -F, '{gsub(/%/,"",$4); print int($4)}'`)
+
+(defpoll volumen
+  :interval "1s"
+  :initial "50"
+  `wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{printf "%d", $2*100}'`)
+
+(defpoll bt-activo
+  :interval "3s"
+  :initial "false"
+  `bluetoothctl show | grep -q "Powered: yes" && echo "true" || echo "false"`)
+
+(defpoll wifi-activo
+  :interval "3s"
+  :initial "false"
+  `nmcli radio wifi 2>/dev/null | grep -q "enabled" && echo "true" || echo "false"`)
+
+(defpoll dnd-activo
+  :interval "2s"
+  :initial "false"
+  `swaync-client -D 2>/dev/null | tr -d '[:space:]'`)
+
+(defpoll noche-activo
+  :interval "3s"
+  :initial "false"
+  `pgrep -x wlsunset > /dev/null && echo "true" || echo "false"`)
+
+(defpoll media-titulo
+  :interval "2s"
+  :initial "Sin reproducción"
+  `playerctl metadata title 2>/dev/null | cut -c1-30 || echo "Sin reproducción"`)
+
+(defpoll media-artista
+  :interval "2s"
+  :initial ""
+  `playerctl metadata artist 2>/dev/null | cut -c1-25 || echo ""`)
+
+(defpoll media-play
+  :interval "1s"
+  :initial "Stopped"
+  `playerctl status 2>/dev/null || echo "Stopped"`)
+
+(defpoll cpu-uso
+  :interval "4s"
+  :initial "0"
+  `~/.config/eww/scripts/cpu.sh`)
+
+(defpoll ram-uso
+  :interval "4s"
+  :initial "0"
+  `free | awk '/Mem/{printf "%d", $3/$2*100}'`)
+
+(defpoll hora-str
+  :interval "10s"
+  :initial "00:00"
+  `date '+%H:%M'`)
+
+(defpoll fecha-str
+  :interval "60s"
+  :initial ""
+  `date '+%A, %d %B'`)
+
+(defpoll usuario-str
+  :interval "99999s"
+  :initial "usuario"
+  `echo $USER`)
+
+;; =============================================
+;; WIDGETS
+;; =============================================
+
+;; --- CABECERA: usuario + reloj ---
+(defwidget cabecera []
+  (box :class "cabecera" :orientation "horizontal" :space-evenly false :valign "center"
+    (box :halign "start" :hexpand true :spacing 10 :valign "center"
+      (label :class "usuario-icono" :text "")
+      (label :class "usuario-texto" :text usuario-str))
+    (box :halign "end" :orientation "vertical" :valign "center"
+      (label :class "hora" :text hora-str :halign "end")
+      (label :class "fecha" :text fecha-str :halign "end"))))
+
+;; --- SEPARADOR ---
+(defwidget sep []
+  (box :class "separador" :hexpand true))
+
+;; --- MEDIA PLAYER ---
+(defwidget media []
+  (box :class "media-box" :orientation "vertical" :spacing 10
+    (box :orientation "horizontal" :space-evenly false :spacing 12 :valign "center"
+      (label :class "media-icono" :text "󰓇")
+      (box :orientation "vertical" :spacing 2 :hexpand true
+        (label :class "media-titulo" :text media-titulo :truncate true :xalign 0)
+        (label :class "media-artista" :text media-artista :truncate true :xalign 0)))
+    (box :class "media-controles" :halign "center" :spacing 28
+      (button :class "media-btn"
+        :onclick "playerctl previous" "⏮")
+      (button :class "media-btn media-playpause"
+        :onclick "playerctl play-pause"
+        {media-play == "Playing" ? "⏸" : "▶"})
+      (button :class "media-btn"
+        :onclick "playerctl next" "⏭"))))
+
+;; --- BOTÓN TOGGLE INDIVIDUAL ---
+(defwidget toggle-btn [icono etiqueta activo onclick]
+  (button
+    :class {activo == "true" ? "toggle-btn activo" : "toggle-btn"}
+    :onclick onclick
+    (box :orientation "vertical" :spacing 5 :halign "center" :valign "center"
+      (label :class "toggle-icono" :text icono)
+      (label :class "toggle-etiqueta" :text etiqueta))))
+
+;; --- FILA DE TOGGLES ---
+(defwidget toggles []
+  (box :class "toggles-fila" :space-evenly true
+    (toggle-btn :icono "󰂯" :etiqueta "BT"
+      :activo bt-activo
+      :onclick {bt-activo == "true"
+        ? "bluetoothctl power off"
+        : "bluetoothctl power on"})
+    (toggle-btn :icono "󰖩" :etiqueta "WiFi"
+      :activo wifi-activo
+      :onclick {wifi-activo == "true"
+        ? "nmcli radio wifi off"
+        : "nmcli radio wifi on"})
+    (toggle-btn :icono "󰂛" :etiqueta "DND"
+      :activo dnd-activo
+      :onclick "swaync-client -d")
+    (toggle-btn :icono "󱩌" :etiqueta "Noche"
+      :activo noche-activo
+      :onclick "~/.config/eww/scripts/toggle-noche.sh")))
+
+;; --- SLIDER DE BRILLO ---
+(defwidget slider-brillo []
+  (box :class "slider-fila" :space-evenly false :spacing 10 :valign "center"
+    (label :class "slider-icono" :text "󰃟")
+    (scale :class "slider" :hexpand true
+      :value brillo :min 1 :max 100
+      :onchange "brightnessctl set {}%")
+    (label :class "slider-valor" :text "${brillo}%")))
+
+;; --- SLIDER DE VOLUMEN ---
+(defwidget slider-volumen []
+  (box :class "slider-fila" :space-evenly false :spacing 10 :valign "center"
+    (label :class "slider-icono" :text {volumen == "0" ? "󰝟" : "󰕾"})
+    (scale :class "slider" :hexpand true
+      :value volumen :min 0 :max 100
+      :onchange "wpctl set-volume @DEFAULT_AUDIO_SINK@ {}%")
+    (label :class "slider-valor" :text "${volumen}%")))
+
+;; --- INFO DEL SISTEMA ---
+(defwidget sysinfo []
+  (box :class "sysinfo-fila" :space-evenly true
+    (box :class "sysinfo-item" :orientation "vertical" :spacing 4 :halign "center"
+      (box :spacing 6 :halign "center"
+        (label :class "sysinfo-icono" :text "")
+        (label :class "sysinfo-label" :text "CPU"))
+      (label :class "sysinfo-valor" :text "${cpu-uso}%"))
+    (box :class "sysinfo-sep")
+    (box :class "sysinfo-item" :orientation "vertical" :spacing 4 :halign "center"
+      (box :spacing 6 :halign "center"
+        (label :class "sysinfo-icono" :text "")
+        (label :class "sysinfo-label" :text "RAM"))
+      (label :class "sysinfo-valor" :text "${ram-uso}%"))))
+
+;; --- CALENDARIO ---
+(defwidget calendario []
+  (box :class "calendario-box"
+    (calendar :class "calendario"
+      :day {formattime(EWW_TIME, "%d")}
+      :month {formattime(EWW_TIME, "%m")}
+      :year {formattime(EWW_TIME, "%Y")})))
+
+;; =============================================
+;; VENTANA PRINCIPAL
+;; =============================================
+
+(defwindow control-center
+  :monitor 0
+  :geometry (geometry
+    :width "340px"
+    :height "100%"
+    :anchor "top right")
+  :stacking "overlay"
+  :exclusive false
+  :focusable true
+  (scroll :vscroll true :hscroll false :class "cc-scroll"
+    (box :class "cc-contenedor" :orientation "vertical" :spacing 14
+      (cabecera)
+      (sep)
+      (media)
+      (sep)
+      (toggles)
+      (sep)
+      (slider-brillo)
+      (slider-volumen)
+      (sep)
+      (sysinfo)
+      (sep)
+      (calendario))))

@@ -1,0 +1,233 @@
+// =============================================
+// CONTROL CENTER — eww SCSS
+// Importa el tema activo (symlink gestionado
+// por theme-switch.sh y theme-startup.sh)
+// =============================================
+@import "themes/active";
+
+* {
+  all: unset;
+  font-family: "Hack Nerd Font", sans-serif;
+  font-size: 13px;
+  color: $fg;
+  box-sizing: border-box;
+}
+
+// Panel exterior: scroll sin fondo
+.cc-scroll { background-color: transparent; }
+
+// Contenedor principal: borde izquierdo con acento,
+// esquinas redondeadas solo en el lado izquierdo
+.cc-contenedor {
+  background-color: $bg;
+  border-left: 2px solid $accent;
+  border-radius: 14px 0 0 14px;
+  padding: 18px 16px 24px 16px;
+  min-height: 100%;
+}
+
+// ─── CABECERA ────────────────────────────────
+.cabecera {
+  padding-bottom: 4px;
+}
+
+.usuario-icono {
+  font-size: 24px;
+  color: $accent;
+}
+
+.usuario-texto {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.hora {
+  font-size: 22px;
+  font-weight: bold;
+  color: $fg;
+}
+
+.fecha {
+  font-size: 10px;
+  color: $fg-dim;
+}
+
+// ─── SEPARADOR ───────────────────────────────
+.separador {
+  background-color: $bg-alt;
+  min-height: 1px;
+  margin: 2px 0;
+}
+
+// ─── MEDIA PLAYER ────────────────────────────
+.media-box {
+  background-color: $bg-alt;
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+
+.media-icono {
+  font-size: 30px;
+  color: $accent;
+  min-width: 38px;
+}
+
+.media-titulo {
+  font-size: 13px;
+  font-weight: bold;
+  color: $fg;
+}
+
+.media-artista {
+  font-size: 11px;
+  color: $fg-dim;
+}
+
+.media-controles { padding-top: 4px; }
+
+.media-btn {
+  font-size: 18px;
+  color: $fg-dim;
+  padding: 4px 10px;
+  border-radius: 6px;
+
+  &:hover { color: $accent; background-color: $bg; }
+}
+
+.media-playpause {
+  font-size: 22px;
+  color: $accent;
+}
+
+// ─── TOGGLES ─────────────────────────────────
+.toggles-fila { padding: 2px 0; }
+
+.toggle-btn {
+  background-color: $bg-alt;
+  border-radius: 10px;
+  padding: 10px 8px;
+  min-width: 62px;
+  min-height: 58px;
+
+  &:hover { background-color: $bg-hover; }
+
+  // Estado activo: fondo de acento, texto con color de fondo
+  &.activo {
+    background-color: $accent;
+
+    label { color: $bg; }
+  }
+}
+
+.toggle-icono {
+  font-size: 20px;
+  color: $fg;
+}
+
+.toggle-etiqueta {
+  font-size: 10px;
+  color: $fg-dim;
+}
+
+// ─── SLIDERS ─────────────────────────────────
+.slider-fila { padding: 2px 0; }
+
+.slider-icono {
+  font-size: 18px;
+  color: $accent;
+  min-width: 26px;
+}
+
+.slider-valor {
+  font-size: 11px;
+  color: $fg-dim;
+  min-width: 38px;
+}
+
+scale {
+  trough {
+    background-color: $bg-alt;
+    border-radius: 4px;
+    min-height: 6px;
+  }
+
+  highlight,
+  progress {
+    background-color: $accent;
+    border-radius: 4px;
+    min-height: 6px;
+  }
+
+  slider {
+    background-color: $fg;
+    border: 2px solid $accent;
+    border-radius: 50%;
+    min-width: 14px;
+    min-height: 14px;
+    box-shadow: none;
+
+    &:hover { background-color: $accent; }
+  }
+}
+
+// ─── SISTEMA ─────────────────────────────────
+.sysinfo-fila {
+  background-color: $bg-alt;
+  border-radius: 10px;
+  padding: 12px 8px;
+}
+
+.sysinfo-item { padding: 0 12px; }
+
+.sysinfo-sep {
+  background-color: $bg;
+  min-width: 1px;
+  min-height: 32px;
+}
+
+.sysinfo-icono {
+  font-size: 13px;
+  color: $accent;
+}
+
+.sysinfo-label {
+  font-size: 11px;
+  color: $fg-dim;
+}
+
+.sysinfo-valor {
+  font-size: 20px;
+  font-weight: bold;
+  color: $fg;
+}
+
+// ─── CALENDARIO ──────────────────────────────
+.calendario-box {
+  background-color: $bg-alt;
+  border-radius: 10px;
+  padding: 8px 4px;
+}
+
+calendar {
+  color: $fg;
+  background-color: transparent;
+
+  &.header {
+    color: $accent;
+    font-weight: bold;
+    padding: 4px;
+  }
+
+  &:selected {
+    background-color: $accent;
+    color: $bg;
+    border-radius: 50%;
+  }
+
+  &.other-month { color: $fg-dim; }
+
+  &.today {
+    color: $accent2;
+    font-weight: bold;
+  }
+}

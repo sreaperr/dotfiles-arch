@@ -71,6 +71,8 @@ sudo pacman -S --noconfirm jq
 sudo pacman -S --noconfirm glow
 # Benchmarking de comandos CLI
 sudo pacman -S --noconfirm hyperfine
+# Panel de widgets lateral (control center: brillo, volumen, bluetooth, calendario)
+sudo pacman -S --noconfirm eww
 # Editores
 sudo pacman -S --noconfirm neovim
 # Contenedores y snapshots del sistema
@@ -292,6 +294,9 @@ ln -sf "$DOTFILES/.config/yazi" ~/.config/yazi
 mkdir -p "$DOTFILES/.config/.wallpaper"
 ln -sf "$DOTFILES/.config/.wallpaper" ~/.config/.wallpaper
 ln -sf "$DOTFILES/.config/fastfetch" ~/.config/fastfetch
+ln -sf "$DOTFILES/.config/eww" ~/.config/eww
+# Tema activo de eww (mismo que el tema por defecto del sistema)
+ln -sf "$DOTFILES/.config/eww/themes/tokyonight.scss" ~/.config/eww/themes/active.scss
 ln -sf "$DOTFILES/.config/btop" ~/.config/btop
 ln -sf "$DOTFILES/.config/mpv" ~/.config/mpv
 ln -sf "$DOTFILES/.config/zathura" ~/.config/zathura
@@ -314,6 +319,8 @@ sudo mkdir -p /etc/modprobe.d
 sudo cp "$DOTFILES/etc/modprobe.d/hid_apple.conf" /etc/modprobe.d/hid_apple.conf
 sudo systemctl enable reflector.timer
 # Permisos de ejecución a los scripts
+chmod +x "$DOTFILES/.config/eww/scripts/cpu.sh"
+chmod +x "$DOTFILES/.config/eww/scripts/toggle-noche.sh"
 chmod +x "$DOTFILES/.config/hypr/scripts/theme-switch.sh"
 chmod +x "$DOTFILES/.config/hypr/scripts/wallpaper.sh"
 chmod +x "$DOTFILES/.config/hypr/scripts/powermenu.sh"

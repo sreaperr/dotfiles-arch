@@ -44,6 +44,10 @@ esac
 
 apply_theme_symlinks "$THEME"
 
+# Actualizar tema de eww y recargarlo
+ln -sf "$HOME/.config/eww/themes/$THEME.scss" "$HOME/.config/eww/themes/active.scss"
+eww reload 2>/dev/null || true
+
 # Btop
 sed -i "s/^color_theme = .*/color_theme = \"$BTOP_THEME\"/" "$HOME/.config/btop/btop.conf"
 

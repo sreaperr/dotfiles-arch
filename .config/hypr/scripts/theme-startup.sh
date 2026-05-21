@@ -23,6 +23,7 @@ case "$THEME" in
 esac
 
 apply_theme_symlinks "$THEME"
+ln -sf "$HOME/.config/eww/themes/$THEME.scss" "$HOME/.config/eww/themes/active.scss"
 
 gsettings set org.gnome.desktop.interface gtk-theme    "$GTK_THEME"
 gsettings set org.gnome.desktop.interface icon-theme   "$ICON_THEME"
