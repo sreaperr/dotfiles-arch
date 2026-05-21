@@ -24,6 +24,8 @@ esac
 
 apply_theme_symlinks "$THEME"
 ln -sf "$HOME/.config/eww/themes/$THEME.scss" "$HOME/.config/eww/themes/active.scss"
+# Recargar tmux si hay sesiones activas
+tmux source-file ~/.config/tmux/tmux.conf 2>/dev/null || true
 
 gsettings set org.gnome.desktop.interface gtk-theme    "$GTK_THEME"
 gsettings set org.gnome.desktop.interface icon-theme   "$ICON_THEME"

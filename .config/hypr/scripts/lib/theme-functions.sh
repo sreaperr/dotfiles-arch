@@ -20,6 +20,9 @@ apply_theme_symlinks() {
         ln -sf "$STARSHIP_THEMES/tokyonight.toml" "$HOME/.config/starship/starship.toml"
     fi
     rm -rf "$HOME/.cache/starship/" 2>/dev/null
+    local TMUX_THEME="$THEME"
+    [[ "$THEME" == "kali" ]] && TMUX_THEME="auditory"
+    ln -sf "$DOTFILES/.config/tmux/themes/${TMUX_THEME}.conf" "$HOME/.config/tmux/theme.conf"
     ln -sf "$KITTY_THEMES/$THEME.conf"         "$HOME/.config/kitty/theme.conf"
     ln -sf "$ROFI_THEMES/$THEME.rasi"          "$HOME/.config/rofi/theme.rasi"
     ln -sf "$SWAYNC_THEMES/$THEME.css"         "$HOME/.config/swaync/theme.css"

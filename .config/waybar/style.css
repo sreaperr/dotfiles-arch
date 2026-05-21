@@ -37,7 +37,7 @@ window#waybar {
    el fondo de la barra.
    ────────────────────────────────────────── */
 #workspaces button,
-#custom-launcher,
+#custom-cc,
 #custom-spotify,
 #custom-discord,
 #custom-terminal,
@@ -60,7 +60,7 @@ window#waybar {
    chip @bg2 y el icono/texto cambia a cyan.
    ────────────────────────────────────────── */
 #workspaces button:hover,
-#custom-launcher:hover,
+#custom-cc:hover,
 #custom-spotify:hover,
 #custom-discord:hover,
 #custom-Google-chrome:hover,
@@ -84,8 +84,8 @@ window#waybar {
 /* Workspace con notificación urgente */
 #workspaces button.urgent { background-color: @red; color: @fg; }
 
-/* ── LAUNCHER ── icono del menú, tamaño mayor */
-#custom-launcher { font-size: 16px; }
+/* ── CONTROL CENTER ── icono de panel, tamaño mayor */
+#custom-cc { font-size: 16px; }
 
 /* ── SEPARADOR ── línea divisoria sin chip */
 #custom-separator {

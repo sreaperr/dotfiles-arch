@@ -8,7 +8,6 @@
     "margin-left": 10,
     "margin-right": 10,
     "modules-left": [
-        "custom/launcher",
         "hyprland/workspaces"
     ],
     "modules-center": [
@@ -22,7 +21,8 @@
         "pulseaudio",
         "bluetooth",
         "network",
-        "custom/sysinfo"
+        "custom/sysinfo",
+        "custom/cc"
     ],
     //------------------
     // WORKSPACES
@@ -54,12 +54,12 @@
         }
     },
     //------------------
-    // LAUNCHER
+    // CONTROL CENTER (panel lateral eww)
     //------------------
-    "custom/launcher": {
+    "custom/cc": {
         "format": " ",
-        "on-click": "bash ~/.config/waybar/launcher-menu.sh",
-        "tooltip": false
+        "on-click": "eww open control-center --toggle",
+        "tooltip-format": "Control Center"
     },
     //------------------
     // SEPARADOR

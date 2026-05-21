@@ -300,6 +300,7 @@ ln -sf "$DOTFILES/.config/eww" ~/.config/eww
 ln -sf "$DOTFILES/.config/kanshi" ~/.config/kanshi
 # Tema activo de eww (mismo que el tema por defecto del sistema)
 ln -sf "$DOTFILES/.config/eww/themes/tokyonight.scss" ~/.config/eww/themes/active.scss
+ln -sf "$DOTFILES/.config/tmux/themes/tokyonight.conf" ~/.config/tmux/theme.conf
 ln -sf "$DOTFILES/.config/btop" ~/.config/btop
 ln -sf "$DOTFILES/.config/mpv" ~/.config/mpv
 ln -sf "$DOTFILES/.config/zathura" ~/.config/zathura
