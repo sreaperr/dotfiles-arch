@@ -58,6 +58,18 @@ El script instala todos los paquetes, crea los symlinks, aplica el tema Tokyo Ni
 
 ---
 
+## Sincronizar en un PC existente
+
+Después de `git pull`, ejecuta `sync.sh` para aplicar los cambios sin reinstalar:
+
+```bash
+git pull && ./sync.sh
+```
+
+Esto instala paquetes nuevos, crea symlinks que falten, actualiza el crontab y recarga Hyprland si está corriendo.
+
+---
+
 ## Actualización automática
 
 Al encender el PC (60 segundos después del arranque), `update.sh` actualiza automáticamente:

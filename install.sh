@@ -319,6 +319,8 @@ sudo mkdir -p /etc/modprobe.d
 sudo cp "$DOTFILES/etc/modprobe.d/hid_apple.conf" /etc/modprobe.d/hid_apple.conf
 sudo systemctl enable reflector.timer
 # Permisos de ejecución a los scripts
+chmod +x "$DOTFILES/update.sh"
+chmod +x "$DOTFILES/sync.sh"
 chmod +x "$DOTFILES/.config/eww/scripts/cpu.sh"
 chmod +x "$DOTFILES/.config/eww/scripts/toggle-noche.sh"
 chmod +x "$DOTFILES/.config/hypr/scripts/theme-switch.sh"
