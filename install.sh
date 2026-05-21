@@ -177,6 +177,21 @@ sudo pacman -S --noconfirm polkit-gnome
 # Soporte Wayland para apps Qt5 y Qt6
 sudo pacman -S --noconfirm qt5-wayland qt6-wayland
 #-----------------------
+#PLUGINS DE HYPRLAND (hyprpm)
+#-----------------------
+echo "INSTALANDO PLUGINS DE HYPRLAND..."
+# hyprpm descarga y compila cada plugin para la versión exacta de Hyprland instalada
+# Así los .so nunca quedan desactualizados entre máquinas
+hyprpm update
+# Repo oficial del equipo de Hyprland — contiene hyprexpo y borders-plus-plus
+hyprpm add https://github.com/hyprwm/hyprland-plugins
+# Repo externo — contiene hyprfocus (efecto de enfoque al cambiar ventana)
+hyprpm add https://github.com/VortexCoyote/hyprfocus
+# Activar los tres plugins (hyprpm los cargará automáticamente al iniciar Hyprland)
+hyprpm enable borders-plus-plus
+hyprpm enable hyprexpo
+hyprpm enable hyprfocus
+#-----------------------
 #ENTORNO VISUAL
 #-----------------------
 echo "INSTALANDO ENTORNO VISUAL..."

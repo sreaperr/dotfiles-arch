@@ -20,6 +20,12 @@ preview-themes.html
 .ssh/known_hosts
 .ssh/authorized_keys
 
+# Plugins de Hyprland compilados — se generan con hyprpm en cada máquina
+*.so
+
+# Lock de plugins de Neovim — se omite para instalar siempre la última versión
+.config/nvim/lazy-lock.json
+
 # Caché y temporales
 *.log
 *.tmp
