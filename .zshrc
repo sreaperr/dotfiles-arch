@@ -46,6 +46,10 @@ alias g="git"
 alias gs="git status"
 alias gl="git log --oneline --graph"
 # SISTEMA
+alias pinstall="paru -S"
+alias premove="paru -Rns"
+alias install="sudo pacman -S"
+alias remove="sudo pacman -Rns"
 alias update="sudo pacman -Syu"
 cleanup() { sudo pacman -Rns $(pacman -Qtdq); }
 alias reload="source ~/.zshrc"
