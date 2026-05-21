@@ -1,0 +1,95 @@
+{
+    "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+
+    "logo": {
+        "source": "~/.config/fastfetch/logo.txt",
+        "type": "file",
+        "padding": {
+            "top": 1,
+            "left": 2,
+            "right": 4
+        },
+        "color": {
+            "1": "38;2;255;45;120"
+        }
+    },
+
+    "display": {
+        "separator": "  ",
+        "color": {
+            "keys":   "38;2;255;45;120",
+            "title":  "38;2;255;45;120"
+        }
+    },
+
+    "modules": [
+        "title",
+        {
+            "type": "custom",
+            "format": "[38;2;255;45;120m────────────────────────[0m"
+        },
+        {
+            "type": "os",
+            "key":  "  OS"
+        },
+        {
+            "type": "kernel",
+            "key":  "  Kernel"
+        },
+        {
+            "type": "uptime",
+            "key":  "󰅐  Uptime"
+        },
+        {
+            "type": "packages",
+            "key":  "󰏗  Pkgs"
+        },
+        {
+            "type": "shell",
+            "key":  "  Shell"
+        },
+        {
+            "type": "custom",
+            "format": "[38;2;255;45;120m────────────────────────[0m"
+        },
+        {
+            "type": "wm",
+            "key":  "  WM"
+        },
+        {
+            "type": "terminal",
+            "key":  "  Terminal"
+        },
+        {
+            "type": "display",
+            "key":  "󰍹  Pantalla"
+        },
+        {
+            "type": "theme",
+            "key":  "󰔎  Tema"
+        },
+        {
+            "type": "custom",
+            "format": "[38;2;255;45;120m────────────────────────[0m"
+        },
+        {
+            "type": "cpu",
+            "key":  "  CPU"
+        },
+        {
+            "type": "gpu",
+            "key":  "󰾲  GPU"
+        },
+        {
+            "type": "memory",
+            "key":  "󰍛  RAM"
+        },
+        {
+            "type": "disk",
+            "key":  "󰋊  Disco",
+            "folders": "/"
+        },
+        "break",
+        "colors"
+    ]
+}
