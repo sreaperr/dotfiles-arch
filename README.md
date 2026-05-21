@@ -15,9 +15,12 @@ Dotfiles personalizados para **Arch Linux + Hyprland** como entorno de escritori
 | Barra | Waybar |
 | Launcher | Rofi |
 | Notificaciones | SwayNC |
+| Control Center | eww |
 | Multiplexor | Tmux |
 | File manager | Yazi |
-| Navegador | Brave / Firefox / Tor |
+| Wallpaper | swww |
+| Plugins Hyprland | hyprpm (hyprexpo, hyprfocus, borders++) |
+| Navegador | Brave / Tor |
 | Música | Spotify |
 | Chat | Discord |
 
@@ -25,14 +28,18 @@ Dotfiles personalizados para **Arch Linux + Hyprland** como entorno de escritori
 
 ## Temas
 
-Tres temas intercambiables con un click desde la barra:
+Dos temas intercambiables con `SUPER + T`:
 
-| | Gruvbox Dark | Tokyo Night | Kali |
-|---|---|---|---|
-| Cursor | Bibata-Modern-Amber | Bibata-Modern-Ice | Bibata-Modern-Classic |
-| Iconos | Papirus-Dark (naranja) | Papirus-Dark (cyan) | Papirus-Dark (rojo) |
-| GTK | Gruvbox-Material-Dark | Tokyonight-Dark | Kali-Dark |
-| Bordes | Gradiente ámbar → naranja | Gradiente cyan → púrpura | Rosa (#ff2d78) |
+| | Tokyo Night | Kali (Auditory) |
+|---|---|---|
+| Cursor | Bibata-Modern-Ice | Bibata-Modern-Classic |
+| Iconos | Papirus-Dark (cyan) | Papirus-Dark (rojo) |
+| GTK | Tokyonight-Dark | Adwaita-dark |
+| Bordes Hyprland | Gradiente cyan → púrpura | Rosa (#ff2d78) |
+| Starship | `tokyonight.toml` | `auditory.toml` |
+| Btop | tokyo-night | dracula |
+
+El cambio de tema es global: waybar, kitty, rofi, swaync, hyprland, starship, btop, eww y fastfetch cambian al instante.
 
 ---
 
@@ -45,48 +52,86 @@ chmod +x install.sh
 ./install.sh
 ```
 
-El script instala todos los paquetes, crea los symlinks y aplica el tema Gruvbox por defecto.
+El script instala todos los paquetes, crea los symlinks, aplica el tema Tokyo Night por defecto y configura la actualización automática.
 
 > **Post-instalación:** Cierra sesión completamente y vuelve a entrar para que los cambios de grupo (docker), shell (zsh) y variables de entorno surtan efecto.
+
+---
+
+## Actualización automática
+
+Al encender el PC (60 segundos después del arranque), `update.sh` actualiza automáticamente:
+- Mirrors de pacman (reflector)
+- Paquetes del sistema (pacman) y AUR (paru)
+- Plugins de Hyprland (hyprpm)
+- Plugins de Neovim (lazy.nvim)
+- Plugins de Tmux (tpm)
+
+La actualización se omite si ya se ejecutó en las últimas 24 horas. Log en `~/.local/share/update.log`.
+
+También puedes ejecutarlo manualmente:
+```bash
+~/dotfiles-arch/update.sh
+```
 
 ---
 
 ## Atajos principales
 
 ### Hyprland
+
 | Atajo | Acción |
 |---|---|
 | `SUPER + Enter` | Terminal (Kitty) |
 | `SUPER + Space` | Lanzador de apps (Rofi) |
+| `SUPER + Tab` | Cambiar ventana activa |
 | `SUPER + B` | Brave |
-| `SUPER + E` | Yazi (file manager) |
-| `SUPER + L` | Bloquear pantalla |
+| `SUPER + Y` | Yazi flotante (1000×560) |
+| `SUPER + A` | Fastfetch flotante temático |
+| `SUPER + C` | Control Center (eww) |
+| `SUPER + T` | Cambiar tema (Tokyo Night / Kali) |
+| `SUPER + N` | Selector de wallpaper con preview |
+| `SUPER + L` | Bloquear pantalla (Hyprlock) |
 | `SUPER + I` | Menú de energía |
 | `SUPER + H` | Historial portapapeles |
 | `SUPER + R` | Grabación de pantalla |
 | `SUPER + S` | Conexiones SSH |
 | `SUPER + =` | Calculadora |
-| `SUPER + Tab` | Cambiar ventana |
 | `SUPER + Shift + S` | Captura + anotaciones |
+| `SUPER + Shift + Space` | Ejecutar comando |
 | `SUPER + Flechas` | Navegar ventanas |
 | `SUPER + Shift + Flechas` | Mover ventanas |
-| `SUPER + 1-8` | Cambiar workspace |
-| `SUPER + Shift + Q` | Cerrar ventana |
+| `SUPER + Ctrl + Flechas` | Redimensionar ventanas |
+| `SUPER + 1–8` | Cambiar workspace |
+| `SUPER + Shift + 1–8` | Mover ventana a workspace |
+| `SUPER + W` | Cerrar ventana |
+| `SUPER + F` | Pantalla completa |
+| `SUPER + M` | Intercambiar con ventana maestra |
 
 ### Teclas de función (teclado Mac)
+
 | Tecla | Acción |
 |---|---|
-| `F1 / F2` | Brillo − / + |
-| `F3` | Ciclar orientación ventanas |
-| `F4` | Lanzador de apps |
+| `F3` | Ciclar orientación de ventanas |
+| `F4` | Overview de workspaces (hyprexpo) |
 | `F7 / F8 / F9` | Anterior / Play-Pause / Siguiente |
 | `F10 / F11 / F12` | Mute / Volumen − / + |
-| `Fn + F1-F12` | Teclas F estándar |
+
+### Control Center (eww — `SUPER + C`)
+
+Panel lateral derecho con:
+- Reloj y fecha, usuario
+- Media player con controles
+- Toggles: Bluetooth, WiFi, DND, Modo noche
+- Sliders de brillo y volumen
+- CPU y RAM en tiempo real
+- Calendario del mes
 
 ### Tmux (`Ctrl+A` como prefijo)
+
 | Atajo | Acción |
 |---|---|
-| `Prefijo + |` | Split vertical |
+| `Prefijo + \|` | Split vertical |
 | `Prefijo + -` | Split horizontal |
 | `Prefijo + h/j/k/l` | Navegar paneles |
 | `Prefijo + s` | Elegir sesión |
@@ -99,43 +144,41 @@ El script instala todos los paquetes, crea los symlinks y aplica el tema Gruvbox
 
 ```
 dotfiles-arch/
-├── install.sh               ← script de instalación
+├── install.sh               ← instalación completa
+├── update.sh                ← actualización del sistema
 ├── .zshrc / .zprofile       ← configuración de shell
 ├── .gitconfig               ← configuración de git
-├── .ssh/config              ← hosts SSH
 ├── etc/                     ← configs de sistema
 │   ├── pacman.conf
 │   ├── reflector.conf
 │   └── modprobe.d/
-├── .config/
-│   ├── hypr/                ← hyprland, keybinds, rules, scripts, temas
-│   ├── waybar/              ← barra + temas
-│   ├── kitty/               ← terminal + temas
-│   ├── rofi/                ← launcher + temas
-│   ├── nvim/                ← LazyVim
-│   ├── tmux/
-│   ├── starship/
-│   ├── swaync/              ← notificaciones + temas
-│   ├── fastfetch/
-│   ├── yazi/
-│   ├── btop/
-│   ├── mpv/
-│   ├── zathura/
-│   ├── keyd/                ← remapeo teclado Mac
-│   └── gtk-3.0 / gtk-4.0   ← tema GTK
+└── .config/
+    ├── hypr/                ← hyprland, keybinds, rules, scripts, temas
+    │   ├── scripts/         ← theme-switch, wallpaper, powermenu, etc.
+    │   └── themes/          ← tokyonight.conf, kali.conf, hyprlock-*.conf
+    ├── waybar/              ← barra + scripts de módulos + temas
+    ├── eww/                 ← control center (brillo, volumen, BT, calendario)
+    │   └── themes/          ← tokyonight.scss, kali.scss
+    ├── kitty/               ← terminal + temas
+    ├── rofi/                ← launcher + temas (estilo adi1090x)
+    ├── nvim/                ← LazyVim
+    ├── tmux/
+    ├── starship/
+    │   └── themes/          ← tokyonight.toml, auditory.toml
+    ├── swaync/              ← notificaciones + temas
+    ├── fastfetch/           ← config.jsonc (kali), config-tokyonight.jsonc
+    ├── yazi/
+    ├── btop/
+    ├── mpv/
+    ├── zathura/
+    └── keyd/                ← remapeo teclado Mac
 ```
 
 ---
 
 ## Cambiar tema
 
-Click en el icono `󰏘` de la barra → selecciona Gruvbox, Tokyo Night o Kali → cambia todo el sistema al instante.
-
----
-
-## Dependencias de scripts
-
-Los scripts de `.config/hypr/scripts/` requieren: `rofi`, `hyprctl`, `awww`, `notify-send`, `gsettings`, `papirus-folders`. Todos se instalan con `install.sh`.
+`SUPER + T` → selecciona Tokyo Night o Kali → cambia todo el sistema al instante.
 
 ---
 
@@ -143,38 +186,30 @@ Los scripts de `.config/hypr/scripts/` requieren: `rofi`, `hyprctl`, `awww`, `no
 
 **Hyprland no arranca**
 ```bash
-# Revisa el log de la última sesión
 cat ~/.local/share/hyprland/hyprland.log | tail -50
 ```
 
 **Los temas no se aplican al arrancar**
 ```bash
-# Ejecuta manualmente el script de arranque
 ~/.config/hypr/scripts/theme-startup.sh
 ```
 
-**Iconos o cursor incorrectos tras reiniciar**
+**Los plugins de Hyprland no cargan**
 ```bash
-# El cursor guardado puede estar desincronizado; aplica el tema manualmente
-~/.config/hypr/scripts/theme-switch.sh
+hyprpm update && hyprpm enable hyprexpo && hyprpm enable hyprfocus && hyprpm enable borders-plus-plus
 ```
 
-**awww no carga el fondo**
+**El control center (eww) no abre**
 ```bash
-# Comprueba que el daemon esté corriendo
-awww query || awww init
+eww daemon && eww open control-center
 ```
 
----
-
-## Flujo de trabajo git
-
+**swww no carga el fondo**
 ```bash
-# Hacer cambios y subir
-git add .
-git commit -m "descripción"
-git push
+swww query || swww-daemon &
+```
 
-# Sincronizar desde otro equipo
-git pull
+**Ver log de actualizaciones**
+```bash
+cat ~/.local/share/update.log | tail -30
 ```

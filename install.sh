@@ -357,4 +357,13 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting \
 git clone https://github.com/zsh-users/zsh-history-substring-search \
   ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-history-substring-search
 
+#-----------------------
+# CRONTAB — ACTUALIZACIÓN AL ARRANCAR
+#-----------------------
+echo "CONFIGURANDO ACTUALIZACIÓN AUTOMÁTICA..."
+# @reboot: 60 segundos tras encender el PC, garantiza que la red está disponible
+# grep -v evita duplicados si se reinstala
+(crontab -l 2>/dev/null | grep -v 'update.sh'; \
+ echo "@reboot sleep 60 && ${DOTFILES_STATIC}/update.sh >> \$HOME/.local/share/update.log 2>&1") | crontab -
+
 echo "INSTALACIÓN COMPLETADA. Reinicia sesión para aplicar todos los cambios."

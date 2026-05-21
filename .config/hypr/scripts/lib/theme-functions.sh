@@ -15,9 +15,9 @@ apply_theme_symlinks() {
     ln -sf "$WAYBAR_THEMES/$THEME.css"         "$HOME/.config/waybar/theme.css"
     ln -sf "$YAZI_THEMES/$THEME.toml"          "$HOME/.config/yazi/theme.toml"
     if [[ "$THEME" == "kali" ]]; then
-        ln -sf "$STARSHIP_THEMES/kali.toml" "$HOME/.config/starship/starship.toml"
+        ln -sf "$STARSHIP_THEMES/auditory.toml" "$HOME/.config/starship/starship.toml"
     else
-        ln -sf "$STARSHIP_THEMES/arch.toml" "$HOME/.config/starship/starship.toml"
+        ln -sf "$STARSHIP_THEMES/tokyonight.toml" "$HOME/.config/starship/starship.toml"
     fi
     rm -rf "$HOME/.cache/starship/" 2>/dev/null
     ln -sf "$KITTY_THEMES/$THEME.conf"         "$HOME/.config/kitty/theme.conf"
