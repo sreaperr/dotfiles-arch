@@ -1,73 +1,122 @@
+/*
+ * TEMA ROFI: TOKYO NIGHT
+ * Inspirado en adi1090x/rofi y la paleta de folke/tokyonight.nvim
+ */
+
 * {
-    bg:      #0d0e17;
-    bg-alt:  #1a1b2e;
+    bg:      #1a1b2e;
+    bg-alt:  #16213e;
+    bg-el:   #1e2040;
     fg:      #c0caf5;
     fg-dim:  #565f89;
     accent:  #7dcfff;
+    accent2: #bb9af7;
     urgent:  #f7768e;
 
     background-color: transparent;
     text-color:       @fg;
+    font:             "Hack Nerd Font 11";
 }
 
 window {
     background-color: @bg;
     border:           2px solid;
     border-color:     @accent;
-    border-radius:    10px;
-    width:            480px;
+    border-radius:    12px;
+    width:            500px;
 }
 
 mainbox {
     background-color: @bg;
-    children:         [ inputbar, listview ];
+    children:         [ inputbar, separator, listview ];
     spacing:          0px;
 }
 
 inputbar {
     background-color: @bg-alt;
-    border-radius:    10px 10px 0px 0px;
-    padding:          10px 14px;
-    spacing:          10px;
+    border-radius:    12px 12px 0px 0px;
+    padding:          12px 16px;
+    spacing:          12px;
     children:         [ prompt, entry ];
 }
 
 prompt {
     text-color: @accent;
+    font:       "Hack Nerd Font Bold 11";
 }
 
 entry {
-    text-color:         @fg;
-    placeholder:        "buscar...";
-    placeholder-color:  @fg-dim;
+    text-color:        @fg;
+    placeholder:       "buscar...";
+    placeholder-color: @fg-dim;
+}
+
+separator {
+    background-color: @accent;
+    height:           1px;
+    margin:           0px;
 }
 
 listview {
     background-color: @bg;
+    border-radius:    0px 0px 12px 12px;
     padding:          8px;
-    spacing:          4px;
+    spacing:          2px;
     lines:            8;
+    scrollbar:        false;
 }
 
 element {
     background-color: transparent;
-    border-radius:    6px;
-    padding:          8px 12px;
-    spacing:          10px;
+    border-radius:    8px;
+    padding:          9px 14px;
+    spacing:          12px;
     children:         [ element-icon, element-text ];
+    cursor:           pointer;
 }
 
-element selected {
-    background-color: @bg-alt;
-    border-left:      2px solid;
+element normal.normal {
+    background-color: transparent;
+    text-color:       @fg;
+}
+
+element selected.normal {
+    background-color: @bg-el;
+    border:           0px 0px 0px 2px;
     border-color:     @accent;
     text-color:       @accent;
 }
 
+element normal.urgent {
+    text-color: @urgent;
+}
+
+element selected.urgent {
+    background-color: @bg-el;
+    border:           0px 0px 0px 2px;
+    border-color:     @urgent;
+    text-color:       @urgent;
+}
+
 element-icon {
-    size: 20px;
+    background-color: transparent;
+    size:             20px;
 }
 
 element-text {
-    text-color: inherit;
+    background-color: transparent;
+    text-color:       inherit;
+}
+
+/* Caja de mensaje usada en dropdowns (spotify, audio, etc.) */
+message {
+    background-color: @bg-alt;
+    padding:          10px 16px;
+}
+
+textbox {
+    background-color: transparent;
+    text-color:       @fg-dim;
+    font:             "Hack Nerd Font 10";
+    horizontal-align: 0;
 }

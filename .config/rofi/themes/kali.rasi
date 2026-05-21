@@ -1,54 +1,66 @@
+/*
+ * TEMA ROFI: KALI
+ * Paleta oscura terminal con acento magenta y verde hacker
+ */
+
 * {
-    bg:       #000000;
-    bg-alt:   #0a0a0a;
-    fg:       #e2eaf8;
-    green:    #00ff41;
-    pink:     #ff2d78;
-    dim:      #00802a;
+    bg:      #0a0a0f;
+    bg-alt:  #0f0f1a;
+    bg-el:   #1a0020;
+    fg:      #e2eaf8;
+    fg-dim:  #3a4060;
+    accent:  #ff2d78;
+    accent2: #00ff41;
+    urgent:  #ff2d78;
 
     background-color: transparent;
     text-color:       @fg;
-    border-color:     @pink;
+    font:             "JetBrainsMono Nerd Font 11";
 }
 
 window {
     background-color: @bg;
-    border:           2px;
-    border-color:     @pink;
+    border:           2px solid;
+    border-color:     @accent;
     border-radius:    6px;
-    width:            420px;
-    padding:          12px;
+    width:            460px;
 }
 
 mainbox {
     background-color: @bg;
-    spacing:          0;
+    children:         [ inputbar, separator, listview ];
+    spacing:          0px;
 }
 
 inputbar {
     background-color: @bg-alt;
-    border:           0 0 2px 0;
-    border-color:     @pink;
-    padding:          8px 12px;
-    children:         [prompt, entry];
+    border-radius:    6px 6px 0px 0px;
+    padding:          10px 14px;
+    spacing:          10px;
+    children:         [ prompt, entry ];
 }
 
 prompt {
-    text-color:       @green;
-    font:             "JetBrainsMono Nerd Font Bold 11";
-    padding:          0 6px 0 0;
+    text-color: @accent2;
+    font:       "JetBrainsMono Nerd Font Bold 11";
 }
 
 entry {
-    text-color:       @fg;
-    font:             "JetBrainsMono Nerd Font 11";
-    placeholder:      "";
-    placeholder-color: @dim;
+    text-color:        @fg;
+    placeholder:       "";
+    placeholder-color: @fg-dim;
+}
+
+separator {
+    background-color: @accent;
+    height:           1px;
+    margin:           0px;
 }
 
 listview {
     background-color: @bg;
-    padding:          6px 0;
+    border-radius:    0px 0px 6px 6px;
+    padding:          6px;
     spacing:          2px;
     lines:            8;
     scrollbar:        false;
@@ -56,13 +68,35 @@ listview {
 
 element {
     background-color: transparent;
-    padding:          8px 12px;
     border-radius:    4px;
+    padding:          8px 12px;
+    spacing:          10px;
+    children:         [ element-icon, element-text ];
+    cursor:           pointer;
 }
 
-element selected {
-    background-color: @pink;
+element normal.normal {
+    background-color: transparent;
+    text-color:       @fg;
+}
+
+element selected.normal {
+    background-color: @accent;
     text-color:       #ffffff;
+}
+
+element normal.urgent {
+    text-color: @urgent;
+}
+
+element selected.urgent {
+    background-color: @urgent;
+    text-color:       #ffffff;
+}
+
+element-icon {
+    background-color: transparent;
+    size:             18px;
 }
 
 element-text {
@@ -71,8 +105,15 @@ element-text {
     font:             "JetBrainsMono Nerd Font 11";
 }
 
-element-icon {
+/* Caja de mensaje usada en dropdowns */
+message {
+    background-color: @bg-alt;
+    padding:          8px 14px;
+}
+
+textbox {
     background-color: transparent;
-    size:             18px;
-    padding:          0 8px 0 0;
+    text-color:       @accent2;
+    font:             "JetBrainsMono Nerd Font Bold 10";
+    horizontal-align: 0;
 }

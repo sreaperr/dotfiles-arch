@@ -1,5 +1,5 @@
-/* Dropdown anclado a la esquina superior-derecha de la pantalla.
-   Usado por los módulos de la derecha del waybar (bluetooth, wifi, audio). */
+/* Dropdown anclado a la esquina superior-derecha.
+   Usado por los módulos de la derecha del waybar (spotify, audio, wifi, bluetooth). */
 @import "~/.config/rofi/theme.rasi"
 
 window {
@@ -7,37 +7,38 @@ window {
     anchor:        northeast;
     x-offset:      -10px;
     y-offset:      0px;
-    width:         300px;
+    width:         340px;
     border-radius: 10px;
 }
 
 mainbox {
-    children: [ message, listview ];
+    children: [ message, separator, listview ];
     spacing:  0px;
 }
 
-/* Título / canción actual que se muestra encima del listado */
+/* Cabecera de información (canción actual, estado del dispositivo, etc.) */
 message {
-    padding: 8px 14px 4px 14px;
-    background-color: transparent;
+    padding: 12px 16px 10px 16px;
 }
 
 textbox {
-    background-color: transparent;
-    text-color:       @fg;
-    font:             "Hack Nerd Font Bold 11";
+    font:             "Hack Nerd Font 10";
     horizontal-align: 0;
+}
+
+separator {
+    margin: 0px 12px;
 }
 
 listview {
     padding:   6px;
-    spacing:   4px;
+    spacing:   2px;
     lines:     8;
     scrollbar: false;
 }
 
 element {
-    padding:       8px 14px;
+    padding:       9px 14px;
     border-radius: 6px;
     spacing:       10px;
     children:      [ element-icon, element-text ];

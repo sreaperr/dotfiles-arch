@@ -1,0 +1,53 @@
+/* Layout dedicado para el menú de energía.
+   Centrado en pantalla, sin barra de búsqueda, estilo limpio. */
+@import "~/.config/rofi/theme.rasi"
+
+window {
+    location:      center;
+    anchor:        center;
+    width:         320px;
+    border-radius: 12px;
+}
+
+mainbox {
+    children: [ inputbar, separator, listview ];
+    spacing:  0px;
+}
+
+inputbar {
+    padding:  14px 16px;
+    children: [ prompt ];
+}
+
+prompt {
+    horizontal-align: 0.5;
+    font:             "Hack Nerd Font Bold 13";
+}
+
+listview {
+    padding:      12px;
+    spacing:      6px;
+    lines:        4;
+    scrollbar:    false;
+    fixed-height: true;
+}
+
+element {
+    border-radius: 8px;
+    padding:       12px 20px;
+    spacing:       14px;
+    children:      [ element-icon, element-text ];
+    cursor:        pointer;
+}
+
+element-icon {
+    background-color: transparent;
+    size:             22px;
+}
+
+element-text {
+    font:             "Hack Nerd Font 12";
+    background-color: transparent;
+    text-color:       inherit;
+    vertical-align:   0.5;
+}
