@@ -5,9 +5,9 @@
         "source": "~/.config/fastfetch/logo.txt",
         "type": "file",
         "padding": {
-            "top": 0,
-            "left": 1,
-            "right": 3
+            "top": 1,
+            "left": 2,
+            "right": 4
         },
         "color": {
             "1": "38;2;125;207;255"
@@ -15,68 +15,81 @@
     },
 
     "display": {
-        "separator": " → ",
+        "separator": "  ",
         "color": {
-            "keys": "38;2;125;207;255",
+            "keys":  "38;2;125;207;255",
             "title": "38;2;125;207;255"
         }
     },
 
     "modules": [
         "title",
-        "separator",
+        {
+            "type": "custom",
+            "format": "[38;2;125;207;255m────────────────────────[0m"
+        },
         {
             "type": "os",
-            "key": "  OS"
+            "key":  "  OS"
         },
         {
             "type": "kernel",
-            "key": "  Kernel"
+            "key":  "  Kernel"
         },
         {
             "type": "uptime",
-            "key": "󰅐  Uptime"
+            "key":  "󰅐  Uptime"
         },
         {
             "type": "packages",
-            "key": "󰏗  Paquetes"
+            "key":  "󰏗  Pkgs"
         },
         {
             "type": "shell",
-            "key": "  Shell"
+            "key":  "  Shell"
+        },
+        {
+            "type": "custom",
+            "format": "[38;2;125;207;255m────────────────────────[0m"
         },
         {
             "type": "wm",
-            "key": "  WM"
+            "key":  "  WM"
         },
         {
             "type": "terminal",
-            "key": "  Terminal"
+            "key":  "  Terminal"
         },
-        "separator",
+        {
+            "type": "display",
+            "key":  "󰍹  Pantalla"
+        },
+        {
+            "type": "theme",
+            "key":  "󰔎  Tema"
+        },
+        {
+            "type": "custom",
+            "format": "[38;2;125;207;255m────────────────────────[0m"
+        },
         {
             "type": "cpu",
-            "key": "  CPU"
+            "key":  "  CPU"
         },
         {
             "type": "gpu",
-            "key": "󰾲  GPU"
+            "key":  "󰾲  GPU"
         },
         {
             "type": "memory",
-            "key": "󰍛  RAM"
+            "key":  "󰍛  RAM"
         },
         {
             "type": "disk",
-            "key": "󰋊  Disco",
+            "key":  "󰋊  Disco",
             "folders": "/"
         },
-        {
-            "type": "localip",
-            "key": "󰈀  IP Local",
-            "showIpv6": false
-        },
-        "separator",
+        "break",
         "colors"
     ]
 }
