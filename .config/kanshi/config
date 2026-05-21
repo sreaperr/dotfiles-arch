@@ -1,0 +1,44 @@
+# ======================================
+# KANSHI — PERFILES DE MONITOR
+# Detecta automáticamente qué pantallas
+# hay conectadas y aplica el perfil.
+# ======================================
+#
+# Para ver los nombres exactos de tus salidas ejecuta:
+#   hyprctl monitors
+# o:
+#   kscreen-doctor --outputs
+#
+# Los nombres de salida más comunes en este equipo:
+#   DP-1  / DP-2   → DisplayPort (MSI MAG401QR)
+#   HDMI-A-1        → HDMI
+#   eDP-1           → Pantalla integrada del portátil
+#
+# Ajusta los nombres según lo que devuelva hyprctl monitors.
+# ======================================
+
+# ── Solo MSI MAG401QR 40" ultrawide ─────────────────────────────
+# Setup de escritorio principal
+profile solo_msi {
+    output DP-1 mode 3440x1440@155Hz position 0,0 scale 1
+}
+
+# ── Solo pantalla integrada del portátil ────────────────────────
+profile solo_laptop {
+    output eDP-1 mode 1920x1080@60Hz position 0,0 scale 1
+}
+
+# ── Dual: MSI principal + portátil a la derecha ─────────────────
+# MSI: posición 0,0 (izquierda/principal)
+# Portátil: a la derecha del MSI, centrado verticalmente
+# El offset vertical (230px) centra la pantalla 1080p respecto a la 1440p:
+#   (1440 - 1080) / 2 = 180px
+profile dual {
+    output DP-1  mode 3440x1440@155Hz position 0,0    scale 1
+    output eDP-1 mode 1920x1080@60Hz  position 3440,180 scale 1
+}
+
+# ── Solo HDMI (monitor alternativo) ─────────────────────────────
+profile solo_hdmi {
+    output HDMI-A-1 mode preferred position 0,0 scale 1
+}

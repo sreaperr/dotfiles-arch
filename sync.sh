@@ -28,6 +28,7 @@ pkg_check() {
 }
 
 pkg_check eww
+pkg_check kanshi
 
 # ─── SYMLINKS NUEVOS ──────────────────────────────────────────
 
@@ -44,7 +45,8 @@ link() {
 
 mkdir -p "$HOME/.config"
 
-link "$DOTFILES/.config/eww"   "$HOME/.config/eww"
+link "$DOTFILES/.config/eww"     "$HOME/.config/eww"
+link "$DOTFILES/.config/kanshi" "$HOME/.config/kanshi"
 link "$DOTFILES/.config/hypr"  "$HOME/.config/hypr"
 link "$DOTFILES/.config/waybar" "$HOME/.config/waybar"
 link "$DOTFILES/.config/rofi"  "$HOME/.config/rofi"

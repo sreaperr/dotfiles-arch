@@ -73,6 +73,8 @@ sudo pacman -S --noconfirm glow
 sudo pacman -S --noconfirm hyperfine
 # Panel de widgets lateral (control center: brillo, volumen, bluetooth, calendario)
 sudo pacman -S --noconfirm eww
+# Gestor de perfiles de monitor (detecta pantallas y aplica config automáticamente)
+sudo pacman -S --noconfirm kanshi
 # Editores
 sudo pacman -S --noconfirm neovim
 # Contenedores y snapshots del sistema
@@ -295,6 +297,7 @@ mkdir -p "$DOTFILES/.config/.wallpaper"
 ln -sf "$DOTFILES/.config/.wallpaper" ~/.config/.wallpaper
 ln -sf "$DOTFILES/.config/fastfetch" ~/.config/fastfetch
 ln -sf "$DOTFILES/.config/eww" ~/.config/eww
+ln -sf "$DOTFILES/.config/kanshi" ~/.config/kanshi
 # Tema activo de eww (mismo que el tema por defecto del sistema)
 ln -sf "$DOTFILES/.config/eww/themes/tokyonight.scss" ~/.config/eww/themes/active.scss
 ln -sf "$DOTFILES/.config/btop" ~/.config/btop
