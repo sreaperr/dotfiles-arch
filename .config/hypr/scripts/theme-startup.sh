@@ -8,12 +8,6 @@ source "$(dirname "${BASH_SOURCE[0]}")/lib/theme-functions.sh"
 THEME=$(cat "$HOME/.config/.current-theme" 2>/dev/null || echo "tokyonight")
 
 case "$THEME" in
-    "gruvbox")
-        GTK_THEME="Gruvbox-Material-Dark"
-        ICON_THEME="Papirus-Dark"
-        CURSOR="Bibata-Modern-Amber"
-        CURSOR_SIZE=24
-        ;;
     "kali")
         GTK_THEME="Adwaita-dark"
         ICON_THEME="Papirus-Dark"

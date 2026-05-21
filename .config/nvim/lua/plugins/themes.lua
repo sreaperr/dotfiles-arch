@@ -4,7 +4,6 @@ vim.api.nvim_create_autocmd("ColorScheme", {
   callback = function(args)
     local name = args.match
     local slug = name:find("tokyonight") and "tokyonight"
-      or name:find("gruvbox") and "gruvbox"
       or name:find("kali") and "kali"
     if slug then
       vim.fn.system("echo " .. slug .. " > ~/.config/.current-theme")
@@ -13,28 +12,6 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 })
 
 return {
-  --==========================
-  -- GRUVBOX
-  --==========================
-  {
-    "ellisonleao/gruvbox.nvim",
-    priority = 1000,
-    opts = {
-      contrast = "hard",
-      bold = true,
-      italic = {
-        strings   = true,
-        operators = false,
-        comments  = true,
-      },
-      overrides = {
-        SignColumn              = { bg = "#1d2021" },
-        NormalFloat             = { bg = "#1d2021" },
-        SnacksDashboardHeader   = { fg = "#d79921" },
-      },
-    },
-  },
-
   --==========================
   -- TOKYO NIGHT
   --==========================
@@ -63,9 +40,8 @@ return {
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = theme == "tokyonight" and "tokyonight"
-        or theme == "kali" and "kali"
-        or "gruvbox",
+      colorscheme = theme == "kali" and "kali"
+        or "tokyonight",
     },
   },
 }

@@ -5,7 +5,7 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/lib/theme-functions.sh"
 
-SELECTED=$(echo -e "Gruvbox\nTokyo Night\nKali" | rofi -dmenu \
+SELECTED=$(echo -e "Tokyo Night\nKali" | rofi -dmenu \
     -p "  Tema" \
     -theme ~/.config/rofi/theme.rasi \
     -theme-str 'window { location: center; anchor: center; width: 220px; }' \
@@ -19,15 +19,6 @@ CURRENT_WALLPAPER=$(cat "$HOME/.config/.current-wallpaper" 2>/dev/null)
 [ -z "$SELECTED" ] && exit 0
 
 case "$SELECTED" in
-    "Gruvbox")
-        THEME="gruvbox"
-        CURSOR="Bibata-Modern-Amber"
-        CURSOR_SIZE=24
-        BTOP_THEME="gruvbox_dark_v2"
-        GTK_THEME="Gruvbox-Material-Dark"
-        ICON_THEME="Papirus-Dark"
-        PAPIRUS_COLOR="orange"
-        ;;
     "Tokyo Night")
         THEME="tokyonight"
         CURSOR="Bibata-Modern-Ice"

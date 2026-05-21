@@ -268,7 +268,7 @@ paru -S --noconfirm hyprshot
 # Iconos para rofi y apps GTK
 paru -S --noconfirm kora-icon-theme bibata-cursor-theme
 # Temas GTK alineados con los temas del sistema
-paru -S --noconfirm gruvbox-material-gtk-theme-git tokyonight-gtk-theme-git
+paru -S --noconfirm tokyonight-gtk-theme-git
 #------------------------------
 #SYMLINKS PARA CLONAR ARCHIVOS
 #------------------------------
@@ -318,15 +318,15 @@ chmod +x "$DOTFILES/.config/hypr/scripts/theme-switch.sh"
 chmod +x "$DOTFILES/.config/hypr/scripts/wallpaper.sh"
 chmod +x "$DOTFILES/.config/hypr/scripts/powermenu.sh"
 chmod +x "$DOTFILES/.config/hypr/scripts/recorder.sh"
-# Aplicar tema por defecto (gruvbox)
-ln -sf "$DOTFILES/.config/waybar/themes/gruvbox.css" ~/.config/waybar/theme.css
-ln -sf "$DOTFILES/.config/kitty/themes/gruvbox.conf" ~/.config/kitty/theme.conf
-ln -sf "$DOTFILES/.config/rofi/themes/gruvbox.rasi" ~/.config/rofi/theme.rasi
-ln -sf "$DOTFILES/.config/swaync/themes/gruvbox.css" ~/.config/swaync/theme.css
-ln -sf "$DOTFILES/.config/hypr/themes/gruvbox.conf" ~/.config/hypr/theme.conf
-ln -sf "$DOTFILES/.config/hypr/themes/hyprlock-gruvbox.conf" ~/.config/hypr/hyprlock-theme.conf
-echo "gruvbox" > ~/.config/.current-theme
-echo "Bibata-Modern-Amber" > ~/.config/.current-cursor
+# Aplicar tema por defecto (tokyonight)
+ln -sf "$DOTFILES/.config/waybar/themes/tokyonight.css" ~/.config/waybar/theme.css
+ln -sf "$DOTFILES/.config/kitty/themes/tokyonight.conf" ~/.config/kitty/theme.conf
+ln -sf "$DOTFILES/.config/rofi/themes/tokyonight.rasi" ~/.config/rofi/theme.rasi
+ln -sf "$DOTFILES/.config/swaync/themes/tokyonight.css" ~/.config/swaync/theme.css
+ln -sf "$DOTFILES/.config/hypr/themes/tokyonight.conf" ~/.config/hypr/theme.conf
+ln -sf "$DOTFILES/.config/hypr/themes/hyprlock-tokyonight.conf" ~/.config/hypr/hyprlock-theme.conf
+echo "tokyonight" > ~/.config/.current-theme
+echo "Bibata-Modern-Ice" > ~/.config/.current-cursor
 # Crear carpetas en español
 xdg-user-dirs-update
 #-----------------------
