@@ -14,15 +14,13 @@ apply_theme_symlinks() {
     local THEME=$1
     ln -sf "$WAYBAR_THEMES/$THEME.css"         "$HOME/.config/waybar/theme.css"
     ln -sf "$YAZI_THEMES/$THEME.toml"          "$HOME/.config/yazi/theme.toml"
-    if [[ "$THEME" == "kali" ]]; then
+    if [[ "$THEME" == "auditory" ]]; then
         ln -sf "$STARSHIP_THEMES/auditory.toml" "$HOME/.config/starship/starship.toml"
     else
         ln -sf "$STARSHIP_THEMES/tokyonight.toml" "$HOME/.config/starship/starship.toml"
     fi
     rm -rf "$HOME/.cache/starship/" 2>/dev/null
-    local TMUX_THEME="$THEME"
-    [[ "$THEME" == "kali" ]] && TMUX_THEME="auditory"
-    ln -sf "$DOTFILES/.config/tmux/themes/${TMUX_THEME}.conf" "$HOME/.config/tmux/theme.conf"
+    ln -sf "$DOTFILES/.config/tmux/themes/$THEME.conf" "$HOME/.config/tmux/theme.conf"
     ln -sf "$KITTY_THEMES/$THEME.conf"         "$HOME/.config/kitty/theme.conf"
     ln -sf "$ROFI_THEMES/$THEME.rasi"          "$HOME/.config/rofi/theme.rasi"
     ln -sf "$SWAYNC_THEMES/$THEME.css"         "$HOME/.config/swaync/theme.css"

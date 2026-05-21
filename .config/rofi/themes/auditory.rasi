@@ -1,0 +1,18 @@
+/* ROFI — AUDITORY (KALI) COLORS
+ * Variables usadas por todos los layouts
+ */
+
+* {
+    background:       #000000;
+    background-alt:   #080d14;
+    background-hover: #0a1a0d;
+    foreground:       #e2eaf8;
+    foreground-dim:   #3a4060;
+    selected:         #00ff41;
+    active:           #ff2d78;
+    urgent:           #ff1744;
+
+    background-color: transparent;
+    text-color:       @foreground;
+    font:             "Hack Nerd Font 11";
+}

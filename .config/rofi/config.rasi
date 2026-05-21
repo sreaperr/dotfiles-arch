@@ -1,21 +1,28 @@
-/*==========================
-  ROFI CONFIG - DOTFILES ARCH
-==========================*/
+/* ROFI — CONFIG GLOBAL
+ * Configuración base: modos disponibles, iconos, atajos
+ * Los layouts individuales (launcher/runner/etc.) sobreescriben
+ * show-icons y modi con su propio bloque configuration {}
+ */
 
 configuration {
-    modes:                "drun,run,window,ssh,calc";
-    show-icons:           true;
-    icon-theme:           "Kora-dark";
-    display-drun:         "  Apps";
-    display-run:          "  Ejecutar";
-    display-window:       "  Ventanas";
-    display-ssh:          "  SSH";
-    drun-display-format:  "{name}";
-    drun-match-fields:    "name,generic,exec,categories";
-    ssh-command:          "kitty -- ssh {host}";
-    parse-known-hosts:    true;
-    parse-hosts:          true;
-    matching:             "fuzzy";
-    sort:                 true;
-    sorting-method:       "normal";
+    modes:               "drun,run,window,ssh,calc,filebrowser";
+    show-icons:          true;
+    icon-theme:          "Kora-dark";
+    display-drun:        "  Apps";
+    display-run:         "  Ejecutar";
+    display-window:      "  Ventanas";
+    display-ssh:         "  SSH";
+    display-calc:        "  Calc";
+    drun-display-format: "{name}";
+    drun-match-fields:   "name,generic,exec,categories";
+    ssh-command:         "kitty -- ssh {host}";
+    parse-known-hosts:   true;
+    parse-hosts:         true;
+    matching:            "fuzzy";
+    sort:                true;
+    sorting-method:      "normal";
+
+    kb-cancel:           "Escape,Control+g";
+    kb-accept-entry:     "Return,KP_Enter,Control+j";
+    kb-remove-char-back: "BackSpace";
 }

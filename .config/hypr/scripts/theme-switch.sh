@@ -5,16 +5,11 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/lib/theme-functions.sh"
 
-SELECTED=$(echo -e "Tokyo Night\nKali" | rofi -dmenu \
+TEMAS="Tokyo Night\nTokyo Night Storm\nTokyo Night Neon\nAuditory"
+SELECTED=$(printf '%b' "$TEMAS" | rofi -dmenu \
     -p "  Tema" \
-    -theme ~/.config/rofi/theme.rasi \
-    -theme-str 'window { location: center; anchor: center; width: 220px; }' \
-    -i -no-custom)
-
-# Guardar wallpaper del tema actual antes de cambiar
-PREV_THEME=$(cat "$HOME/.config/.current-theme" 2>/dev/null)
-CURRENT_WALLPAPER=$(cat "$HOME/.config/.current-wallpaper" 2>/dev/null)
-[ -n "$PREV_THEME" ] && [ -n "$CURRENT_WALLPAPER" ] && echo "$CURRENT_WALLPAPER" > "$HOME/.config/.wallpaper-$PREV_THEME"
+    -theme ~/.config/rofi/selector.rasi \
+    -no-custom)
 
 [ -z "$SELECTED" ] && exit 0
 
@@ -27,15 +22,37 @@ case "$SELECTED" in
         GTK_THEME="Tokyonight-Dark"
         ICON_THEME="Papirus-Dark"
         PAPIRUS_COLOR="cyan"
+        DEFAULT_WALLPAPER="$HOME/.config/.wallpaper/wallpaper_pc.png"
         ;;
-    "Kali")
-        THEME="kali"
+    "Tokyo Night Storm")
+        THEME="tokyonight-storm"
+        CURSOR="Bibata-Modern-Ice"
+        CURSOR_SIZE=24
+        BTOP_THEME="tokyo-night"
+        GTK_THEME="Tokyonight-Dark"
+        ICON_THEME="Papirus-Dark"
+        PAPIRUS_COLOR="cyan"
+        DEFAULT_WALLPAPER="$HOME/.config/.wallpaper/wallpaper_pc.png"
+        ;;
+    "Tokyo Night Neon")
+        THEME="tokyonight-neon"
+        CURSOR="Bibata-Modern-Ice"
+        CURSOR_SIZE=24
+        BTOP_THEME="tokyo-night"
+        GTK_THEME="Tokyonight-Dark"
+        ICON_THEME="Papirus-Dark"
+        PAPIRUS_COLOR="cyan"
+        DEFAULT_WALLPAPER="$HOME/.config/.wallpaper/wallpaper_pc.png"
+        ;;
+    "Auditory")
+        THEME="auditory"
         CURSOR="Bibata-Modern-Classic"
         CURSOR_SIZE=24
         BTOP_THEME="dracula"
         GTK_THEME="Adwaita-dark"
         ICON_THEME="Papirus-Dark"
         PAPIRUS_COLOR="red"
+        DEFAULT_WALLPAPER="$HOME/.config/.wallpaper/auditory.jpg"
         ;;
     *)
         exit 1
@@ -72,17 +89,26 @@ echo "$CURSOR" > "$HOME/.config/.current-cursor"
 # Guardar tema activo
 echo "$THEME" > "$HOME/.config/.current-theme"
 
-# Wallpaper del nuevo tema (si hay uno guardado para él)
-THEME_WALLPAPER_FILE="$HOME/.config/.wallpaper-$THEME"
-if [ -f "$THEME_WALLPAPER_FILE" ]; then
-    THEME_WALLPAPER=$(cat "$THEME_WALLPAPER_FILE")
-    if [ -f "$THEME_WALLPAPER" ]; then
-        awww img "$THEME_WALLPAPER" \
-            --transition-type fade \
-            --transition-duration 1.5 \
-            --transition-fps 60
-        echo "$THEME_WALLPAPER" > "$HOME/.config/.current-wallpaper"
-    fi
+# Kitty — recargar config en todas las ventanas abiertas
+pkill -SIGUSR1 kitty 2>/dev/null || true
+
+# Tmux — recargar tema en sesiones abiertas
+tmux source-file "$HOME/.config/tmux/theme.conf" 2>/dev/null || true
+
+# Nvim — actualizar instancias abiertas en vivo
+for sock in "$XDG_RUNTIME_DIR"/nvim.*.0; do
+    [ -S "$sock" ] && nvim --server "$sock" \
+        --remote-send ":colorscheme ${THEME}<CR>" 2>/dev/null &
+done
+
+THEME_WALLPAPER="$DEFAULT_WALLPAPER"
+
+if [ -n "$THEME_WALLPAPER" ] && [ -f "$THEME_WALLPAPER" ]; then
+    awww img "$THEME_WALLPAPER" \
+        --transition-type fade \
+        --transition-duration 1.5 \
+        --transition-fps 60
+    echo "$THEME_WALLPAPER" > "$HOME/.config/.current-wallpaper"
 fi
 
 hyprctl reload
@@ -90,3 +116,8 @@ systemctl --user restart waybar
 pkill swaync && swaync &
 
 notify-send "Tema activado" "$SELECTED" -i preferences-desktop-theme
+
+# Fastfetch — cerrar y reabrir con el nuevo tema
+pkill -f "kitty.*startup-fastfetch" 2>/dev/null || true
+sleep 0.3
+"$(dirname "${BASH_SOURCE[0]}")/startup-fastfetch.sh" &

@@ -45,7 +45,6 @@ alias du="dust"
 alias df="duf"
 
 # RED
-alias ip="ip a"
 alias ping="ping -c 5"
 alias myip="curl -s ifconfig.me"
 alias ports="ss -tulnp"
@@ -117,9 +116,13 @@ export FZF_CTRL_T_OPTS="$FZF_DEFAULT_OPTS"
 #     == FASTFETCH ==
 #============================
 fastfetch() {
+    if [[ "$*" == *"--config"* ]] || [[ "$*" == *" -c "* ]]; then
+        command fastfetch "$@"
+        return
+    fi
     local theme=$(cat ~/.config/.current-theme 2>/dev/null || echo "tokyonight")
     local config="$HOME/.config/fastfetch/config-tokyonight.jsonc"
-    [[ "$theme" == "kali" ]] && config="$HOME/.config/fastfetch/config.jsonc"
+    [[ "$theme" == "auditory" ]] && config="$HOME/.config/fastfetch/config-auditory.jsonc"
     command fastfetch --config "$config" "$@"
 }
 

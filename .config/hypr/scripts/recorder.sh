@@ -16,10 +16,11 @@ if pgrep -x wf-recorder > /dev/null; then
     notify-send "Grabación detenida" "Guardada en $VIDEOS_DIR" -i video-x-generic
 else
     # Preguntar modo con rofi
-    MODO=$(echo -e "󰍹  Pantalla completa\n  Seleccionar región" | rofi -dmenu \
+    MODOS="󰍹  Pantalla completa\n  Seleccionar región"
+    MODO=$(printf '%b' "$MODOS" | rofi -dmenu \
         -p "  Grabar" \
-        -theme ~/.config/rofi/theme.rasi \
-        -i -no-custom -lines 2)
+        -theme ~/.config/rofi/selector.rasi \
+        -no-custom)
 
     [ -z "$MODO" ] && exit 0
 

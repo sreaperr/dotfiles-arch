@@ -1,53 +1,81 @@
-/* Layout dedicado para el menú de energía.
-   Centrado en pantalla, sin barra de búsqueda, estilo limpio. */
+/* ROFI — POWERMENU
+ * Panel lateral derecho con margen, esquinas redondas, solo iconos
+ * Uso: SUPER+I → powermenu.sh
+ */
+
 @import "~/.config/rofi/theme.rasi"
 
+configuration {
+    show-icons: false;
+    matching:   "normal";
+    sort:       false;
+}
+
 window {
-    location:      center;
-    anchor:        center;
-    width:         320px;
-    border-radius: 12px;
+    background-color: @background;
+    border:           1px solid;
+    border-color:     @selected;
+    border-radius:    14px;
+    width:            68px;
+    location:         east;
+    anchor:           east;
+    x-offset:         -12px;
+    y-offset:         0px;
 }
 
 mainbox {
-    children: [ inputbar, separator, listview ];
-    spacing:  0px;
-}
-
-inputbar {
-    padding:  14px 16px;
-    children: [ prompt ];
-}
-
-prompt {
-    horizontal-align: 0.5;
-    font:             "Hack Nerd Font Bold 13";
+    background-color: transparent;
+    children:         [ listview ];
+    padding:          8px;
+    spacing:          0px;
 }
 
 listview {
-    padding:      12px;
-    spacing:      6px;
-    lines:        4;
-    scrollbar:    false;
-    fixed-height: true;
+    background-color: transparent;
+    padding:          0px;
+    spacing:          6px;
+    lines:            4;
+    scrollbar:        false;
+    fixed-height:     false;
 }
 
 element {
-    border-radius: 8px;
-    padding:       12px 20px;
-    spacing:       14px;
-    children:      [ element-icon, element-text ];
-    cursor:        pointer;
+    background-color: @background-alt;
+    border-radius:    10px;
+    padding:          16px 8px;
+    cursor:           pointer;
 }
 
-element-icon {
-    background-color: transparent;
-    size:             22px;
+element normal.normal,
+element alternate.normal {
+    background-color: @background-alt;
+    text-color:       @foreground;
+}
+
+element selected.normal {
+    background-color: @background-hover;
+    border:           2px solid;
+    border-color:     @selected;
+    text-color:       @selected;
+}
+
+element normal.urgent,
+element alternate.urgent {
+    background-color: @background-alt;
+    text-color:       @urgent;
+}
+
+element selected.urgent {
+    background-color: @background-hover;
+    border:           2px solid;
+    border-color:     @urgent;
+    text-color:       @urgent;
 }
 
 element-text {
-    font:             "Hack Nerd Font 12";
     background-color: transparent;
     text-color:       inherit;
+    font:             "Hack Nerd Font 18";
     vertical-align:   0.5;
+    horizontal-align: 0.5;
 }

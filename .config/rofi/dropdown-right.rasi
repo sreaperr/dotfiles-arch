@@ -1,45 +1,92 @@
-/* Dropdown anclado a la esquina superior-derecha.
-   Usado por los módulos de la derecha del waybar (spotify, audio, wifi, bluetooth). */
+/* ROFI — DROPDOWN DERECHA
+ * Anclado esquina superior-derecha
+ * Usado por: audio-menu, bluetooth-menu, network-menu, spotify-menu
+ * Tiene cabecera de mensaje para mostrar estado/info
+ */
+
 @import "~/.config/rofi/theme.rasi"
 
 window {
-    location:      northeast;
-    anchor:        northeast;
-    x-offset:      -10px;
-    y-offset:      0px;
-    width:         340px;
-    border-radius: 10px;
+    background-color: @background;
+    border:           1px solid;
+    border-color:     @selected;
+    border-radius:    10px 0px 10px 10px;
+    width:            340px;
+    location:         northeast;
+    anchor:           northeast;
+    x-offset:         -10px;
+    y-offset:         0px;
 }
 
 mainbox {
-    children: [ message, separator, listview ];
-    spacing:  0px;
+    background-color: transparent;
+    children:         [ message, separator, listview ];
+    spacing:          0px;
+    padding:          0px;
 }
 
-/* Cabecera de información (canción actual, estado del dispositivo, etc.) */
+/* Cabecera: canción activa, nombre de dispositivo, IP, etc. */
 message {
-    padding: 12px 16px 10px 16px;
+    background-color: @background-alt;
+    border-radius:    10px 0px 0px 0px;
+    padding:          12px 16px 10px 16px;
 }
 
 textbox {
+    background-color: transparent;
+    text-color:       @foreground-dim;
     font:             "Hack Nerd Font 10";
     horizontal-align: 0;
 }
 
 separator {
-    margin: 0px 12px;
+    background-color: @selected;
+    height:           1px;
+    margin:           0px 12px;
 }
 
 listview {
-    padding:   6px;
-    spacing:   2px;
-    lines:     8;
-    scrollbar: false;
+    background-color: transparent;
+    padding:          6px;
+    spacing:          2px;
+    lines:            8;
+    scrollbar:        false;
 }
 
 element {
-    padding:       9px 14px;
-    border-radius: 6px;
-    spacing:       10px;
-    children:      [ element-icon, element-text ];
+    background-color: transparent;
+    border-radius:    6px;
+    padding:          9px 14px;
+    cursor:           pointer;
+}
+
+element normal.normal,
+element alternate.normal {
+    background-color: transparent;
+    text-color:       @foreground;
+}
+
+element selected.normal {
+    background-color: @background-hover;
+    border:           0px 0px 0px 2px solid;
+    border-color:     @selected;
+    text-color:       @selected;
+}
+
+element normal.urgent,
+element alternate.urgent {
+    text-color: @urgent;
+}
+
+element selected.urgent {
+    background-color: @background-hover;
+    border:           0px 0px 0px 2px solid;
+    border-color:     @urgent;
+    text-color:       @urgent;
+}
+
+element-text {
+    background-color: transparent;
+    text-color:       inherit;
+    vertical-align:   0.5;
 }

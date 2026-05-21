@@ -1,0 +1,45 @@
+/* TOKYO NIGHT NEON */
+
+@define-color bg            #0d0e17;
+@define-color bg-alpha      rgba(13, 14, 23, 0.82);
+@define-color bg-border     rgba(0, 212, 255, 0.25);
+@define-color bg1           #111219;
+@define-color bg2           #1e2050;
+@define-color fg            #c0caf5;
+@define-color fg-dim        #3d4268;
+@define-color cyan          #00d4ff;
+@define-color green         #9bff68;
+@define-color purple        #cc66ff;
+@define-color red           #ff3d73;
+@define-color orange        #ff8040;
+@define-color yellow        #ffd060;
+
+window#waybar {
+    background-color: @bg;
+    color: @fg;
+}
+
+#workspaces button        { color: @fg-dim; }
+#workspaces button.urgent { background-color: @red; color: @fg; }
+
+#custom-launcher { color: @fg; font-size: 16px; padding: 0 10px; }
+#custom-separator { color: @bg2; padding: 0 4px; }
+
+#custom-spotify,
+#custom-discord,
+#custom-terminal,
+#custom-files { color: @fg; }
+
+#clock { color: @fg; font-weight: bold; padding: 0 12px; }
+
+#pulseaudio       { color: @fg; }
+#pulseaudio.muted { color: @red; }
+
+#bluetooth     { color: @cyan; }
+#bluetooth.off { color: @fg-dim; }
+
+#network              { color: @fg; }
+#network.disconnected { color: @red; }
+
+#custom-sysinfo { color: @fg; }
+#tray { padding: 0 6px; }

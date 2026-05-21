@@ -189,23 +189,15 @@
 (defwindow control-center
   :monitor 0
   :geometry (geometry
-    :width "340px"
-    :height "100%"
+    :width "320px"
+    :height "88%"
     :anchor "top right")
   :stacking "overlay"
   :exclusive false
-  :focusable true
-  (scroll :vscroll true :hscroll false :class "cc-scroll"
-    (box :class "cc-contenedor" :orientation "vertical" :spacing 14
+  :focusable false
+  (box :class "cc-scroll"
+    (box :class "cc-contenedor" :orientation "vertical" :spacing 10 :vexpand false
       (cabecera)
-      (sep)
-      (media)
-      (sep)
       (toggles)
-      (sep)
-      (slider-brillo)
-      (slider-volumen)
-      (sep)
       (sysinfo)
-      (sep)
       (calendario))))

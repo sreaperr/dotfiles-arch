@@ -1,0 +1,45 @@
+/* TOKYO NIGHT STORM */
+
+@define-color bg            #24283b;
+@define-color bg-alpha      rgba(36, 40, 59, 0.82);
+@define-color bg-border     rgba(45, 63, 118, 0.55);
+@define-color bg1           #1f2335;
+@define-color bg2           #2d3f76;
+@define-color fg            #c0caf5;
+@define-color fg-dim        #565f89;
+@define-color cyan          #7dcfff;
+@define-color green         #9ece6a;
+@define-color purple        #bb9af7;
+@define-color red           #f7768e;
+@define-color orange        #ff9e64;
+@define-color yellow        #e0af68;
+
+window#waybar {
+    background-color: @bg;
+    color: @fg;
+}
+
+#workspaces button        { color: @fg-dim; }
+#workspaces button.urgent { background-color: @red; color: @fg; }
+
+#custom-launcher { color: @fg; font-size: 16px; padding: 0 10px; }
+#custom-separator { color: @bg2; padding: 0 4px; }
+
+#custom-spotify,
+#custom-discord,
+#custom-terminal,
+#custom-files { color: @fg; }
+
+#clock { color: @fg; font-weight: bold; padding: 0 12px; }
+
+#pulseaudio       { color: @fg; }
+#pulseaudio.muted { color: @red; }
+
+#bluetooth     { color: @cyan; }
+#bluetooth.off { color: @fg-dim; }
+
+#network              { color: @fg; }
+#network.disconnected { color: @red; }
+
+#custom-sysinfo { color: @fg; }
+#tray { padding: 0 6px; }

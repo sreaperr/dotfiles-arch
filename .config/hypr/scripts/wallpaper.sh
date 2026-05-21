@@ -21,7 +21,7 @@ done)
 
 SELECTED=$(echo -e "$ENTRIES" | rofi -dmenu \
     -p "  Fondo" \
-    -theme ~/.config/rofi/theme.rasi \
+    -theme ~/.config/rofi/runner.rasi \
     -theme-str 'window { location: center; anchor: center; width: 400px; } element-icon { size: 44px; } listview { lines: 6; }' \
     -show-icons \
     -i -no-custom)
@@ -45,7 +45,7 @@ PREV_THEME=$(cat "$HOME/.config/.current-theme" 2>/dev/null)
 [ -n "$PREV_THEME" ] && echo "$WALLPAPER" > "$HOME/.config/.wallpaper-$PREV_THEME"
 
 # Aplicar fondo
-swww img "$WALLPAPER" \
+awww img "$WALLPAPER" \
     --transition-type "$TRANSITION" \
     --transition-duration 1.5 \
     --transition-fps 60

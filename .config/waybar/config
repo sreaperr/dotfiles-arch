@@ -57,8 +57,8 @@
     // CONTROL CENTER (panel lateral eww)
     //------------------
     "custom/cc": {
-        "format": " ",
-        "on-click": "eww open control-center --toggle",
+        "format": "",
+        "on-click": "~/.config/eww/scripts/toggle-cc.sh",
         "tooltip-format": "Control Center"
     },
     //------------------
@@ -80,16 +80,6 @@
         "format": "󰙯",
         "on-click": "discord",
         "tooltip-format": "Discord"
-    },
-    "custom/terminal": {
-        "format": " ",
-        "on-click": "kitty",
-        "tooltip-format": "Terminal"
-    },
-    "custom/files": {
-        "format": "",
-        "on-click": "kitty -e yazi",
-        "tooltip-format": "Archivos"
     },
     //------------------
     // RELOJ

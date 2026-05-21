@@ -64,7 +64,7 @@ link "$DOTFILES/.config/eww/themes/${THEME}.scss" \
      "$HOME/.config/eww/themes/active.scss"
 
 # Starship: apuntar al toml correcto según tema actual
-if [ "$THEME" = "kali" ]; then
+if [ "$THEME" = "auditory" ]; then
     link "$DOTFILES/.config/starship/themes/auditory.toml" \
          "$HOME/.config/starship/starship.toml"
 else
