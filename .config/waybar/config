@@ -11,7 +11,8 @@
         "clock"
     ],
     "modules-center": [
-        "hyprland/workspaces"
+        "hyprland/workspaces",
+        "custom/security"
     ],
     "modules-right": [
         "custom/separator",
@@ -21,7 +22,7 @@
         "pulseaudio",
         "bluetooth",
         "network",
-        "custom/sysinfo"
+        "custom/sysinfo",
     ],
     //------------------
     // WORKSPACES
@@ -124,6 +125,16 @@
         "format": "{}",
         "on-click": "kitty -e btop",
         "tooltip": false
+    },
+    //------------------
+    // SECURITY MONITOR
+    //------------------
+    "custom/security": {
+        "exec": "~/.config/waybar/security-panel.sh",
+        "interval": 15,
+        "return-type": "json",
+        "tooltip": true,
+        "on-click": "~/.config/waybar/security-panel.sh | jq -r .tooltip | notify-send -t 8000 '󰒙 Security' \"$(cat)\""
     },
     //------------------
     // BANDEJA DEL SISTEMA
