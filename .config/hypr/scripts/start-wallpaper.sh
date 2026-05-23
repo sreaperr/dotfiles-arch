@@ -20,4 +20,8 @@ if [ -z "$WALLPAPER" ] || [ ! -f "$WALLPAPER" ]; then
     WALLPAPER="$HOME/.config/.wallpaper/wallpaper_pc.png"
 fi
 
+# Aplicar fondo en todos los monitores conectados
 awww img "$WALLPAPER" --transition-type fade --transition-duration 1
+
+# Dar tiempo a kanshi para posicionar los monitores y cubrir los que se añadan después
+(sleep 3 && awww img "$WALLPAPER" --transition-type none) &

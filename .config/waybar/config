@@ -22,7 +22,7 @@
         "pulseaudio",
         "bluetooth",
         "network",
-        "custom/sysinfo",
+        "custom/sysinfo"
     ],
     //------------------
     // WORKSPACES
@@ -30,6 +30,7 @@
     "hyprland/workspaces": {
         "format": "{icon}",
         "on-click": "activate",
+        "all-outputs": false,
         "format-icons": {
             "1": "󰣇",
             "2": "󰆍",
@@ -38,10 +39,12 @@
             "5": "",
             "6": "",
             "7": "",
-            "8": ""
+            "8": "",
+            "9": "󰈙",
+            "10": ""
         },
         "persistent-workspaces": {
-            "*": [
+            "DP-1": [
                 1,
                 2,
                 3,
@@ -50,6 +53,10 @@
                 6,
                 7,
                 8
+            ],
+            "DP-2": [
+                9,
+                10
             ]
         }
     },
@@ -64,9 +71,14 @@
     // ATAJOS DE APPS
     //------------------
     "custom/spotify": {
-        "format": "󰓇",
-        "on-click": "bash ~/.config/waybar/spotify-menu.sh",
-        "tooltip-format": "Spotify"
+        "exec": "~/.config/waybar/spotify-panel.sh",
+        "interval": 3,
+        "return-type": "json",
+        "tooltip": true,
+        "on-click": "~/.config/waybar/spotify-ctl.sh play-pause",
+        "on-click-right": "bash ~/.config/waybar/spotify-menu.sh",
+        "on-scroll-up": "~/.config/waybar/spotify-ctl.sh previous",
+        "on-scroll-down": "~/.config/waybar/spotify-ctl.sh next"
     },
     "custom/discord": {
         "format": "󰙯",

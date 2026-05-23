@@ -26,11 +26,16 @@
 /* ── SEPARADOR ── */
 #custom-separator { color: @bg2; padding: 0 4px; }
 
-/* ── ATAJOS DE APPS ── Spotify, Discord, terminal, archivos */
-#custom-spotify,
+/* ── ATAJOS DE APPS ── Discord, terminal, archivos */
 #custom-discord,
 #custom-terminal,
 #custom-files { color: @fg; }
+
+/* ── SPOTIFY MONITOR ── */
+#custom-spotify                  { color: @fg; }
+#custom-spotify.spotify-playing  { color: @green; }
+#custom-spotify.spotify-paused   { color: @fg-dim; }
+#custom-spotify.spotify-off      { color: @fg-dim; }
 
 /* ── RELOJ ── */
 #clock { color: @fg; font-weight: bold; padding: 0 12px; }

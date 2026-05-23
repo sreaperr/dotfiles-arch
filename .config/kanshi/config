@@ -38,6 +38,15 @@ profile dual {
     output eDP-1 mode 1920x1080@60Hz  position 3440,180 scale 1
 }
 
+# ── Dual: MSI principal + WFK izquierda ─────────────────────────
+# DP-2 (WFK 1920x1080) a la izquierda, centrado verticalmente:
+#   offset Y = (1440 - 1080) / 2 = 180px
+# DP-1 (MSI 3440x1440) a la derecha, en x=1920
+profile dual_dp2 {
+    output DP-2 mode 1920x1080@60Hz  position 0,180    scale 1
+    output DP-1 mode 3440x1440@144Hz position 1920,0   scale 1
+}
+
 # ── Solo HDMI (monitor alternativo) ─────────────────────────────
 profile solo_hdmi {
     output HDMI-A-1 mode preferred position 0,0 scale 1
