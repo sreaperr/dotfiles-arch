@@ -5,7 +5,7 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/lib/theme-functions.sh"
 
-TEMAS="Tokyo Night\nTokyo Night Storm\nTokyo Night Neon\nAuditory"
+TEMAS="Tokyo Night\nTokyo Night Neon\nAuditory"
 SELECTED=$(printf '%b' "$TEMAS" | rofi -dmenu \
     -p "  Tema" \
     -theme ~/.config/rofi/selector.rasi \
@@ -24,17 +24,7 @@ case "$SELECTED" in
         PAPIRUS_COLOR="cyan"
         DEFAULT_WALLPAPER="$HOME/.config/.wallpaper/wp16267603-retro-desktop-4k-wallpapers.webp"
         ;;
-    "Tokyo Night Storm")
-        THEME="tokyonight-storm"
-        CURSOR="Bibata-Modern-Ice"
-        CURSOR_SIZE=24
-        BTOP_THEME="tokyo-night"
-        GTK_THEME="MacTahoe-Dark"
-        ICON_THEME="WhiteSur-grey-dark"
-        PAPIRUS_COLOR="cyan"
-        DEFAULT_WALLPAPER="$HOME/.config/.wallpaper/wp16267603-retro-desktop-4k-wallpapers.webp"
-        ;;
-    "Tokyo Night Neon")
+"Tokyo Night Neon")
         THEME="tokyonight-neon"
         CURSOR="Bibata-Modern-Ice"
         CURSOR_SIZE=24

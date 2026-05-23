@@ -8,10 +8,10 @@
     "margin-left": 10,
     "margin-right": 10,
     "modules-left": [
-        "hyprland/workspaces"
+        "clock"
     ],
     "modules-center": [
-        "clock"
+        "hyprland/workspaces"
     ],
     "modules-right": [
         "custom/separator",
@@ -30,14 +30,14 @@
         "format": "{icon}",
         "on-click": "activate",
         "format-icons": {
-            "1": "󰣇 ",
-            "2": "󰆍 ",
-            "3": "󱓇 ",
-            "4": " ",
-            "5": " ",
-            "6": " ",
-            "7": " ",
-            "8": " "
+            "1": "󰣇",
+            "2": "󰆍",
+            "3": "󱓇",
+            "4": "",
+            "5": "",
+            "6": "",
+            "7": "",
+            "8": ""
         },
         "persistent-workspaces": {
             "*": [
