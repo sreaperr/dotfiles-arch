@@ -1,7 +1,7 @@
 /* TOKYO NIGHT STORM */
 
 @define-color bg            #24283b;
-@define-color bg-alpha      rgba(36, 40, 59, 0.82);
+@define-color bg-alpha      rgba(45, 63, 118, 0.88);
 @define-color bg-border     rgba(45, 63, 118, 0.55);
 @define-color bg1           #1f2335;
 @define-color bg2           #2d3f76;
@@ -14,10 +14,6 @@
 @define-color orange        #ff9e64;
 @define-color yellow        #e0af68;
 
-window#waybar {
-    background-color: @bg;
-    color: @fg;
-}
 
 #workspaces button        { color: @fg-dim; }
 #workspaces button.urgent { background-color: @red; color: @fg; }

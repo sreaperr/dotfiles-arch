@@ -45,8 +45,9 @@ link() {
 
 mkdir -p "$HOME/.config"
 
-link "$DOTFILES/.config/eww"     "$HOME/.config/eww"
-link "$DOTFILES/.config/kanshi" "$HOME/.config/kanshi"
+link "$DOTFILES/.config/eww"      "$HOME/.config/eww"
+link "$DOTFILES/.config/swayosd" "$HOME/.config/swayosd"
+link "$DOTFILES/.config/kanshi"  "$HOME/.config/kanshi"
 link "$DOTFILES/.config/hypr"  "$HOME/.config/hypr"
 link "$DOTFILES/.config/waybar" "$HOME/.config/waybar"
 link "$DOTFILES/.config/rofi"  "$HOME/.config/rofi"

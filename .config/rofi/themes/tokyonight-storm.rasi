@@ -1,9 +1,9 @@
 /* ROFI — TOKYO NIGHT STORM */
 
 * {
-    background:       #24283b;
-    background-alt:   #1f2335;
-    background-hover: #2d3f76;
+    background:       rgba(36, 40, 59, 0.90);
+    background-alt:   rgba(28, 32, 48, 0.95);
+    background-hover: rgba(45, 63, 118, 0.82);
     foreground:       #c0caf5;
     foreground-dim:   #565f89;
     selected:         #7dcfff;
@@ -12,5 +12,5 @@
 
     background-color: transparent;
     text-color:       @foreground;
-    font:             "Hack Nerd Font 11";
+    font:             "Hack Nerd Font 12";
 }

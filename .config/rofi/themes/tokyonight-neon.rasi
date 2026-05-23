@@ -1,9 +1,9 @@
 /* ROFI — TOKYO NIGHT NEON */
 
 * {
-    background:       #0d0e17;
-    background-alt:   #111219;
-    background-hover: #1e2050;
+    background:       rgba(13, 14, 23, 0.90);
+    background-alt:   rgba(16, 17, 26, 0.95);
+    background-hover: rgba(30, 32, 80, 0.82);
     foreground:       #c0caf5;
     foreground-dim:   #3d4268;
     selected:         #00d4ff;
@@ -12,5 +12,5 @@
 
     background-color: transparent;
     text-color:       @foreground;
-    font:             "Hack Nerd Font 11";
+    font:             "Hack Nerd Font 12";
 }

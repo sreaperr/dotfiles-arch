@@ -14,8 +14,8 @@ window {
     width:            340px;
     location:         northeast;
     anchor:           northeast;
-    x-offset:         -10px;
-    y-offset:         0px;
+    x-offset:         -14px;
+    y-offset:         8px;
 }
 
 mainbox {
@@ -40,7 +40,7 @@ textbox {
 }
 
 separator {
-    background-color: @selected;
+    background-color: rgba(86, 95, 137, 0.25);
     height:           1px;
     margin:           0px 12px;
 }

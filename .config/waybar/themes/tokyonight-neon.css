@@ -1,7 +1,7 @@
 /* TOKYO NIGHT NEON */
 
 @define-color bg            #0d0e17;
-@define-color bg-alpha      rgba(13, 14, 23, 0.82);
+@define-color bg-alpha      rgba(30, 32, 80, 0.90);
 @define-color bg-border     rgba(0, 212, 255, 0.25);
 @define-color bg1           #111219;
 @define-color bg2           #1e2050;
@@ -14,10 +14,6 @@
 @define-color orange        #ff8040;
 @define-color yellow        #ffd060;
 
-window#waybar {
-    background-color: @bg;
-    color: @fg;
-}
 
 #workspaces button        { color: @fg-dim; }
 #workspaces button.urgent { background-color: @red; color: @fg; }

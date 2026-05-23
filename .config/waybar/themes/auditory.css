@@ -2,7 +2,7 @@
 
 /* ── Variables de color del tema ── */
 @define-color bg            #000000;
-@define-color bg-alpha      rgba(0, 0, 0, 0.85);
+@define-color bg-alpha      rgba(10, 26, 13, 0.95);
 @define-color bg-border     rgba(0, 255, 65, 0.25);   /* borde verde oscuro translúcido */
 @define-color bg1           #080d14;
 @define-color bg2           #0d1a0f;                   /* fondo del chip en hover — verde muy oscuro */

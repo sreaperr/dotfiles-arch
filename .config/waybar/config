@@ -1,7 +1,7 @@
 {
     "layer": "top",
     "position": "top",
-    "height": 36,
+    "height": 44,
     "spacing": 4,
     "exclusive": true,
     "margin-top": 6,
@@ -21,8 +21,7 @@
         "pulseaudio",
         "bluetooth",
         "network",
-        "custom/sysinfo",
-        "custom/cc"
+        "custom/sysinfo"
     ],
     //------------------
     // WORKSPACES
@@ -52,14 +51,6 @@
                 8
             ]
         }
-    },
-    //------------------
-    // CONTROL CENTER (panel lateral eww)
-    //------------------
-    "custom/cc": {
-        "format": "",
-        "on-click": "~/.config/eww/scripts/toggle-cc.sh",
-        "tooltip-format": "Control Center"
     },
     //------------------
     // SEPARADOR
@@ -112,12 +103,8 @@
     "bluetooth": {
         "format": "󰂯",
         "format-connected": "󰂱",
-        "format-connected-battery": "󰂱 {device_battery_percentage}%",
         "format-off": "󰂲",
-        "on-click": "bash ~/.config/waybar/bluetooth-menu.sh",
-        "tooltip-format": "{controller_alias} · {controller_address}\n{num_connections} conectados",
-        "tooltip-format-connected": "{controller_alias} · {controller_address}\n{num_connections} conectados\n\n{device_enumerate}",
-        "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}"
+        "tooltip": false
     },
     //------------------
     // RED E IP
@@ -125,9 +112,8 @@
     "network": {
         "format-wifi": "󰖩  {ipaddr}",
         "format-ethernet": "󰈀  {ipaddr}",
-        "format-disconnected": "󰖪  desconectado",
-        "tooltip-format": "{ifname}: {ipaddr}/{cidr}\nGateway: {gwaddr}",
-        "on-click": "bash ~/.config/waybar/network-menu.sh"
+        "format-disconnected": "󰖪",
+        "tooltip": false
     },
     //------------------
     // CPU + RAM (custom)

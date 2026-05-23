@@ -9,6 +9,8 @@ SWAYNC_THEMES="$DOTFILES/.config/swaync/themes"
 HYPR_THEMES="$DOTFILES/.config/hypr/themes"
 YAZI_THEMES="$DOTFILES/.config/yazi/themes"
 STARSHIP_THEMES="$DOTFILES/.config/starship/themes"
+SWAYOSD_THEMES="$DOTFILES/.config/swayosd/themes"
+EWW_THEMES="$DOTFILES/.config/eww/themes"
 
 apply_theme_symlinks() {
     local THEME=$1
@@ -26,6 +28,19 @@ apply_theme_symlinks() {
     ln -sf "$SWAYNC_THEMES/$THEME.css"         "$HOME/.config/swaync/theme.css"
     ln -sf "$HYPR_THEMES/$THEME.conf"          "$HOME/.config/hypr/theme.conf"
     ln -sf "$HYPR_THEMES/hyprlock-$THEME.conf" "$HOME/.config/hypr/hyprlock-theme.conf"
+
+    # SwayOSD — copiar CSS del tema y reiniciar servidor
+    if [[ -f "$SWAYOSD_THEMES/$THEME.css" ]]; then
+        cp "$SWAYOSD_THEMES/$THEME.css" "$HOME/.config/swayosd/style.css"
+        pkill -x swayosd-server 2>/dev/null || true
+        nohup swayosd-server --style "$HOME/.config/swayosd/style.css" >/dev/null 2>&1 &
+    fi
+
+    # EWW — apuntar al tema activo y recargar
+    if [[ -f "$EWW_THEMES/$THEME.scss" ]]; then
+        ln -sf "$EWW_THEMES/$THEME.scss" "$HOME/.config/eww/themes/active.scss"
+        eww reload 2>/dev/null || true
+    fi
 }
 
 apply_gtk_cursor() {

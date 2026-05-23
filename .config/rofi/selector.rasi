@@ -1,6 +1,6 @@
-/* ROFI — SELECTOR PEQUEÑO
- * Para menús de 2-4 opciones: tema, modo grabadora, etc.
- * Sin iconos, sin sort, compacto y centrado
+/* ROFI — SELECTOR / THEME SWITCHER (adi1090x type-2 style-5 adapted)
+ * Para menús de pocas opciones: tema, confirmaciones, etc.
+ * Uso: SUPER+T, confirmaciones del powermenu
  */
 
 @import "~/.config/rofi/theme.rasi"
@@ -12,72 +12,100 @@ configuration {
 }
 
 window {
-    background-color: @background;
-    border:           1px solid;
-    border-color:     @selected;
-    border-radius:    12px;
-    width:            240px;
-    location:         center;
-    anchor:           center;
+    transparency:        "real";
+    location:            center;
+    anchor:              center;
+    fullscreen:          false;
+    width:               340px;
+    x-offset:            0px;
+    y-offset:            0px;
+    enabled:             true;
+    margin:              0px;
+    padding:             0px;
+    border:              0px solid;
+    border-radius:       16px;
+    border-color:        @selected;
+    background-color:    @background;
+    cursor:              "default";
 }
 
 mainbox {
-    background-color: transparent;
-    children:         [ inputbar, listview ];
-    padding:          0px;
-    spacing:          0px;
+    enabled:             true;
+    spacing:             10px;
+    margin:              0px;
+    padding:             20px;
+    background-color:    transparent;
+    children:            [ "inputbar", "listview" ];
 }
 
 inputbar {
-    background-color: @background-alt;
-    border-radius:    12px 12px 0px 0px;
-    padding:          12px 16px;
-    children:         [ prompt ];
+    enabled:             true;
+    spacing:             0px;
+    margin:              0px;
+    padding:             0px;
+    border:              0px solid;
+    border-radius:       16px;
+    background-color:    @background-alt;
+    text-color:          @foreground;
+    children:            [ "prompt" ];
 }
 
 prompt {
-    text-color: @selected;
-    font:       "Hack Nerd Font Bold 12";
-}
-
-separator {
-    background-color: @selected;
-    height:           1px;
-    margin:           0px;
+    enabled:             true;
+    padding:             12px 16px;
+    border-radius:       16px;
+    background-color:    @selected;
+    text-color:          @background;
 }
 
 listview {
-    background-color: transparent;
-    padding:          6px;
-    spacing:          2px;
-    lines:            4;
-    scrollbar:        false;
-    fixed-height:     false;
-    dynamic:          true;
+    enabled:             true;
+    columns:             1;
+    lines:               4;
+    cycle:               true;
+    dynamic:             true;
+    scrollbar:           false;
+    layout:              vertical;
+    reverse:             false;
+    fixed-height:        false;
+    fixed-columns:       true;
+    spacing:             6px;
+    margin:              0px;
+    padding:             0px;
+    background-color:    transparent;
+    text-color:          @foreground;
+    cursor:              "default";
 }
 
 element {
-    background-color: transparent;
-    border-radius:    8px;
-    padding:          11px 14px;
-    cursor:           pointer;
+    enabled:             true;
+    spacing:             0px;
+    margin:              0px;
+    padding:             11px 14px;
+    border:              0px solid;
+    border-radius:       12px;
+    background-color:    @background-alt;
+    text-color:          @foreground;
+    cursor:              pointer;
 }
 
 element normal.normal,
 element alternate.normal {
-    background-color: transparent;
-    text-color:       @foreground;
+    background-color:    @background-alt;
+    text-color:          @foreground;
 }
 
 element selected.normal {
-    background-color: @background-hover;
-    border:           0px 0px 0px 2px solid;
-    border-color:     @selected;
-    text-color:       @selected;
+    border:              0px 5px 0px 5px;
+    border-radius:       12px;
+    border-color:        @selected;
+    background-color:    @background-alt;
+    text-color:          @selected;
 }
 
 element-text {
-    background-color: transparent;
-    text-color:       inherit;
-    vertical-align:   0.5;
+    background-color:    transparent;
+    text-color:          inherit;
+    vertical-align:      0.5;
+    horizontal-align:    0.0;
 }

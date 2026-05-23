@@ -49,7 +49,7 @@ entry {
 }
 
 separator {
-    background-color: @selected;
+    background-color: rgba(86, 95, 137, 0.25);
     height:           1px;
     margin:           0px;
 }

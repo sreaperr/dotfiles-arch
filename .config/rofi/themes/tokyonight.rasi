@@ -3,9 +3,9 @@
  */
 
 * {
-    background:       #1a1b2e;
-    background-alt:   #16213e;
-    background-hover: #1e2040;
+    background:       rgba(26, 27, 46, 0.90);
+    background-alt:   rgba(18, 19, 36, 0.95);
+    background-hover: rgba(32, 34, 62, 0.82);
     foreground:       #c0caf5;
     foreground-dim:   #565f89;
     selected:         #7dcfff;
@@ -14,5 +14,5 @@
 
     background-color: transparent;
     text-color:       @foreground;
-    font:             "Hack Nerd Font 11";
+    font:             "Hack Nerd Font 12";
 }

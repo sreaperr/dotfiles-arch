@@ -19,30 +19,30 @@ case "$SELECTED" in
         CURSOR="Bibata-Modern-Ice"
         CURSOR_SIZE=24
         BTOP_THEME="tokyo-night"
-        GTK_THEME="Tokyonight-Dark"
-        ICON_THEME="Papirus-Dark"
+        GTK_THEME="MacTahoe-Dark"
+        ICON_THEME="WhiteSur-grey-dark"
         PAPIRUS_COLOR="cyan"
-        DEFAULT_WALLPAPER="$HOME/.config/.wallpaper/wallpaper_pc.png"
+        DEFAULT_WALLPAPER="$HOME/.config/.wallpaper/wp16267603-retro-desktop-4k-wallpapers.webp"
         ;;
     "Tokyo Night Storm")
         THEME="tokyonight-storm"
         CURSOR="Bibata-Modern-Ice"
         CURSOR_SIZE=24
         BTOP_THEME="tokyo-night"
-        GTK_THEME="Tokyonight-Dark"
-        ICON_THEME="Papirus-Dark"
+        GTK_THEME="MacTahoe-Dark"
+        ICON_THEME="WhiteSur-grey-dark"
         PAPIRUS_COLOR="cyan"
-        DEFAULT_WALLPAPER="$HOME/.config/.wallpaper/wallpaper_pc.png"
+        DEFAULT_WALLPAPER="$HOME/.config/.wallpaper/wp16267603-retro-desktop-4k-wallpapers.webp"
         ;;
     "Tokyo Night Neon")
         THEME="tokyonight-neon"
         CURSOR="Bibata-Modern-Ice"
         CURSOR_SIZE=24
         BTOP_THEME="tokyo-night"
-        GTK_THEME="Tokyonight-Dark"
-        ICON_THEME="Papirus-Dark"
+        GTK_THEME="MacTahoe-Dark"
+        ICON_THEME="WhiteSur-grey-dark"
         PAPIRUS_COLOR="cyan"
-        DEFAULT_WALLPAPER="$HOME/.config/.wallpaper/wallpaper_pc.png"
+        DEFAULT_WALLPAPER="$HOME/.config/.wallpaper/wp16267603-retro-desktop-4k-wallpapers.webp"
         ;;
     "Auditory")
         THEME="auditory"
@@ -50,9 +50,9 @@ case "$SELECTED" in
         CURSOR_SIZE=24
         BTOP_THEME="dracula"
         GTK_THEME="Adwaita-dark"
-        ICON_THEME="Papirus-Dark"
+        ICON_THEME="Dedicated-to-Hackerer"
         PAPIRUS_COLOR="red"
-        DEFAULT_WALLPAPER="$HOME/.config/.wallpaper/auditory.jpg"
+        DEFAULT_WALLPAPER="$HOME/.config/.wallpaper/add.png"
         ;;
     *)
         exit 1
@@ -116,8 +116,3 @@ systemctl --user restart waybar
 pkill swaync && swaync &
 
 notify-send "Tema activado" "$SELECTED" -i preferences-desktop-theme
-
-# Fastfetch — cerrar y reabrir con el nuevo tema
-pkill -f "kitty.*startup-fastfetch" 2>/dev/null || true
-sleep 0.3
-"$(dirname "${BASH_SOURCE[0]}")/startup-fastfetch.sh" &

@@ -1,0 +1,38 @@
+/* SWAYOSD — TOKYO NIGHT NEON */
+
+window {
+    background-color: transparent;
+}
+
+#osd {
+    background-color: rgba(13, 14, 23, 0.93);
+    border-radius: 14px;
+    border: 1px solid rgba(0, 212, 255, 0.25);
+    padding: 14px 22px;
+    min-width: 220px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.6), 0 0 12px rgba(0, 212, 255, 0.08);
+}
+
+#osd label {
+    color: #c0caf5;
+    font-family: "Hack Nerd Font";
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+#osd progressbar {
+    border-radius: 4px;
+    min-height: 6px;
+}
+
+#osd progressbar trough {
+    background-color: rgba(30, 32, 80, 0.80);
+    border-radius: 4px;
+    min-height: 6px;
+}
+
+#osd progressbar trough progress {
+    background-color: #00d4ff;
+    border-radius: 4px;
+    box-shadow: 0 0 8px rgba(0, 212, 255, 0.5);
+}

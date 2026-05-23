@@ -1,0 +1,23 @@
+[appearance]
+font       = "Hack Nerd Font 11"
+label_font = "Hack Nerd Font Bold 13"
+card_padding    = 20.0
+card_radius     = 10.0
+max_card_width  = 480.0
+max_card_height = 300.0
+label_height    = 30.0
+thumb_padding   = 8.0
+select_border   = 3.0
+
+[colors]
+background     = "#1a1b2ebf"
+card           = "#16213ef2"
+selection      = "#7dcfffe6"
+label          = "#c0caf5ff"
+empty_label    = "#565f8994"
+window_label   = "#c0caf5e6"
+active_window  = "#bb9af7f2"
+
+[behavior]
+no_preview     = false
+switch_on_move = true
