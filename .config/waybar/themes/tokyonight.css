@@ -36,6 +36,7 @@
 #custom-spotify.spotify-playing  { color: @green; }
 #custom-spotify.spotify-paused   { color: @fg-dim; }
 #custom-spotify.spotify-off      { color: @fg-dim; }
+#custom-spotify:hover            { color: @cyan; background-color: @bg2; border-radius: 8px; }
 
 /* ── RELOJ ── */
 #clock { color: @fg; font-weight: bold; padding: 0 12px; }
@@ -62,6 +63,7 @@
 #custom-security          { color: @fg; font-weight: bold; letter-spacing: 1px; }
 #custom-security.sec-ok   { color: @fg; }
 #custom-security.sec-warn { color: @fg; }
+#custom-security:hover    { color: @cyan; background-color: @bg2; border-radius: 8px; }
 
 /* ── TOOLTIP GLOBAL ── */
 tooltip {

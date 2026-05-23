@@ -30,6 +30,9 @@
 #custom-terminal,
 #custom-files { color: @fg-dim; }
 
+#custom-spotify:hover,
+#custom-security:hover { color: @cyan; background-color: @bg2; border-radius: 8px; }
+
 /* ── RELOJ ── */
 #clock { color: @fg-dim; font-weight: bold; padding: 0 12px; }
 

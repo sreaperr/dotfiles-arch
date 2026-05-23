@@ -26,6 +26,9 @@
 #custom-terminal,
 #custom-files { color: @fg; }
 
+#custom-spotify:hover,
+#custom-security:hover { color: @cyan; background-color: @bg2; border-radius: 8px; }
+
 #clock { color: @fg; font-weight: bold; padding: 0 12px; }
 
 #pulseaudio       { color: @fg; }
