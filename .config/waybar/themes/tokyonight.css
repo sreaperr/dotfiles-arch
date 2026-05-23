@@ -68,3 +68,14 @@ tooltip {
     font-size:     13px;
     font-family:   "Hack Nerd Font";
 }
+
+/* Propagar border-radius al box interno para que no "rompa" las esquinas */
+tooltip > box {
+    background:    transparent;
+    border-radius: 14px;
+}
+
+/* El label no debe tener fondo propio que tape el redondeo */
+tooltip label {
+    background:    transparent;
+}
