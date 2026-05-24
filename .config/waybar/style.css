@@ -104,6 +104,8 @@ window#waybar {
 
 /* ── MÓDULOS ESPECÍFICOS ── */
 #custom-launcher { font-size: 20px; padding: 4px 14px; }
+#custom-security { padding: 4px 12px; min-width: 20px; }
+#bluetooth       { padding: 4px 12px; min-width: 20px; }
 
 #clock { font-weight: bold; }
 

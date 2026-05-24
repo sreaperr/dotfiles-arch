@@ -39,8 +39,7 @@ PUB_ORG=$(echo "$PUB_DATA"    | jq -r '.org     // ""'    2>/dev/null | cut -c1-
 # ── IPs locales ───────────────────────────────────────────────────────
 LOCAL_IPS=$(ip -4 addr show \
     | grep -oP '(?<=inet\s)\d+(\.\d+){3}' \
-    | grep -v '^127\.' \
-    | paste -sd'   ')
+    | grep -v '^127\.')
 [[ -z "$LOCAL_IPS" ]] && LOCAL_IPS="N/A"
 
 # ── VPN (WireGuard / OpenVPN) ─────────────────────────────────────────
@@ -126,7 +125,7 @@ ALERT=0
 [[ "$SSH_SESSIONS" -gt 0 ]]          && ALERT=1
 
 if [[ $ALERT -eq 1 ]]; then
-    MOD_ICON="󰒙 "
+    MOD_ICON="󰒙"
     MOD_CLASS="sec-warn"
 else
     MOD_ICON="󰒙"
@@ -147,7 +146,9 @@ TT+="  <span color='${C_FG}'><b>${PUB_IP}</b></span>   <span color='${C_DIM}'>${
 TT+="  <span color='${C_DIM}'>${PUB_ORG}</span>\n"
 TT+="\n"
 TT+="<span color='${C_DIM}'>  IP LOCAL</span>\n"
-TT+="  <span color='${C_FG}'>${LOCAL_IPS}</span>\n"
+while IFS= read -r _ip; do
+    TT+="  <span color='${C_FG}'>${_ip}</span>\n"
+done <<< "$LOCAL_IPS"
 
 TT+="${SEP}\n"
 

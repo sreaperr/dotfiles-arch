@@ -28,6 +28,11 @@ reveal = [
     { run = 'xdg-open "$(dirname "$1")"', desc = "Mostrar en gestor de archivos" },
 ]
 
+[plugin]
+prepend_previewers = [
+    { mime = "video/*", run = "video" },
+]
+
 [open]
 rules = [
     { mime = "text/*",        use = "edit" },

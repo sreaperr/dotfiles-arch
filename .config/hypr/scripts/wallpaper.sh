@@ -1,34 +1,52 @@
 #!/bin/bash
 #==========================
 # SELECTOR DE FONDO CON PREVIEW
-# Muestra miniaturas reales de los wallpapers en rofi
+# - tokyonight / tokyonight-neon: abre selector rofi
+# - auditory: fondo fijo, no se puede cambiar desde aquí
 #==========================
 
 WALLPAPER_DIR="$HOME/.config/.wallpaper"
+CURRENT_THEME=$(cat "$HOME/.config/.current-theme" 2>/dev/null || echo "tokyonight")
 
+# ── Auditory: fondo bloqueado ─────────────────────────────────────────
+if [ "$CURRENT_THEME" = "auditory" ]; then
+    notify-send "Fondo bloqueado" "El tema Auditory usa un fondo fijo" \
+        -i dialog-information -t 2000
+    exit 0
+fi
+
+# ── tokyonight / tokyonight-neon: selector ───────────────────────────
 if [ ! -d "$WALLPAPER_DIR" ]; then
     notify-send "Wallpaper" "Directorio no encontrado: $WALLPAPER_DIR" -i dialog-error
     exit 1
 fi
 
-# Generar lista con icono de preview para cada imagen
-# Formato rofi: "nombre\0icon\x1f/ruta/completa"
-ENTRIES=$(for f in "$WALLPAPER_DIR"/*.{jpg,jpeg,png,gif,webp} 2>/dev/null; do
-    [ -f "$f" ] && printf "%s\x00icon\x1f%s\n" "$(basename "$f")" "$f"
-done)
+# Excluir el fondo fijo de auditory del selector
+AUDITORY_WP="$HOME/.config/.wallpaper/auditory.png"
 
-[ -z "$ENTRIES" ] && { notify-send "Wallpaper" "No hay imágenes en $WALLPAPER_DIR"; exit 1; }
+# Verificar que hay imágenes
+HAS_IMAGES=0
+for f in "$WALLPAPER_DIR"/*.jpg "$WALLPAPER_DIR"/*.jpeg "$WALLPAPER_DIR"/*.png "$WALLPAPER_DIR"/*.gif "$WALLPAPER_DIR"/*.webp; do
+    [ -f "$f" ] && [ "$f" != "$AUDITORY_WP" ] && { HAS_IMAGES=1; break; }
+done
+[ "$HAS_IMAGES" -eq 0 ] && { notify-send "Wallpaper" "No hay imágenes en $WALLPAPER_DIR"; exit 1; }
 
-SELECTED=$(echo -e "$ENTRIES" | rofi -dmenu \
-    -p "  Fondo" \
-    -theme ~/.config/rofi/runner.rasi \
-    -theme-str 'window { location: center; anchor: center; width: 400px; } element-icon { size: 44px; } listview { lines: 6; }' \
-    -show-icons \
-    -i -no-custom)
+# Pasar directamente al rofi para preservar los bytes nulos de los iconos
+SELECTED=$(
+    for f in "$WALLPAPER_DIR"/*.jpg "$WALLPAPER_DIR"/*.jpeg "$WALLPAPER_DIR"/*.png "$WALLPAPER_DIR"/*.gif "$WALLPAPER_DIR"/*.webp; do
+        [ -f "$f" ] || continue
+        [ "$f" = "$AUDITORY_WP" ] && continue
+        printf "%s\0icon\x1f%s\n" "$(basename "$f")" "$f"
+    done | rofi -dmenu \
+        -p "  Fondo" \
+        -theme ~/.config/rofi/runner.rasi \
+        -theme-str 'window { location: center; anchor: center; width: 400px; } element-icon { size: 44px; } listview { lines: 6; }' \
+        -show-icons \
+        -i -no-custom
+)
 
 [ -z "$SELECTED" ] && exit 0
 
-# Extraer solo el nombre de archivo (rofi devuelve el texto sin los metadatos de icono)
 WALLPAPER="$WALLPAPER_DIR/$SELECTED"
 
 if [ ! -f "$WALLPAPER" ]; then
@@ -40,17 +58,14 @@ fi
 TRANSITIONS=(fade wipe slide grow outer)
 TRANSITION=${TRANSITIONS[$RANDOM % ${#TRANSITIONS[@]}]}
 
-# Guardar wallpaper del tema anterior
-PREV_THEME=$(cat "$HOME/.config/.current-theme" 2>/dev/null)
-[ -n "$PREV_THEME" ] && echo "$WALLPAPER" > "$HOME/.config/.wallpaper-$PREV_THEME"
-
 # Aplicar fondo
 awww img "$WALLPAPER" \
     --transition-type "$TRANSITION" \
     --transition-duration 1.5 \
     --transition-fps 60
 
-# Guardar fondo activo
+# Guardar fondo activo (general y por tema)
 echo "$WALLPAPER" > "$HOME/.config/.current-wallpaper"
+echo "$WALLPAPER" > "$HOME/.config/.wallpaper-$CURRENT_THEME"
 
 notify-send "Fondo aplicado" "$SELECTED" -i "$WALLPAPER"

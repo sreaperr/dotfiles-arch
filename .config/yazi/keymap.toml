@@ -9,7 +9,7 @@ keymap = [
     { on = "k", run = "arrow -1", desc = "Arriba" },
     { on = "j", run = "arrow 1",  desc = "Abajo" },
     { on = "h", run = "leave",    desc = "Directorio padre" },
-    { on = "l", run = "enter",    desc = "Entrar / Abrir" },
+    { on = "l", run = "plugin smart-enter", desc = "Entrar en dir / Abrir archivo" },
     { on = "g", run = "arrow -99999", desc = "Ir al principio" },
     { on = "G", run = "arrow 99999",  desc = "Ir al final" },
 
@@ -28,13 +28,17 @@ keymap = [
     { on = "a", run = "create",       desc = "Crear archivo/directorio" },
 
     # ── Apertura ──
-    { on = "<Enter>", run = "open",                   desc = "Abrir con app por defecto" },
+    { on = "<Enter>", run = "plugin smart-enter",     desc = "Entrar en dir / Abrir archivo" },
     { on = "o",       run = "open --interactive",     desc = "Elegir app para abrir" },
 
-    # ── Búsqueda ──
+    # ── Búsqueda y navegación rápida ──
     { on = "/", run = "find",               desc = "Buscar en directorio actual" },
     { on = "z", run = "plugin zoxide",      desc = "Saltar con zoxide" },
     { on = "f", run = "search fd",          desc = "Buscar archivos (fd)" },
+    { on = "J", run = "plugin jump-to-char", desc = "Saltar al carácter" },
+
+    # ── Diff ──
+    { on = "C", run = "plugin diff", desc = "Diff de archivos seleccionados" },
 
     # ── Shell ──
     { on = "!", run = "shell --block",      desc = "Ejecutar comando (espera)" },

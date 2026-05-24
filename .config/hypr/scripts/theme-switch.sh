@@ -42,7 +42,7 @@ case "$SELECTED" in
         GTK_THEME="Adwaita-dark"
         ICON_THEME="Dedicated-to-Hackerer"
         PAPIRUS_COLOR="red"
-        DEFAULT_WALLPAPER="$HOME/.config/.wallpaper/add.png"
+        DEFAULT_WALLPAPER="$HOME/.config/.wallpaper/auditory.png"
         ;;
     *)
         exit 1
