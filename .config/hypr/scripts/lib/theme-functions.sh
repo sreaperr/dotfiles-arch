@@ -11,6 +11,7 @@ YAZI_THEMES="$DOTFILES/.config/yazi/themes"
 STARSHIP_THEMES="$DOTFILES/.config/starship/themes"
 SWAYOSD_THEMES="$DOTFILES/.config/swayosd/themes"
 EWW_THEMES="$DOTFILES/.config/eww/themes"
+CALCURSE_THEMES="$DOTFILES/.config/calcurse/themes"
 
 apply_theme_symlinks() {
     local THEME=$1
@@ -28,6 +29,14 @@ apply_theme_symlinks() {
     ln -sf "$SWAYNC_THEMES/$THEME.css"         "$HOME/.config/swaync/theme.css"
     ln -sf "$HYPR_THEMES/$THEME.conf"          "$HOME/.config/hypr/theme.conf"
     ln -sf "$HYPR_THEMES/hyprlock-$THEME.conf" "$HOME/.config/hypr/hyprlock-theme.conf"
+
+    # Calcurse — actualizar solo la línea del color en el conf existente
+    if [[ -f "$CALCURSE_THEMES/$THEME.conf" ]]; then
+        local calcurse_color
+        calcurse_color=$(cat "$CALCURSE_THEMES/$THEME.conf" | tr -d '\n')
+        sed -i "s|^appearance\.theme=.*|appearance.theme=$calcurse_color|" \
+            "$HOME/.config/calcurse/conf"
+    fi
 
     # SwayOSD — copiar CSS del tema y reiniciar servidor
     if [[ -f "$SWAYOSD_THEMES/$THEME.css" ]]; then
