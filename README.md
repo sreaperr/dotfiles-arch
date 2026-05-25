@@ -15,7 +15,6 @@ Configuración personal para **Arch Linux + Hyprland**.
 | Editor | Neovim (LazyVim) |
 | Launcher | Rofi |
 | Notificaciones | SwayNC |
-| Panel de widgets | eww |
 | File manager | Yazi |
 | Wallpaper | swww |
 
@@ -26,7 +25,7 @@ Dos temas intercambiables con `SUPER + T`:
 - **Tokyo Night** — cyan y púrpura
 - **Kali (Auditory)** — magenta y verde
 
-El cambio aplica a Hyprland, Waybar, Kitty, Rofi, SwayNC, eww, Tmux, Starship y Fastfetch de forma simultánea.
+El cambio aplica a Hyprland, Waybar, Kitty, Rofi, SwayNC, Tmux, yazi, calendar, Starship y Fastfetch de forma simultánea.
 
 ---
 
@@ -57,11 +56,10 @@ git pull && ./sync.sh
 |---|---|
 | `SUPER + Enter` | Terminal |
 | `SUPER + Space` | Launcher de apps |
-| `SUPER + C` | Panel de widgets |
 | `SUPER + T` | Cambiar tema |
 | `SUPER + N` | Selector de wallpaper |
 | `SUPER + Y` | Yazi (flotante) |
-| `SUPER + A` | Fastfetch (flotante) |
 | `SUPER + L` | Bloquear pantalla |
 | `SUPER + I` | Menú de energía |
 | `SUPER + 1–8` | Cambiar workspace |
+| `SUPER + k` | Calendar |
