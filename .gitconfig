@@ -1,6 +1,6 @@
 [user]
-    name  = sreaper
-    email = manrubiasalvador@gmail.com
+    name  = TU_NOMBRE
+    email = TU_EMAIL
 
 [core]
     editor     = nvim

@@ -27,7 +27,6 @@ pkg_check() {
     pacman -Qi "$1" &>/dev/null || sudo pacman -S --noconfirm "$1" && ok "instalado $1" || true
 }
 
-pkg_check eww
 pkg_check kanshi
 
 # ─── SYMLINKS NUEVOS ──────────────────────────────────────────
@@ -45,7 +44,6 @@ link() {
 
 mkdir -p "$HOME/.config"
 
-link "$DOTFILES/.config/eww"      "$HOME/.config/eww"
 link "$DOTFILES/.config/swayosd" "$HOME/.config/swayosd"
 link "$DOTFILES/.config/kanshi"  "$HOME/.config/kanshi"
 link "$DOTFILES/.config/hypr"  "$HOME/.config/hypr"
@@ -59,10 +57,6 @@ link "$DOTFILES/.config/btop"  "$HOME/.config/btop"
 link "$DOTFILES/.config/nvim"  "$HOME/.config/nvim"
 link "$DOTFILES/.config/tmux"  "$HOME/.config/tmux"
 link "$DOTFILES/.config/yazi"  "$HOME/.config/yazi"
-
-# Tema activo de eww
-link "$DOTFILES/.config/eww/themes/${THEME}.scss" \
-     "$HOME/.config/eww/themes/active.scss"
 
 # Starship: apuntar al toml correcto según tema actual
 if [ "$THEME" = "auditory" ]; then
@@ -80,7 +74,6 @@ info "Actualizando permisos de scripts..."
 
 chmod +x "$DOTFILES/update.sh"
 chmod +x "$DOTFILES/sync.sh"
-chmod +x "$DOTFILES/.config/eww/scripts/"*.sh
 chmod +x "$DOTFILES/.config/hypr/scripts/"*.sh
 chmod +x "$DOTFILES/.config/waybar/"*.sh
 chmod +x "$DOTFILES/.config/swaync/"*.sh
@@ -106,8 +99,6 @@ info "Recargando entorno..."
 if hyprctl version &>/dev/null; then
     hyprctl reload && ok "Hyprland recargado"
     systemctl --user restart waybar 2>/dev/null && ok "Waybar reiniciado"
-    eww reload 2>/dev/null && ok "eww recargado" || \
-        (eww daemon 2>/dev/null && eww open control-center --toggle && eww open control-center --toggle && ok "eww iniciado")
 else
     echo "  · Hyprland no está corriendo — los cambios se aplicarán en el próximo inicio de sesión"
 fi

@@ -10,7 +10,6 @@ HYPR_THEMES="$DOTFILES/.config/hypr/themes"
 YAZI_THEMES="$DOTFILES/.config/yazi/themes"
 STARSHIP_THEMES="$DOTFILES/.config/starship/themes"
 SWAYOSD_THEMES="$DOTFILES/.config/swayosd/themes"
-EWW_THEMES="$DOTFILES/.config/eww/themes"
 CALCURSE_THEMES="$DOTFILES/.config/calcurse/themes"
 
 apply_theme_symlinks() {
@@ -45,11 +44,6 @@ apply_theme_symlinks() {
         nohup swayosd-server --style "$HOME/.config/swayosd/style.css" >/dev/null 2>&1 &
     fi
 
-    # EWW — apuntar al tema activo y recargar
-    if [[ -f "$EWW_THEMES/$THEME.scss" ]]; then
-        ln -sf "$EWW_THEMES/$THEME.scss" "$HOME/.config/eww/themes/active.scss"
-        eww reload 2>/dev/null || true
-    fi
 }
 
 apply_gtk_cursor() {

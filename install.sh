@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 #------INSTALADOR DE ARCH CON: HYPRLAND
 #------HECHO POR: SREAPER
 #---------
@@ -24,6 +24,40 @@ fi
 #-----------------------
 echo "ACTUALIZANDO PAQUETES Y REPOSITORIOS..."
 sudo pacman -Syu --noconfirm
+#-----------------------
+#LIMPIAR OTROS WM/DE
+#-----------------------
+echo "ELIMINANDO OTROS ENTORNOS DE ESCRITORIO Y GESTORES DE VENTANAS..."
+# Elimina WMs/DEs comunes si están instalados para evitar conflictos con Hyprland.
+# pacman -Rns elimina el paquete y sus dependencias huérfanas. El || true evita que
+# el script falle si el paquete no está instalado.
+OTHER_WM=(
+    # GNOME
+    gnome gnome-shell gnome-session gnome-control-center mutter gdm gnome-extra
+    # KDE Plasma
+    plasma plasma-desktop plasma-workspace kwin sddm
+    # XFCE
+    xfce4 xfwm4 xfce4-session xfce4-goodies
+    # LXQt / LXDE
+    lxqt lxde
+    # i3
+    i3-wm i3-gaps
+    # Sway (distinto de Hyprland)
+    sway
+    # Openbox / bspwm / awesome / dwm / qtile
+    openbox bspwm awesome dwm qtile
+    # MATE / Cinnamon
+    mate cinnamon
+    # Gestores de inicio gráficos
+    lightdm ly greetd lxdm
+)
+for pkg in "${OTHER_WM[@]}"; do
+    if pacman -Qi "$pkg" &>/dev/null; then
+        echo "  → Eliminando $pkg..."
+        sudo pacman -Rns --noconfirm "$pkg" 2>/dev/null || true
+    fi
+done
+echo "Limpieza de WM/DE completada."
 #-----------------------
 #BASE DEL SISTEMA
 #-----------------------
@@ -71,8 +105,9 @@ sudo pacman -S --noconfirm jq
 sudo pacman -S --noconfirm glow
 # Benchmarking de comandos CLI
 sudo pacman -S --noconfirm hyperfine
-# Panel de widgets lateral (control center: brillo, volumen, bluetooth, calendario)
-sudo pacman -S --noconfirm eww
+# Daemon cron — necesario para que el crontab de actualización automática funcione
+sudo pacman -S --noconfirm cronie
+sudo systemctl enable cronie
 # Gestor de perfiles de monitor (detecta pantallas y aplica config automáticamente)
 sudo pacman -S --noconfirm kanshi
 # Editores
@@ -148,7 +183,7 @@ sudo pacman -S --noconfirm bluez bluez-utils
 # Applet GUI para gestionar dispositivos bluetooth fácilmente
 sudo pacman -S --noconfirm blueman
 sudo systemctl enable bluetooth
-sudo systemctl start bluetooth
+sudo systemctl start bluetooth 2>/dev/null || true  # puede fallar en VM sin hardware BT
 #-----------------------
 #RED
 #-----------------------
@@ -156,14 +191,6 @@ echo "INSTALANDO GESTIÓN DE RED..."
 # Gestor de conexiones de red y su applet de systray
 sudo pacman -S --noconfirm networkmanager network-manager-applet
 sudo systemctl enable NetworkManager
-#-----------------------
-#TECLADO
-#-----------------------
-echo "INSTALANDO SOPORTE DE TECLADO..."
-# Remapeo de teclas a nivel de kernel, necesario para teclados con distribución Mac
-# Permite reasignar Cmd, Opt, Fn a equivalentes Linux (Super, Alt, etc.)
-sudo pacman -S --noconfirm keyd
-sudo systemctl enable keyd
 #-----------------------
 #NÚCLEO HYPRLAND
 #-----------------------
@@ -207,12 +234,14 @@ sudo pacman -S --noconfirm waybar
 sudo pacman -S --noconfirm swaync
 # Fondo de pantalla con soporte de transiciones animadas
 sudo pacman -S --noconfirm swww
-# Capturas de pantalla: grim=captura | slurp=selección de región
+# Capturas de pantalla: grim+slurp como base
 sudo pacman -S --noconfirm grim slurp
 # Portapapeles para Wayland y su historial
 sudo pacman -S --noconfirm wl-clipboard cliphist
 # Control de brillo y reproducción multimedia
 sudo pacman -S --noconfirm brightnessctl playerctl
+# OSD de volumen y brillo en pantalla (swayosd-client en keybinds)
+sudo pacman -S --noconfirm swayosd
 # Anotaciones sobre capturas de pantalla
 sudo pacman -S --noconfirm swappy
 # Filtro de luz azul nocturno
@@ -261,14 +290,20 @@ rm -rf "$PARU_BUILD"
 echo "INSTALANDO PAQUETES DE AUR..."
 # Launcher de aplicaciones para Wayland (fork de rofi)
 paru -S --noconfirm rofi-wayland rofi-calc
+# Terminal dropdown y scratchpad para Hyprland (usado en calcurse-float.sh)
+paru -S --noconfirm pypr
+# Calendario en terminal
+sudo pacman -S --noconfirm calcurse
 # Navegadores
 paru -S --noconfirm brave-bin tor-browser
 # Música
 paru -S --noconfirm spotify
 # Pack completo de Nerd Fonts
 paru -S --noconfirm nerd-fonts
-# Utilidad de capturas integrada con el ecosistema Hyprland
-paru -S --noconfirm hyprshot
+# Gestor de sesiones Wayland — necesario para arrancar Hyprland desde TTY (.zprofile)
+paru -S --noconfirm uwsm
+# Capturas de pantalla con GUI — copia al portapapeles por defecto
+sudo pacman -S --noconfirm flameshot
 # Iconos para rofi y apps GTK
 paru -S --noconfirm kora-icon-theme bibata-cursor-theme
 # Temas GTK alineados con los temas del sistema
@@ -296,11 +331,7 @@ ln -sf "$DOTFILES/.config/yazi" ~/.config/yazi
 mkdir -p "$DOTFILES/.config/.wallpaper"
 ln -sf "$DOTFILES/.config/.wallpaper" ~/.config/.wallpaper
 ln -sf "$DOTFILES/.config/fastfetch" ~/.config/fastfetch
-ln -sf "$DOTFILES/.config/eww" ~/.config/eww
 ln -sf "$DOTFILES/.config/kanshi" ~/.config/kanshi
-# Tema activo de eww (mismo que el tema por defecto del sistema)
-ln -sf "$DOTFILES/.config/eww/themes/tokyonight.scss" ~/.config/eww/themes/active.scss
-ln -sf "$DOTFILES/.config/tmux/themes/tokyonight.conf" ~/.config/tmux/theme.conf
 ln -sf "$DOTFILES/.config/btop" ~/.config/btop
 ln -sf "$DOTFILES/.config/mpv" ~/.config/mpv
 ln -sf "$DOTFILES/.config/zathura" ~/.config/zathura
@@ -308,36 +339,28 @@ ln -sf "$DOTFILES/.config/gtk-3.0" ~/.config/gtk-3.0
 ln -sf "$DOTFILES/.config/gtk-4.0" ~/.config/gtk-4.0
 ln -sf "$DOTFILES/.config/user-dirs.dirs" ~/.config/user-dirs.dirs
 ln -sf "$DOTFILES/.gitconfig" ~/.gitconfig
-# SSH config
-mkdir -p ~/.ssh && chmod 700 ~/.ssh
-ln -sf "$DOTFILES/.ssh/config" ~/.ssh/config
-chmod 600 ~/.ssh/config
-# keyd va en /etc, requiere sudo
-sudo mkdir -p /etc/keyd
-sudo ln -sf "$DOTFILES/.config/keyd/default.conf" /etc/keyd/default.conf
 # Aplicar configs de sistema
 [ -f /etc/pacman.conf ] && sudo cp /etc/pacman.conf /etc/pacman.conf.bak
 sudo cp "$DOTFILES/etc/pacman.conf" /etc/pacman.conf
+sudo mkdir -p /etc/xdg/reflector
 sudo cp "$DOTFILES/etc/reflector.conf" /etc/xdg/reflector/reflector.conf
-sudo mkdir -p /etc/modprobe.d
-sudo cp "$DOTFILES/etc/modprobe.d/hid_apple.conf" /etc/modprobe.d/hid_apple.conf
 sudo systemctl enable reflector.timer
 # Permisos de ejecución a los scripts
 chmod +x "$DOTFILES/update.sh"
 chmod +x "$DOTFILES/sync.sh"
-chmod +x "$DOTFILES/.config/eww/scripts/cpu.sh"
-chmod +x "$DOTFILES/.config/eww/scripts/toggle-noche.sh"
-chmod +x "$DOTFILES/.config/hypr/scripts/theme-switch.sh"
-chmod +x "$DOTFILES/.config/hypr/scripts/wallpaper.sh"
-chmod +x "$DOTFILES/.config/hypr/scripts/powermenu.sh"
-chmod +x "$DOTFILES/.config/hypr/scripts/recorder.sh"
+chmod +x "$DOTFILES/.config/hypr/scripts/"*.sh
+chmod +x "$DOTFILES/.config/waybar/"*.sh
+chmod +x "$DOTFILES/.config/swaync/"*.sh
 # Aplicar tema por defecto (tokyonight)
-ln -sf "$DOTFILES/.config/waybar/themes/tokyonight.css" ~/.config/waybar/theme.css
-ln -sf "$DOTFILES/.config/kitty/themes/tokyonight.conf" ~/.config/kitty/theme.conf
-ln -sf "$DOTFILES/.config/rofi/themes/tokyonight.rasi" ~/.config/rofi/theme.rasi
-ln -sf "$DOTFILES/.config/swaync/themes/tokyonight.css" ~/.config/swaync/theme.css
-ln -sf "$DOTFILES/.config/hypr/themes/tokyonight.conf" ~/.config/hypr/theme.conf
-ln -sf "$DOTFILES/.config/hypr/themes/hyprlock-tokyonight.conf" ~/.config/hypr/hyprlock-theme.conf
+ln -sf "$DOTFILES/.config/waybar/themes/tokyonight.css"           ~/.config/waybar/theme.css
+ln -sf "$DOTFILES/.config/kitty/themes/tokyonight.conf"           ~/.config/kitty/theme.conf
+ln -sf "$DOTFILES/.config/rofi/themes/tokyonight.rasi"            ~/.config/rofi/theme.rasi
+ln -sf "$DOTFILES/.config/swaync/themes/tokyonight.css"           ~/.config/swaync/theme.css
+ln -sf "$DOTFILES/.config/hypr/themes/tokyonight.conf"            ~/.config/hypr/theme.conf
+ln -sf "$DOTFILES/.config/hypr/themes/hyprlock-tokyonight.conf"   ~/.config/hypr/hyprlock-theme.conf
+ln -sf "$DOTFILES/.config/tmux/themes/tokyonight.conf"            ~/.config/tmux/theme.conf
+# Starship — apuntar al tema por defecto (faltaba en la versión anterior)
+ln -sf "$DOTFILES/.config/starship/themes/tokyonight.toml"        ~/.config/starship/starship.toml
 echo "tokyonight" > ~/.config/.current-theme
 echo "Bibata-Modern-Ice" > ~/.config/.current-cursor
 # Crear carpetas en español
@@ -372,4 +395,44 @@ echo "CONFIGURANDO ACTUALIZACIÓN AUTOMÁTICA..."
 (crontab -l 2>/dev/null | grep -v 'update.sh'; \
  echo "@reboot sleep 60 && ${DOTFILES_STATIC}/update.sh >> \$HOME/.local/share/update.log 2>&1") | crontab -
 
-echo "INSTALACIÓN COMPLETADA. Reinicia sesión para aplicar todos los cambios."
+#-----------------------
+#INICIO DE SESIÓN EN TERMINAL
+#-----------------------
+echo "CONFIGURANDO INICIO DE SESIÓN EN TERMINAL..."
+
+# Deshabilitar cualquier DM gráfico que esté activo
+for dm in gdm sddm lightdm ly greetd lxdm; do
+    if systemctl is-enabled "$dm" &>/dev/null; then
+        echo "  → Deshabilitando $dm..."
+        sudo systemctl disable "$dm"
+    fi
+done
+
+# Asegurarse de que getty (login en terminal) está activo en TTY1
+sudo systemctl enable getty@tty1
+
+# Configurar autologin en TTY1 para el usuario actual.
+# Al encender el PC aparece directamente el prompt de zsh.
+# El .zprofile lanza Hyprland automáticamente si estamos en TTY1.
+sudo mkdir -p /etc/systemd/system/getty@tty1.service.d
+sudo tee /etc/systemd/system/getty@tty1.service.d/autologin.conf > /dev/null <<EOF
+[Service]
+ExecStart=
+ExecStart=-/sbin/agetty --autologin $USER --noclear %I \$TERM
+EOF
+
+echo "  Autologin configurado para '$USER' en TTY1."
+echo "  Al arrancar: TTY1 → zsh → Hyprland (vía .zprofile)"
+
+echo ""
+echo "======================================================"
+echo " INSTALACIÓN COMPLETADA"
+echo "======================================================"
+echo ""
+echo "  → Reinicia el sistema para aplicar todos los cambios."
+echo ""
+echo "  PENDIENTE (configura manualmente antes de usar git):"
+echo "  Edita ~/.gitconfig y sustituye TU_NOMBRE y TU_EMAIL:"
+echo "    git config --global user.name  'Tu Nombre'"
+echo "    git config --global user.email 'tu@email.com'"
+echo ""

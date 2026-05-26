@@ -83,7 +83,6 @@ alias dps="docker ps"
 alias dimg="docker images"
 
 # HYPRLAND / ENTORNO
-alias cc="eww open control-center --toggle"
 alias atajos="~/.config/hypr/scripts/show-atajos.sh | less -R"
 alias keybinds="~/.config/hypr/scripts/show-atajos.sh | less -R"
 alias info="fastfetch"

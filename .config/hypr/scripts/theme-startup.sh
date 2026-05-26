@@ -23,7 +23,6 @@ case "$THEME" in
 esac
 
 apply_theme_symlinks "$THEME"
-ln -sf "$HOME/.config/eww/themes/$THEME.scss" "$HOME/.config/eww/themes/active.scss"
 # Recargar tmux si hay sesiones activas
 tmux source-file ~/.config/tmux/tmux.conf 2>/dev/null || true
 
