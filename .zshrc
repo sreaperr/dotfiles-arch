@@ -26,6 +26,17 @@ setopt SHARE_HISTORY
 #      == ALIASES ==
 #============================
 
+# DETECCIÓN DE DISTRO — usada en aliases y funciones distro-específicas
+# $ID viene de /etc/os-release: "arch", "fedora", "ubuntu", "darwin", etc.
+if [[ -f /etc/os-release ]]; then
+    . /etc/os-release
+    DOTFILES_DISTRO="$ID"
+elif [[ "$(uname)" == "Darwin" ]]; then
+    DOTFILES_DISTRO="darwin"
+else
+    DOTFILES_DISTRO="unknown"
+fi
+
 # NAVEGACIÓN
 alias ..="cd .."
 alias ...="cd ../.."
@@ -61,12 +72,40 @@ alias gd="git diff"
 alias gco="git checkout"
 alias gb="git branch"
 
-# SISTEMA
-alias install="paru -S"
-alias remove="paru -Rns"
-alias search="paru -Ss"
-alias pkginfo="paru -Qi"
-alias update="~/dotfiles-arch/update.sh"
+# SISTEMA — aliases dependientes de la distro
+case "$DOTFILES_DISTRO" in
+    arch)
+        alias install="paru -S"
+        alias remove="paru -Rns"
+        alias search="paru -Ss"
+        alias pkginfo="paru -Qi"
+        alias update="~/dotfiles-arch/update.sh"
+        ;;
+    fedora)
+        alias install="sudo dnf install -y"
+        alias remove="sudo dnf remove -y"
+        alias search="dnf search"
+        alias pkginfo="dnf info"
+        alias update="~/dotfiles-arch/update-fedora.sh"
+        ;;
+    debian)
+        alias install="sudo apt install -y"
+        alias remove="sudo apt remove -y"
+        alias search="apt search"
+        alias pkginfo="apt show"
+        alias update="~/dotfiles-arch/update.sh"
+        ;;
+    darwin)
+        alias install="brew install"
+        alias remove="brew uninstall"
+        alias search="brew search"
+        alias pkginfo="brew info"
+        alias update="brew update && brew upgrade"
+        ;;
+    *)
+        alias update="echo 'Distro no reconocida: $DOTFILES_DISTRO'"
+        ;;
+esac
 alias reload="source ~/.zshrc"
 alias path="echo $PATH | tr ':' '\n'"
 alias top="btop"
@@ -87,13 +126,46 @@ alias atajos="~/.config/hypr/scripts/show-atajos.sh | less -R"
 alias keybinds="~/.config/hypr/scripts/show-atajos.sh | less -R"
 alias info="fastfetch"
 
-cleanup() { sudo pacman -Rns $(pacman -Qtdq); }
+# Limpieza de paquetes huérfanos/no usados
+cleanup() {
+    case "$DOTFILES_DISTRO" in
+        arch)
+            local orphans
+            orphans=$(pacman -Qtdq 2>/dev/null)
+            [[ -n "$orphans" ]] && sudo pacman -Rns $orphans || echo "No hay paquetes huérfanos."
+            ;;
+        fedora)
+            sudo dnf autoremove -y
+            ;;
+        debian)
+            sudo apt autoremove -y && sudo apt autoclean
+            ;;
+        darwin)
+            brew autoremove && brew cleanup
+            ;;
+        *)
+            echo "cleanup: distro '$DOTFILES_DISTRO' no soportada"
+            ;;
+    esac
+}
 
 #============================
 #      == FZF ==
 #============================
-source /usr/share/fzf/key-bindings.zsh
-source /usr/share/fzf/completion.zsh
+# Las rutas de FZF varían según distro:
+#   Arch:   /usr/share/fzf/key-bindings.zsh
+#   Fedora: /usr/share/fzf/shell/key-bindings.zsh
+for _fzf_kb in /usr/share/fzf/key-bindings.zsh \
+               /usr/share/fzf/shell/key-bindings.zsh \
+               /opt/homebrew/opt/fzf/shell/key-bindings.zsh; do
+    [[ -f "$_fzf_kb" ]] && source "$_fzf_kb" && break
+done
+for _fzf_co in /usr/share/fzf/completion.zsh \
+               /usr/share/fzf/shell/completion.zsh \
+               /opt/homebrew/opt/fzf/shell/completion.zsh; do
+    [[ -f "$_fzf_co" ]] && source "$_fzf_co" && break
+done
+unset _fzf_kb _fzf_co
 
 # fd como backend: incluye hidden, excluye .git
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'

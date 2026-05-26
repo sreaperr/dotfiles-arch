@@ -15,6 +15,15 @@
 DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 THEME=$(cat "$HOME/.config/.current-theme" 2>/dev/null || echo "tokyonight")
 
+# Detectar distribución desde /etc/os-release
+if [[ -f /etc/os-release ]]; then
+    # shellcheck source=/dev/null
+    . /etc/os-release
+    DISTRO="$ID"   # "arch", "fedora", "debian", etc.
+else
+    DISTRO="unknown"
+fi
+
 ok()   { echo "  ✓ $*"; }
 skip() { echo "  · $* (ya existe)"; }
 info() { echo ""; echo "→ $*"; }
@@ -24,7 +33,26 @@ info() { echo ""; echo "→ $*"; }
 info "Comprobando paquetes nuevos..."
 
 pkg_check() {
-    pacman -Qi "$1" &>/dev/null || sudo pacman -S --noconfirm "$1" && ok "instalado $1" || true
+    case "$DISTRO" in
+        arch)
+            pacman -Qi "$1" &>/dev/null \
+                || { sudo pacman -S --noconfirm "$1" && ok "instalado $1"; } \
+                || true
+            ;;
+        fedora)
+            rpm -q "$1" &>/dev/null \
+                || { sudo dnf install -y "$1" && ok "instalado $1"; } \
+                || true
+            ;;
+        debian)
+            dpkg -l "$1" 2>/dev/null | grep -q "^ii" \
+                || { sudo apt install -y "$1" && ok "instalado $1"; } \
+                || true
+            ;;
+        *)
+            echo "  ! pkg_check: distro '$DISTRO' no reconocida — omitiendo $1"
+            ;;
+    esac
 }
 
 pkg_check kanshi
@@ -72,7 +100,8 @@ rm -rf "$HOME/.cache/starship/" 2>/dev/null
 
 info "Actualizando permisos de scripts..."
 
-chmod +x "$DOTFILES/update.sh"
+chmod +x "$DOTFILES/update.sh"         2>/dev/null || true
+chmod +x "$DOTFILES/update-fedora.sh"  2>/dev/null || true
 chmod +x "$DOTFILES/sync.sh"
 chmod +x "$DOTFILES/.config/hypr/scripts/"*.sh
 chmod +x "$DOTFILES/.config/waybar/"*.sh
@@ -83,13 +112,20 @@ ok "permisos de scripts actualizados"
 
 info "Configurando actualización automática (crontab @reboot)..."
 
-CRON_CMD="@reboot sleep 60 && ${DOTFILES}/update.sh >> \$HOME/.local/share/update.log 2>&1"
+# Elegir el script de actualización según distro
+case "$DISTRO" in
+    fedora) UPDATE_SCRIPT="${DOTFILES}/update-fedora.sh" ;;
+    *)      UPDATE_SCRIPT="${DOTFILES}/update.sh" ;;
+esac
 
-if crontab -l 2>/dev/null | grep -q "update.sh"; then
-    skip "crontab ya configurado"
+CRON_CMD="@reboot sleep 60 && ${UPDATE_SCRIPT} >> \$HOME/.local/share/update.log 2>&1"
+CRON_GREP="$(basename "$UPDATE_SCRIPT")"
+
+if crontab -l 2>/dev/null | grep -q "$CRON_GREP"; then
+    skip "crontab ya configurado (${CRON_GREP})"
 else
     (crontab -l 2>/dev/null; echo "$CRON_CMD") | crontab -
-    ok "crontab configurado"
+    ok "crontab configurado → $UPDATE_SCRIPT"
 fi
 
 # ─── RECARGA DEL ENTORNO ──────────────────────────────────────
