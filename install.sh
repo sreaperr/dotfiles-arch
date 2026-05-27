@@ -1,121 +1,35 @@
 #!/bin/bash
 #============================================================
-#  INSTALADOR MULTI-DISTRO — HYPRLAND
-#  HECHO POR: SREAPER
-#  DISTROS SOPORTADAS: Arch Linux | Fedora | Debian Testing 
+#  INSTALADOR — HYPRLAND  (Arch / Fedora / Debian)
 #============================================================
 
-#---------
-#VARIABLES
-#---------
-# BASH_SOURCE[0]: ruta real del script (compatible bash/zsh)
-path_install="$(realpath "${BASH_SOURCE[0]}")"
-DOTFILES_STATIC="$(dirname "$path_install")"
+# ── Ruta real del repo ────────────────────────────────────
+DOTFILES="$(cd "$(dirname "$(realpath "${BASH_SOURCE[0]}")")" && pwd)"
 
-#-----------------------------------------
-#DETECCIÓN DE DISTRO
-#-----------------------------------------
-if [[ -f /etc/os-release ]]; then
-    # shellcheck source=/dev/null
-    . /etc/os-release
-    DISTRO="$ID"   
-else
-    echo "ERROR: No se puede detectar la distribución (/etc/os-release no existe)." && exit 1
-fi
+# ── Detección de distro ────────────────────────────────────
+[[ -f /etc/os-release ]] || { echo "ERROR: /etc/os-release no encontrado."; exit 1; }
+# shellcheck source=/dev/null
+. /etc/os-release
+DISTRO="$ID"   # "arch" | "fedora" | "debian"
 
-echo "============================================================"
-echo "  Distribución detectada: $DISTRO  (${PRETTY_NAME:-})"
-echo "============================================================"
-echo ""
+echo "===================================================="
+echo "  Distribución: $DISTRO  (${PRETTY_NAME:-})"
+echo "===================================================="
 
-#-----------------------------------------
-#COMPROBACIONES PREVIAS
-#-----------------------------------------
-if [ ! -x "$path_install" ]; then
-    echo "EL ARCHIVO NO ES EJECUTABLE. Ejecuta: chmod +x $path_install" && exit 1
-fi
+# ── Comprobaciones previas ────────────────────────────────
+[[ "$EUID" -eq 0 ]]                        && { echo "No ejecutar como root."; exit 1; }
+[[ ! -x "$(realpath "${BASH_SOURCE[0]}")" ]] && { echo "Haz ejecutable: chmod +x install.sh"; exit 1; }
+[[ "$DISTRO" =~ ^(arch|fedora|debian)$ ]]  || { echo "Distro '$DISTRO' no soportada (arch|fedora|debian)."; exit 1; }
 
-if [ "$EUID" -eq 0 ]; then
-    echo "No ejecutar como root. Usa un usuario normal con sudo." && exit 1
-fi
-
-if [[ "$DISTRO" != "arch" && "$DISTRO" != "fedora" && "$DISTRO" != "debian" ]]; then
-    echo "Distribución '$DISTRO' no soportada."
-    echo "Soportadas: arch | fedora | debian"
-    exit 1
-fi
-
-# Debian requiere Sid o Testing para tener Hyprland empaquetado
 if [[ "$DISTRO" == "debian" ]]; then
-    echo "  AVISO: Debian requiere Sid (unstable) o Testing para Hyprland."
-    echo "         En Debian Stable muchos paquetes no están disponibles."
-    echo "         Presiona Ctrl+C para cancelar o Enter para continuar..."
-    read -r
+    echo "AVISO: Debian requiere Sid/Testing para Hyprland."
+    echo "Ctrl+C para cancelar o Enter para continuar..."; read -r
 fi
 
-#-----------------------------------------
-#FUNCIÓN: INSTALAR BINARIO DESDE GITHUB RELEASES
-# Uso: gh_install <repo> <patrón_asset> <nombre_binario>
-#-----------------------------------------
-gh_install() {
-    local repo="$1" pattern="$2" binary="$3"
-    local tmpdir; tmpdir=$(mktemp -d)
+#============================================================
+#  FUNCIONES
+#============================================================
 
-    echo "  → Descargando $binary desde github.com/$repo..."
-    local url
-    url=$(curl -s "https://api.github.com/repos/${repo}/releases/latest" \
-          | grep "browser_download_url" \
-          | grep -E "$pattern" \
-          | head -1 \
-          | cut -d '"' -f 4)
-
-    if [[ -z "$url" ]]; then
-        echo "  ✗ No se pudo obtener URL para $binary — omitiendo."
-        rm -rf "$tmpdir"; return 1
-    fi
-
-    curl -sL "$url" -o "$tmpdir/asset"
-    case "$url" in
-        *.tar.gz|*.tgz) tar -xzf "$tmpdir/asset" -C "$tmpdir" ;;
-        *.tar.xz)        tar -xJf "$tmpdir/asset" -C "$tmpdir" ;;
-        *.zip)           unzip -q  "$tmpdir/asset" -d "$tmpdir" ;;
-        *)               cp "$tmpdir/asset" "$tmpdir/$binary"   ;;
-    esac
-
-    local bin_path
-    bin_path=$(find "$tmpdir" -type f -name "$binary" | head -1)
-    [[ -z "$bin_path" ]] && bin_path="$tmpdir/asset"
-
-    sudo install -m 755 "$bin_path" "/usr/local/bin/$binary"
-    rm -rf "$tmpdir"
-    echo "  ✓ $binary → /usr/local/bin/$binary"
-}
-
-#-----------------------------------------
-#FUNCIÓN: INSTALAR NERD FONT DESDE GITHUB
-# Arch las tiene en repos/AUR; Fedora y Debian usan esta función.
-#-----------------------------------------
-install_nerd_font() {
-    local font_name="$1"   # Ej: "Hack", "JetBrainsMono"
-    local fonts_dir="$HOME/.local/share/fonts"
-    mkdir -p "$fonts_dir"
-    echo "  → Descargando ${font_name} Nerd Font..."
-    local url
-    url=$(curl -s "https://api.github.com/repos/ryanoasis/nerd-fonts/releases/latest" \
-          | grep "browser_download_url" \
-          | grep "${font_name}\.tar\.xz" \
-          | cut -d '"' -f 4)
-    if [[ -n "$url" ]]; then
-        curl -sL "$url" | tar -xJ -C "$fonts_dir"
-        echo "  ✓ ${font_name} Nerd Font instalada en $fonts_dir"
-    else
-        echo "  WARNING: No se pudo descargar ${font_name} Nerd Font"
-    fi
-}
-
-#-----------------------------------------
-#FUNCIÓN: WRAPPER DEL GESTOR DE PAQUETES
-#-----------------------------------------
 PKG() {
     case "$DISTRO" in
         arch)   sudo pacman -S --noconfirm "$@" ;;
@@ -124,53 +38,143 @@ PKG() {
     esac
 }
 
+# Mapa de nombres de paquetes por distro
+pkgname() {
+    case "$DISTRO:$1" in
+        # Herramientas de compilación
+        arch:build-tools)    echo "base-devel" ;;
+        fedora:build-tools)  echo "" ;;          # usa groupinstall abajo
+        debian:build-tools)  echo "build-essential" ;;
+        # Compresión
+        arch:p7zip|fedora:p7zip) echo "p7zip" ;;
+        debian:p7zip)            echo "p7zip-full" ;;
+        # SSH y manuales
+        arch:openssh|fedora:openssh) echo "openssh" ;;
+        debian:openssh)              echo "openssh-client openssh-server" ;;
+        arch:man-pages)   echo "man-db man-pages" ;;
+        fedora:man-pages) echo "man-db" ;;
+        debian:man-pages) echo "man-db manpages" ;;
+        # Red
+        arch:bind-utils)   echo "bind-tools" ;;
+        fedora:bind-utils) echo "bind-utils" ;;
+        debian:bind-utils) echo "dnsutils" ;;
+        # Seguridad
+        arch:gnupg) echo "gnupg" ;;
+        *:gnupg)    echo "gnupg2" ;;
+        # Cron
+        arch:cronie|fedora:cronie) echo "cronie" ;;
+        debian:cronie)             echo "cron" ;;
+        # Audio
+        arch:pipewire-pulse|debian:pipewire-pulse) echo "pipewire-pulse" ;;
+        fedora:pipewire-pulse) echo "pipewire-pulseaudio" ;;
+        arch:pipewire-jack|debian:pipewire-jack)   echo "pipewire-jack" ;;
+        fedora:pipewire-jack) echo "pipewire-jack-audio-connection-kit" ;;
+        # Bluetooth
+        arch:bluez-utils)   echo "bluez-utils" ;;
+        fedora:bluez-utils) echo "bluez-tools" ;;
+        debian:bluez-utils) echo "" ;;           # incluido en bluez
+        # Network applet
+        arch:nm-applet|fedora:nm-applet) echo "network-manager-applet" ;;
+        debian:nm-applet)                echo "network-manager-gnome" ;;
+        # Qt Wayland
+        arch:qt5-wayland)   echo "qt5-wayland" ;;
+        fedora:qt5-wayland) echo "qt5-qtwayland" ;;
+        debian:qt5-wayland) echo "qtwayland5" ;;
+        arch:qt6-wayland)   echo "qt6-wayland" ;;
+        fedora:qt6-wayland) echo "qt6-qtwayland" ;;
+        debian:qt6-wayland) echo "qt6-wayland" ;;
+        # Polkit
+        arch:polkit-gnome|fedora:polkit-gnome) echo "polkit-gnome" ;;
+        debian:polkit-gnome) echo "policykit-1-gnome" ;;
+        # Notificaciones
+        arch:swaync|debian:swaync) echo "swaync" ;;
+        fedora:swaync) echo "SwayNotificationCenter" ;;
+        # Multimedia
+        fedora:imagemagick) echo "ImageMagick" ;;
+        *:imagemagick)      echo "imagemagick" ;;
+        fedora:ffmpeg)      echo "ffmpeg ffmpeg-libs" ;;
+        *:ffmpeg)           echo "ffmpeg" ;;
+        # fd-find
+        arch:fd)             echo "fd" ;;
+        fedora:fd|debian:fd) echo "fd-find" ;;
+        # tldr/tealdeer
+        arch:tldr)   echo "tldr" ;;
+        fedora:tldr) echo "tealdeer" ;;
+        debian:tldr) echo "tealdeer" ;;
+        # Default: mismo nombre
+        *) echo "$1" ;;
+    esac
+}
+
+# Instala con nombre mapeado; omite si la cadena es vacía
+P() { local p; p="$(pkgname "$1")"; [[ -n "$p" ]] && PKG $p; }
+
+# Descarga binario desde la última GitHub Release
+gh_install() {
+    local repo="$1" pattern="$2" binary="$3"
+    local tmpdir; tmpdir=$(mktemp -d)
+    echo "  → Descargando $binary desde github.com/$repo..."
+    local url
+    url=$(curl -s "https://api.github.com/repos/${repo}/releases/latest" \
+          | grep "browser_download_url" | grep -E "$pattern" | head -1 | cut -d '"' -f 4)
+    if [[ -z "$url" ]]; then
+        echo "  ✗ No se pudo obtener URL para $binary — omitiendo."
+        rm -rf "$tmpdir"; return 1
+    fi
+    curl -sL "$url" -o "$tmpdir/asset"
+    case "$url" in
+        *.tar.gz|*.tgz) tar -xzf "$tmpdir/asset" -C "$tmpdir" ;;
+        *.tar.xz)        tar -xJf "$tmpdir/asset" -C "$tmpdir" ;;
+        *.zip)           unzip -q  "$tmpdir/asset" -d "$tmpdir" ;;
+        *)               cp "$tmpdir/asset" "$tmpdir/$binary" ;;
+    esac
+    local bin_path; bin_path=$(find "$tmpdir" -type f -name "$binary" | head -1)
+    [[ -z "$bin_path" ]] && bin_path="$tmpdir/asset"
+    sudo install -m 755 "$bin_path" "/usr/local/bin/$binary"
+    rm -rf "$tmpdir"
+    echo "  ✓ $binary → /usr/local/bin/$binary"
+}
+
+install_nerd_font() {
+    local font_name="$1" fonts_dir="$HOME/.local/share/fonts"
+    mkdir -p "$fonts_dir"
+    echo "  → Descargando ${font_name} Nerd Font..."
+    local url
+    url=$(curl -s "https://api.github.com/repos/ryanoasis/nerd-fonts/releases/latest" \
+          | grep "browser_download_url" | grep "${font_name}\.tar\.xz" | cut -d '"' -f 4)
+    if [[ -n "$url" ]]; then
+        curl -sL "$url" | tar -xJ -C "$fonts_dir"
+        echo "  ✓ ${font_name} Nerd Font → $fonts_dir"
+    else
+        echo "  WARN: No se pudo descargar ${font_name} Nerd Font"
+    fi
+}
+
 #============================================================
-#  PRE-SETUP — Repositorios y canales extra
+#  REPOSITORIOS EXTRA
 #============================================================
-echo "CONFIGURANDO REPOSITORIOS..."
+echo "▶ Configurando repositorios..."
 
 case "$DISTRO" in
     arch)
-        # Arch no necesita repos extra; pacman ya tiene todo.
-        # El AUR helper (paru) se instala más adelante.
         echo "  · Arch: sin repositorios adicionales."
         ;;
-
     fedora)
-        # RPM Fusion: repositorio de terceros principal en Fedora.
-        # 'free'    → software libre no incluido por Fedora (ffmpeg completo, etc.)
-        # 'nonfree' → software privativo (códecs, drivers Nvidia, etc.)
         sudo dnf install -y \
             "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm" \
             "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm"
         sudo dnf groupupdate -y core
-
-        # Flatpak + Flathub: necesario para Brave, Spotify, Discord, etc.
         sudo dnf install -y flatpak
         flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-
-        # COPR solopasha/hyprland: ecosistema Hyprland completo para Fedora.
-        # Incluye: hyprland, hyprlock, hypridle, aquamarine, swww, waybar,
-        #          kanshi, rofi-wayland, cliphist, swayosd, uwsm y más.
         sudo dnf copr enable -y solopasha/hyprland
-
-        # COPR para SwayNotificationCenter (swaync)
         sudo dnf copr enable -y erikreider/SwayNotificationCenter
-
-        # Repositorio oficial de Docker CE
         sudo dnf config-manager addrepo \
             --from-repofile=https://download.docker.com/linux/fedora/docker-ce.repo
         ;;
-
     debian)
-        # Asegurar herramientas base para añadir repos
         sudo apt install -y ca-certificates gnupg curl apt-transport-https
-
-        # Flatpak + Flathub: para Brave, Spotify, Discord
         sudo apt install -y flatpak
         flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-
-        # Docker CE: repositorio oficial
         sudo install -m 0755 -d /etc/apt/keyrings
         curl -fsSL https://download.docker.com/linux/debian/gpg \
             | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
@@ -179,426 +183,274 @@ case "$DISTRO" in
 https://download.docker.com/linux/debian \
 $(. /etc/os-release && echo "$VERSION_CODENAME") stable" \
             | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-
         sudo apt update
         ;;
 esac
 
-#-----------------------
-#ACTUALIZAR SISTEMA
-#-----------------------
-echo "ACTUALIZANDO PAQUETES Y REPOSITORIOS..."
+#============================================================
+#  ACTUALIZAR SISTEMA
+#============================================================
+echo "▶ Actualizando sistema..."
 case "$DISTRO" in
     arch)   sudo pacman -Syu --noconfirm ;;
     fedora) sudo dnf update -y ;;
     debian) sudo apt update && sudo apt full-upgrade -y ;;
 esac
 
-#-----------------------
-#LIMPIAR OTROS WM/DE
-#-----------------------
-echo "ELIMINANDO OTROS ENTORNOS DE ESCRITORIO Y GESTORES DE VENTANAS..."
-OTHER_WM=(
-    gnome-shell gnome-session gnome-control-center mutter gdm
-    plasma-desktop plasma-workspace kwin sddm
-    xfce4-session xfwm4
-    lxqt-session lxde-common
-    i3 i3-gaps sway
-    openbox bspwm awesome qtile
-    mate-session-manager cinnamon
-    lightdm ly greetd lxdm
-)
+#============================================================
+#  LIMPIAR OTROS WM/DE
+#============================================================
+echo "▶ Eliminando otros WM/DE..."
+OTHER_WM=(gnome-shell gnome-session gnome-control-center mutter gdm
+          plasma-desktop plasma-workspace kwin sddm
+          xfce4-session xfwm4 lxqt-session lxde-common
+          i3 i3-gaps sway openbox bspwm awesome qtile
+          mate-session-manager cinnamon lightdm ly greetd lxdm)
 for pkg in "${OTHER_WM[@]}"; do
     case "$DISTRO" in
-        arch)
-            if pacman -Qi "$pkg" &>/dev/null; then
-                echo "  → Eliminando $pkg..."
-                sudo pacman -Rns --noconfirm "$pkg" 2>/dev/null || true
-            fi
-            ;;
-        fedora)
-            if rpm -q "$pkg" &>/dev/null; then
-                echo "  → Eliminando $pkg..."
-                sudo dnf remove -y "$pkg" 2>/dev/null || true
-            fi
-            ;;
-        debian)
-            if dpkg -l "$pkg" 2>/dev/null | grep -q "^ii"; then
-                echo "  → Eliminando $pkg..."
-                sudo apt remove -y --purge "$pkg" 2>/dev/null || true
-            fi
-            ;;
+        arch)   pacman -Qi "$pkg" &>/dev/null && sudo pacman -Rns --noconfirm "$pkg" 2>/dev/null || true ;;
+        fedora) rpm -q "$pkg" &>/dev/null && sudo dnf remove -y "$pkg" 2>/dev/null || true ;;
+        debian) dpkg -l "$pkg" 2>/dev/null | grep -q "^ii" && sudo apt remove -y --purge "$pkg" 2>/dev/null || true ;;
     esac
 done
-echo "Limpieza de WM/DE completada."
 
 #============================================================
 #  BASE DEL SISTEMA
 #============================================================
-echo "INSTALANDO BASE DEL SISTEMA..."
+echo "▶ Base del sistema..."
 
-# zsh — necesario antes del chsh
-PKG zsh
-
-# Herramientas de compilación
-case "$DISTRO" in
-    arch)   PKG base-devel ;;
-    fedora) sudo dnf groupinstall -y "Development Tools" ;;
-    debian) PKG build-essential ;;
-esac
-
-# Control de versiones y descargas
-PKG git curl wget
-
-# Compresión y archivos
-PKG unzip zip rsync
-case "$DISTRO" in
-    arch)   PKG p7zip ;;
-    fedora) PKG p7zip ;;
-    debian) PKG p7zip-full ;;
-esac
-
-# SSH, manuales y carpetas estándar del usuario
+PKG zsh git curl wget unzip zip rsync
+P p7zip
+P openssh
+P man-pages
 PKG xdg-user-dirs
-case "$DISTRO" in
-    arch)   PKG openssh man-db man-pages ;;
-    fedora) PKG openssh man-db ;;
-    debian) PKG openssh-client openssh-server man-db manpages ;;
-esac
 
-#-------------------
-#CAMBIAR SHELL A ZSH
-#-------------------
+# Herramientas de compilación (Fedora necesita groupinstall)
+[[ "$DISTRO" == "fedora" ]] && sudo dnf groupinstall -y "Development Tools" || P build-tools
+
 chsh -s "$(command -v zsh)"
 
 #============================================================
 #  HERRAMIENTAS CLI
 #============================================================
-echo "INSTALANDO HERRAMIENTAS CLI..."
+echo "▶ Herramientas CLI..."
 
-# Prompt personalizable — en Arch y Fedora está en repos; en Debian via GitHub
+PKG bat ripgrep fzf btop jq tmux neovim kanshi
+P fd
+
+# starship (Debian no tiene paquete oficial)
 case "$DISTRO" in
     arch|fedora) PKG starship ;;
-    debian)      gh_install 'starship/starship' 'starship-x86_64-unknown-linux-gnu\.tar\.gz' 'starship' ;;
+    debian) gh_install 'starship/starship' 'starship-x86_64-unknown-linux-gnu\.tar\.gz' 'starship' ;;
 esac
 
-# bat=cat mejorado | eza=ls moderno | ripgrep=grep rápido
-PKG bat ripgrep
+# eza
 case "$DISTRO" in
     arch|fedora) PKG eza ;;
-    # En Debian Sid eza está en repos; si falla, gh_install
-    debian)
-        PKG eza 2>/dev/null \
-            || gh_install 'eza-community/eza' 'eza_x86_64-unknown-linux-gnu\.tar\.gz' 'eza'
-        ;;
+    debian) PKG eza 2>/dev/null \
+                || gh_install 'eza-community/eza' 'eza_x86_64-unknown-linux-gnu\.tar\.gz' 'eza' ;;
 esac
 
-# fd=find | sd=sed | procs=ps
+# sd, procs — mismas en arch/fedora; Debian puede no tenerlas
 case "$DISTRO" in
-    arch)          PKG fd sd procs ;;
-    # Fedora: fd se llama fd-find (el binario sigue siendo 'fd')
-    fedora)        PKG fd-find sd procs ;;
-    # Debian: fd-find igual que Fedora; sd y procs via GitHub si no están en repos
+    arch|fedora) PKG sd procs ;;
     debian)
-        PKG fd-find
-        PKG sd    2>/dev/null || gh_install 'chmln/sd'    'sd-v.*-x86_64-unknown-linux-gnu\.tar\.gz' 'sd'
-        PKG procs 2>/dev/null || gh_install 'dalance/procs' 'procs-v.*-x86_64-linux\.zip' 'procs'
+        PKG sd    2>/dev/null || gh_install 'chmln/sd'      'sd-v.*-x86_64-unknown-linux-gnu\.tar\.gz' 'sd'
+        PKG procs 2>/dev/null || gh_install 'dalance/procs' 'procs-v.*-x86_64-linux\.zip'              'procs'
         ;;
 esac
 
-# Fuzzy finder
-PKG fzf
-
-# btop=monitor | duf=df moderno | dust=du moderno | fastfetch=info del sistema
-PKG btop
+# duf, dust, fastfetch
 case "$DISTRO" in
     arch|fedora) PKG duf dust fastfetch ;;
     debian)
-        PKG duf 2>/dev/null || gh_install 'muesli/duf' 'duf_.*_linux_amd64\.tar\.gz' 'duf'
-        PKG dust 2>/dev/null || gh_install 'bootandy/dust' 'dust-v.*-x86_64-unknown-linux-gnu\.tar\.gz' 'dust'
-        PKG fastfetch 2>/dev/null || gh_install 'fastfetch-cli/fastfetch' 'fastfetch-linux-amd64\.tar\.gz' 'fastfetch'
+        PKG duf       2>/dev/null || gh_install 'muesli/duf'              'duf_.*_linux_amd64\.tar\.gz'                  'duf'
+        PKG dust      2>/dev/null || gh_install 'bootandy/dust'           'dust-v.*-x86_64-unknown-linux-gnu\.tar\.gz'   'dust'
+        PKG fastfetch 2>/dev/null || gh_install 'fastfetch-cli/fastfetch' 'fastfetch-linux-amd64\.tar\.gz'               'fastfetch'
         ;;
 esac
 
-# tmux=multiplexor | zoxide=cd inteligente
-PKG tmux
+# zoxide
 case "$DISTRO" in
     arch|fedora) PKG zoxide ;;
-    debian)
-        PKG zoxide 2>/dev/null \
-            || curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
-        ;;
+    debian) PKG zoxide 2>/dev/null \
+                || curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh ;;
 esac
 
-# tldr: man pages con ejemplos
+# tldr / tealdeer
 case "$DISTRO" in
     arch)   PKG tldr ;;
     fedora) PKG tealdeer ;;
-    # tealdeer en Debian via GitHub si no está en repos
-    debian)
-        PKG tealdeer 2>/dev/null \
-            || gh_install 'dbrgn/tealdeer' 'tealdeer-linux-x86_64-musl' 'tldr'
-        ;;
+    debian) PKG tealdeer 2>/dev/null \
+                || gh_install 'dbrgn/tealdeer' 'tealdeer-linux-x86_64-musl' 'tldr' ;;
 esac
 
-# File manager en terminal
+# yazi (Arch tiene paquete; resto desde GitHub)
 case "$DISTRO" in
-    arch)          PKG yazi ;;
-    fedora|debian) gh_install 'sxyazi/yazi' 'yazi-x86_64-unknown-linux-gnu\.tar\.gz' 'yazi' ;;
+    arch) PKG yazi ;;
+    *)    gh_install 'sxyazi/yazi' 'yazi-x86_64-unknown-linux-gnu\.tar\.gz' 'yazi' ;;
 esac
 
-# git-delta: diff visual mejorado
+# git-delta
 case "$DISTRO" in
     arch|fedora) PKG git-delta ;;
-    debian)
-        PKG git-delta 2>/dev/null \
-            || gh_install 'dandavison/delta' 'delta-.*-x86_64-unknown-linux-gnu\.tar\.gz' 'delta'
-        ;;
+    debian) PKG git-delta 2>/dev/null \
+                || gh_install 'dandavison/delta' 'delta-.*-x86_64-unknown-linux-gnu\.tar\.gz' 'delta' ;;
 esac
 
-# lazygit: TUI de git
+# lazygit (solo Arch tiene paquete)
 case "$DISTRO" in
-    arch)          PKG lazygit ;;
-    fedora|debian) gh_install 'jesseduffield/lazygit' 'lazygit_.*_Linux_x86_64\.tar\.gz' 'lazygit' ;;
+    arch) PKG lazygit ;;
+    *)    gh_install 'jesseduffield/lazygit' 'lazygit_.*_Linux_x86_64\.tar\.gz' 'lazygit' ;;
 esac
 
-# bandwhich: monitor de ancho de banda por proceso
+# bandwhich
 case "$DISTRO" in
     arch|fedora) PKG bandwhich ;;
-    debian)
-        PKG bandwhich 2>/dev/null \
-            || gh_install 'imsnif/bandwhich' 'bandwhich-v.*-x86_64-unknown-linux-musl\.tar\.gz' 'bandwhich'
-        ;;
+    debian) PKG bandwhich 2>/dev/null \
+                || gh_install 'imsnif/bandwhich' 'bandwhich-v.*-x86_64-unknown-linux-musl\.tar\.gz' 'bandwhich' ;;
 esac
 
-# jq: procesador de JSON
-PKG jq
-
-# glow: lector de markdown en terminal
+# glow (solo Arch tiene paquete)
 case "$DISTRO" in
-    arch)          PKG glow ;;
-    fedora|debian) gh_install 'charmbracelet/glow' 'glow_Linux_x86_64\.tar\.gz' 'glow' ;;
+    arch) PKG glow ;;
+    *)    gh_install 'charmbracelet/glow' 'glow_Linux_x86_64\.tar\.gz' 'glow' ;;
 esac
 
-# hyperfine: benchmarking de comandos
+# hyperfine
 case "$DISTRO" in
     arch|fedora) PKG hyperfine ;;
-    debian)
-        PKG hyperfine 2>/dev/null \
-            || gh_install 'sharkdp/hyperfine' 'hyperfine-v.*-x86_64-unknown-linux-gnu\.tar\.gz' 'hyperfine'
-        ;;
+    debian) PKG hyperfine 2>/dev/null \
+                || gh_install 'sharkdp/hyperfine' 'hyperfine-v.*-x86_64-unknown-linux-gnu\.tar\.gz' 'hyperfine' ;;
 esac
-
-# Daemon cron — necesario para el crontab de actualización automática
-case "$DISTRO" in
-    arch|fedora) PKG cronie ;;
-    debian)      PKG cron ;;
-esac
-sudo systemctl enable cron 2>/dev/null || sudo systemctl enable cronie 2>/dev/null || true
-
-# Gestor de perfiles de monitor (detecta pantallas y aplica config)
-PKG kanshi
-
-# Editor
-PKG neovim
-
-# Contenedores y snapshots del sistema
-case "$DISTRO" in
-    arch)
-        PKG docker timeshift
-        ;;
-    fedora)
-        # Docker CE desde el repo oficial (añadido en pre-setup)
-        sudo dnf install -y docker-ce docker-ce-cli containerd.io \
-            docker-buildx-plugin docker-compose-plugin
-        sudo dnf install -y timeshift 2>/dev/null \
-            || echo "  WARN: timeshift no encontrado. Habilita: sudo dnf copr enable paolosr/timeshift"
-        ;;
-    debian)
-        # Docker CE desde el repo oficial (añadido en pre-setup)
-        sudo apt install -y docker-ce docker-ce-cli containerd.io \
-            docker-buildx-plugin docker-compose-plugin
-        # timeshift en Debian via GitHub (paquete .deb oficial)
-        TMP_DEB=$(mktemp -d)
-        TS_URL=$(curl -s "https://api.github.com/repos/teejee2008/timeshift/releases/latest" \
-            | grep "browser_download_url" | grep "\.deb" | head -1 | cut -d '"' -f 4)
-        if [[ -n "$TS_URL" ]]; then
-            curl -sL "$TS_URL" -o "$TMP_DEB/timeshift.deb"
-            sudo apt install -y "$TMP_DEB/timeshift.deb" 2>/dev/null \
-                || echo "  WARN: timeshift .deb no instalado"
-        fi
-        rm -rf "$TMP_DEB"
-        ;;
-esac
-sudo systemctl enable docker
-sudo usermod -aG docker "$USER"
-echo "NOTA: El grupo 'docker' requiere cerrar sesión completamente para tener efecto."
 
 #============================================================
-#  RED Y DIAGNÓSTICO
+#  RED Y DISCO
 #============================================================
-echo "INSTALANDO HERRAMIENTAS DE RED..."
+echo "▶ Red y hardware..."
 
 PKG nmap net-tools traceroute mtr iperf3
+P bind-utils
 
-# Herramientas DNS: distinto nombre según distro
+PKG smartmontools nvme-cli lsof usbutils pciutils ntfs-3g udisks2 udiskie wf-recorder
+
 case "$DISTRO" in
-    arch)          PKG bind-tools ;;
-    fedora)        PKG bind-utils ;;
-    debian)        PKG dnsutils ;;
+    arch)   PKG reflector pacman-contrib ;;
+    fedora) PKG dnf-plugins-core ;;
+    debian) PKG apt-utils ;;
 esac
 
 #============================================================
-#  DISCO Y HARDWARE
+#  SEGURIDAD Y CRON
 #============================================================
-echo "INSTALANDO HERRAMIENTAS DE DISCO Y HARDWARE..."
+echo "▶ Seguridad y cron..."
 
-PKG smartmontools nvme-cli lsof usbutils pciutils ntfs-3g udisks2 udiskie
+P gnupg
 
-#============================================================
-#  GESTIÓN DEL SISTEMA
-#============================================================
-echo "INSTALANDO HERRAMIENTAS DE GESTIÓN DEL SISTEMA..."
-
-# Grabación de pantalla en Wayland
-PKG wf-recorder
-
-case "$DISTRO" in
-    arch)
-        # Actualiza la lista de mirrors de pacman ordenados por velocidad
-        PKG reflector
-        # paccache, pacdiff y otras utilidades de pacman
-        PKG pacman-contrib
-        ;;
-    fedora)
-        # Fedora gestiona mirrors automáticamente (fastestmirror en dnf)
-        PKG dnf-plugins-core
-        ;;
-    debian)
-        # Debian gestiona mirrors automáticamente
-        # apt-utils incluye herramientas de gestión útiles
-        PKG apt-utils
-        ;;
-esac
-
-#============================================================
-#  SEGURIDAD
-#============================================================
-echo "INSTALANDO HERRAMIENTAS DE SEGURIDAD..."
-
-# GPG: nombre del paquete según distro
-case "$DISTRO" in
-    arch)          PKG gnupg ;;
-    fedora|debian) PKG gnupg2 ;;
-esac
-
-# age: cifrado moderno de ficheros
 case "$DISTRO" in
     arch|fedora) PKG age ;;
-    debian)
-        PKG age 2>/dev/null \
-            || gh_install 'FiloSottile/age' 'age-v.*-linux-amd64\.tar\.gz' 'age'
-        ;;
+    debian) PKG age 2>/dev/null \
+                || gh_install 'FiloSottile/age' 'age-v.*-linux-amd64\.tar\.gz' 'age' ;;
 esac
+
+P cronie
+sudo systemctl enable cron 2>/dev/null || sudo systemctl enable cronie 2>/dev/null || true
 
 #============================================================
 #  AUDIO (PIPEWIRE)
 #============================================================
-echo "INSTALANDO PAQUETES DE AUDIO..."
-# Fedora 34+ y Debian 12+ instalan PipeWire por defecto.
+echo "▶ Audio..."
 
 PKG pipewire wireplumber pavucontrol pipewire-alsa
-
-# PulseAudio compat: nombre distinto en Fedora
-case "$DISTRO" in
-    arch|debian) PKG pipewire-pulse pipewire-jack ;;
-    fedora)      PKG pipewire-pulseaudio pipewire-jack-audio-connection-kit ;;
-esac
+P pipewire-pulse
+P pipewire-jack
 
 #============================================================
 #  BLUETOOTH
 #============================================================
-echo "INSTALANDO PAQUETES DE BLUETOOTH..."
+echo "▶ Bluetooth..."
 
 PKG bluez blueman
-
-# Herramientas CLI: nombre distinto según distro
-case "$DISTRO" in
-    arch)   PKG bluez-utils ;;
-    fedora) PKG bluez-tools ;;
-    debian) ;; # bluetoothctl ya viene incluido en el paquete bluez de Debian
-esac
+P bluez-utils
 
 sudo systemctl enable bluetooth
-sudo systemctl start bluetooth 2>/dev/null || true  # puede fallar en VM sin hardware BT
+sudo systemctl start bluetooth 2>/dev/null || true
 
 #============================================================
 #  RED
 #============================================================
-echo "INSTALANDO GESTIÓN DE RED..."
+echo "▶ Red..."
 
 PKG networkmanager
 sudo systemctl enable NetworkManager
+[[ "$DISTRO" == "fedora" ]] && PKG nm-connection-editor
+P nm-applet
+
+#============================================================
+#  DOCKER
+#============================================================
+echo "▶ Docker..."
 
 case "$DISTRO" in
-    arch)   PKG network-manager-applet ;;
-    fedora) PKG NetworkManager nm-connection-editor network-manager-applet ;;
-    # En Debian, nm-applet viene en el paquete network-manager-gnome
-    debian) PKG network-manager-gnome ;;
+    arch) PKG docker ;;
+    *)    PKG docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin ;;
+esac
+sudo systemctl enable docker
+sudo usermod -aG docker "$USER"
+echo "NOTA: El grupo 'docker' requiere cerrar sesión para tener efecto."
+
+# Timeshift
+case "$DISTRO" in
+    arch) PKG timeshift ;;
+    fedora)
+        PKG timeshift 2>/dev/null \
+            || echo "  WARN: timeshift no disponible — habilita: sudo dnf copr enable paolosr/timeshift"
+        ;;
+    debian)
+        TS_TMP=$(mktemp -d)
+        TS_URL=$(curl -s "https://api.github.com/repos/teejee2008/timeshift/releases/latest" \
+            | grep "browser_download_url" | grep "\.deb" | head -1 | cut -d '"' -f 4)
+        if [[ -n "$TS_URL" ]]; then
+            curl -sL "$TS_URL" -o "$TS_TMP/timeshift.deb"
+            sudo apt install -y "$TS_TMP/timeshift.deb" 2>/dev/null || echo "  WARN: timeshift .deb no instalado"
+        fi
+        rm -rf "$TS_TMP"
+        ;;
 esac
 
 #============================================================
-#  NÚCLEO HYPRLAND
+#  HYPRLAND
 #============================================================
-echo "INSTALANDO NÚCLEO HYPRLAND..."
-# En Fedora los paquetes vienen del COPR solopasha/hyprland.
-# En Debian los paquetes están en Sid/Testing.
-# En Arch están en los repositorios oficiales.
+echo "▶ Hyprland..."
 
-# Compositor y librerías Hypr — en Debian solo se instala hyprland
-# (aquamarine, hyprlang, etc. son dependencias automáticas via apt)
 case "$DISTRO" in
     arch|fedora) PKG hyprland aquamarine hyprlang hyprcursor hyprutils hyprgraphics ;;
     debian)      PKG hyprland ;;
 esac
 
-# Daemon de inactividad
-PKG hypridle
-
-# Pantalla de bloqueo
-PKG hyprlock
-
-# Portales XDG: screenshare, selectores de ficheros, apps sandboxed
+PKG hypridle hyprlock
 PKG xdg-desktop-portal-hyprland xdg-desktop-portal-gtk
 
-# Agente de autenticación gráfica
+# Polkit
 case "$DISTRO" in
     arch|fedora) PKG polkit-gnome ;;
-    # En Debian el paquete se llama distinto según versión
     debian)      PKG policykit-1-gnome 2>/dev/null || PKG polkit-gnome 2>/dev/null || true ;;
 esac
 
-# Soporte Wayland para apps Qt5 y Qt6
-case "$DISTRO" in
-    arch)   PKG qt5-wayland qt6-wayland ;;
-    fedora) PKG qt5-qtwayland qt6-qtwayland ;;
-    debian) PKG qtwayland5 qt6-wayland 2>/dev/null || PKG qtwayland5 ;;
-esac
+P qt5-wayland
+P qt6-wayland
 
 #============================================================
 #  PLUGINS DE HYPRLAND (hyprpm)
 #============================================================
-echo "INSTALANDO PLUGINS DE HYPRLAND..."
-# hyprpm compila los plugins para la versión exacta instalada.
+echo "▶ Plugins de Hyprland..."
 
-case "$DISTRO" in
-    fedora) PKG hyprland-devel 2>/dev/null || true ;;
-    debian) PKG libhyprland-dev 2>/dev/null || true ;;
-esac
+[[ "$DISTRO" == "fedora" ]] && PKG hyprland-devel 2>/dev/null || true
+[[ "$DISTRO" == "debian" ]] && PKG libhyprland-dev 2>/dev/null || true
 
 hyprpm update
 hyprpm add https://github.com/hyprwm/hyprland-plugins   # hyprexpo + borders-plus-plus
-hyprpm add https://github.com/VortexCoyote/hyprfocus     # efecto de enfoque al cambiar ventana
+hyprpm add https://github.com/VortexCoyote/hyprfocus     # efecto de enfoque
 hyprpm enable borders-plus-plus
 hyprpm enable hyprexpo
 hyprpm enable hyprfocus
@@ -606,116 +458,93 @@ hyprpm enable hyprfocus
 #============================================================
 #  ENTORNO VISUAL
 #============================================================
-echo "INSTALANDO ENTORNO VISUAL..."
+echo "▶ Entorno visual..."
 
-# Emulador de terminal con aceleración GPU
-PKG kitty
+PKG kitty waybar
 
-# Barra de estado
-PKG waybar
-
-# Gestor de notificaciones
+# swaync
 case "$DISTRO" in
     arch)   PKG swaync ;;
     fedora) PKG SwayNotificationCenter ;;
-    # En Debian swaync no está en repos → instalar binario desde GitHub
     debian)
         PKG swaync 2>/dev/null \
             || gh_install 'ErikReider/SwayNotificationCenter' \
                'sway-notification-center_.*_amd64\.deb' 'swaync' 2>/dev/null \
-            || echo "  WARN: swaync no instalado — instalar manualmente desde github.com/ErikReider/SwayNotificationCenter"
+            || echo "  WARN: swaync no instalado — instalar desde github.com/ErikReider/SwayNotificationCenter"
         ;;
 esac
 
-# Fondo de pantalla con transiciones animadas
+# swww
 case "$DISTRO" in
     arch|fedora) PKG swww ;;
-    # swww en Debian via GitHub binary
-    debian)
-        PKG swww 2>/dev/null \
-            || gh_install 'LGFae/swww' 'swww-.*-x86_64-unknown-linux-musl\.tar\.gz' 'swww'
-        ;;
+    debian) PKG swww 2>/dev/null \
+                || gh_install 'LGFae/swww' 'swww-.*-x86_64-unknown-linux-musl\.tar\.gz' 'swww' ;;
 esac
 
-# Capturas de pantalla
 PKG grim slurp
+
+# swappy
 case "$DISTRO" in
     arch|fedora) PKG swappy ;;
     debian)      PKG swappy 2>/dev/null || echo "  WARN: swappy no disponible en apt" ;;
 esac
 
-# Portapapeles Wayland y su historial
 PKG wl-clipboard
+
+# cliphist
 case "$DISTRO" in
     arch|fedora) PKG cliphist ;;
-    debian)
-        PKG cliphist 2>/dev/null \
-            || gh_install 'sentriz/cliphist' 'linux_amd64$' 'cliphist'
-        ;;
+    debian) PKG cliphist 2>/dev/null \
+                || gh_install 'sentriz/cliphist' 'linux_amd64$' 'cliphist' ;;
 esac
 
-# Control de brillo y multimedia
 PKG brightnessctl playerctl
 
-# OSD de volumen/brillo en pantalla
+# swayosd
 case "$DISTRO" in
     arch|fedora) PKG swayosd ;;
     debian)
         PKG swayosd 2>/dev/null \
-            || echo "  WARN: swayosd no disponible en apt — instalar desde github.com/ErikReider/SwayOSD"
+            || echo "  WARN: swayosd no disponible — instalar desde github.com/ErikReider/SwayOSD"
         ;;
 esac
 
-# Filtro de luz azul nocturno
+# wlsunset
 case "$DISTRO" in
     arch|fedora) PKG wlsunset ;;
     debian)      PKG wlsunset 2>/dev/null || PKG gammastep 2>/dev/null || true ;;
 esac
 
-# Gestor de contraseñas
 PKG pass
 
-# Chat (Discord)
+# Discord
 case "$DISTRO" in
-    arch)          PKG discord ;;
-    fedora|debian) flatpak install -y flathub com.discordapp.Discord ;;
+    arch) PKG discord ;;
+    *)    flatpak install -y flathub com.discordapp.Discord ;;
 esac
 
 #============================================================
 #  MULTIMEDIA
 #============================================================
-echo "INSTALANDO HERRAMIENTAS MULTIMEDIA..."
+echo "▶ Multimedia..."
 
-# ffmpeg
-case "$DISTRO" in
-    arch)   PKG ffmpeg ;;
-    fedora) PKG ffmpeg ffmpeg-libs ;;
-    debian) PKG ffmpeg ;;
-esac
-
-# ImageMagick: capitalización distinta en Fedora
-case "$DISTRO" in
-    arch|debian) PKG imagemagick ;;
-    fedora)      PKG ImageMagick ;;
-esac
-
+P ffmpeg
+P imagemagick
 PKG mpv imv
 
-# Visor de PDFs + plugin mupdf
+# zathura + plugin mupdf
 case "$DISTRO" in
     arch|fedora) PKG zathura zathura-pdf-mupdf ;;
-    # En Debian el plugin mupdf se llama zathura-plugin-mupdf
     debian)      PKG zathura zathura-plugin-mupdf 2>/dev/null || PKG zathura ;;
 esac
 
 #============================================================
 #  FUENTES
 #============================================================
-echo "INSTALANDO FUENTES..."
+echo "▶ Fuentes..."
 
 case "$DISTRO" in
     arch)
-        # Nerd Fonts disponibles directamente en repos de Arch
         PKG ttf-hack-nerd ttf-jetbrains-mono-nerd ttf-font-awesome noto-fonts-emoji
         ;;
     fedora)
@@ -725,7 +554,6 @@ case "$DISTRO" in
         fc-cache -fv "$HOME/.local/share/fonts" 2>/dev/null
         ;;
     debian)
-        # fonts-font-awesome | fonts-noto-color-emoji están en repos
         PKG fonts-font-awesome fonts-noto-color-emoji
         install_nerd_font "Hack"
         install_nerd_font "JetBrainsMono"
@@ -734,53 +562,38 @@ case "$DISTRO" in
 esac
 
 #============================================================
-#  PAQUETES EXTRA
+#  EXTRAS — APPS, CURSORES, TEMAS GTK
 #============================================================
-echo "INSTALANDO PAQUETES EXTRA..."
+echo "▶ Apps extra..."
 
 case "$DISTRO" in
     arch)
-        #--- PARU (AUR HELPER) ---
-        echo "  → Instalando paru (AUR helper)..."
-        PARU_BUILD=$(mktemp -d)
-        git clone https://aur.archlinux.org/paru.git "$PARU_BUILD"
-        (cd "$PARU_BUILD" && makepkg -si --noconfirm)
-        rm -rf "$PARU_BUILD"
+        # AUR helper
+        echo "  → Instalando paru..."
+        PARU_TMP=$(mktemp -d)
+        git clone https://aur.archlinux.org/paru.git "$PARU_TMP"
+        (cd "$PARU_TMP" && makepkg -si --noconfirm)
+        rm -rf "$PARU_TMP"
 
-        # Launcher de aplicaciones Wayland
         paru -S --noconfirm rofi-wayland rofi-calc
-        # Terminal dropdown/scratchpad para Hyprland
         paru -S --noconfirm pypr
-        # Calendario en terminal
-        PKG calcurse
-        # Navegadores
-        paru -S --noconfirm brave-bin tor-browser google-chrome-stable
-        # Música
-        paru -S --noconfirm spotify
-        # Nerd Fonts (pack completo)
+        PKG calcurse flameshot
+        PKG firefox
+        paru -S --noconfirm brave-bin google-chrome tor-browser spotify
         paru -S --noconfirm nerd-fonts
-        # Gestor de sesiones Wayland
         paru -S --noconfirm uwsm
-        # Capturas con GUI
-        PKG flameshot
-        # Iconos y cursores
         paru -S --noconfirm kora-icon-theme bibata-cursor-theme
-        # Tema GTK TokyoNight
         paru -S --noconfirm tokyonight-gtk-theme-git
         ;;
 
     fedora)
-        PKG calcurse flameshot
-        # uwsm (del COPR solopasha/hyprland)
-        PKG uwsm
-        # rofi-wayland (del COPR)
-        PKG rofi-wayland
-        # pyprland vía pip
-        PKG python3-pip
-        pip3 install --user pyprland
-        echo "  NOTA: pypr instalado en ~/.local/bin"
+        PKG calcurse flameshot uwsm rofi-wayland
+        PKG python3-pip && pip3 install --user pyprland
+        echo "  NOTA: pypr instalado en ~/.local/bin — asegúrate de que está en \$PATH"
 
+        PKG firefox
         flatpak install -y flathub com.brave.Browser
+        flatpak install -y flathub com.google.Chrome
         flatpak install -y flathub com.github.micahflee.torbrowser-launcher
         flatpak install -y flathub com.spotify.Client
 
@@ -805,18 +618,15 @@ case "$DISTRO" in
 
     debian)
         PKG calcurse flameshot rofi
-
-        # uwsm (gestor de sesiones Wayland) — intentar apt; si falla, GitHub
         PKG uwsm 2>/dev/null \
             || gh_install 'Vladimir-csp/uwsm' 'uwsm-.*-x86_64.*\.tar\.gz' 'uwsm' 2>/dev/null \
             || echo "  WARN: uwsm no disponible — arranca Hyprland directamente desde TTY"
+        PKG python3-pip && pip3 install --user pyprland
+        echo "  NOTA: pypr instalado en ~/.local/bin — asegúrate de que está en \$PATH"
 
-        # pyprland vía pip
-        PKG python3-pip
-        pip3 install --user pyprland
-        echo "  NOTA: pypr instalado en ~/.local/bin"
-
+        PKG firefox 2>/dev/null || PKG firefox-esr 2>/dev/null || true
         flatpak install -y flathub com.brave.Browser
+        flatpak install -y flathub com.google.Chrome
         flatpak install -y flathub com.github.micahflee.torbrowser-launcher
         flatpak install -y flathub com.spotify.Client
 
@@ -843,52 +653,45 @@ esac
 #============================================================
 #  SYMLINKS
 #============================================================
-echo "CREANDO SYMLINKS..."
-DOTFILES="$DOTFILES_STATIC"
+echo "▶ Creando symlinks..."
 mkdir -p ~/.config
 
 # Archivos en $HOME
 ln -sf "$DOTFILES/.zshrc"    ~/.zshrc
 ln -sf "$DOTFILES/.zprofile" ~/.zprofile
+ln -sf "$DOTFILES/.gitconfig" ~/.gitconfig
 
 # Carpetas en ~/.config
 for cfg in hypr kitty nvim waybar swaync rofi starship tmux yazi fastfetch \
-           kanshi btop mpv zathura gtk-3.0 gtk-4.0; do
+           kanshi btop mpv zathura gtk-3.0 gtk-4.0 \
+           themes calcurse swayosd pypr hyprexpose; do
     ln -sf "$DOTFILES/.config/$cfg" ~/.config/$cfg
 done
 
+# Wallpapers
 mkdir -p "$DOTFILES/.config/.wallpaper"
-ln -sf "$DOTFILES/.config/.wallpaper"    ~/.config/.wallpaper
+ln -sf "$DOTFILES/.config/.wallpaper" ~/.config/.wallpaper
 ln -sf "$DOTFILES/.config/user-dirs.dirs" ~/.config/user-dirs.dirs
-ln -sf "$DOTFILES/.gitconfig"             ~/.gitconfig
 
 # Configs de sistema específicas de Arch
-case "$DISTRO" in
-    arch)
-        [[ -f /etc/pacman.conf ]] && sudo cp /etc/pacman.conf /etc/pacman.conf.bak
-        sudo cp "$DOTFILES/etc/pacman.conf" /etc/pacman.conf
-        sudo mkdir -p /etc/xdg/reflector
-        sudo cp "$DOTFILES/etc/reflector.conf" /etc/xdg/reflector/reflector.conf
-        sudo systemctl enable reflector.timer
-        ;;
-    # Fedora y Debian gestionan sus repos automáticamente
-esac
+if [[ "$DISTRO" == "arch" ]]; then
+    [[ -f /etc/pacman.conf ]] && sudo cp /etc/pacman.conf /etc/pacman.conf.bak
+    sudo cp "$DOTFILES/etc/pacman.conf" /etc/pacman.conf
+    sudo mkdir -p /etc/xdg/reflector
+    sudo cp "$DOTFILES/etc/reflector.conf" /etc/xdg/reflector/reflector.conf
+    sudo systemctl enable reflector.timer
+fi
 
-chmod +x "$DOTFILES/update.sh"
-chmod +x "$DOTFILES/sync.sh"
+# Permisos de scripts
+chmod +x "$DOTFILES/update.sh" "$DOTFILES/sync.sh"
 chmod +x "$DOTFILES/.config/hypr/scripts/"*.sh
 chmod +x "$DOTFILES/.config/waybar/"*.sh
 chmod +x "$DOTFILES/.config/swaync/"*.sh
 
-# Tema por defecto (tokyonight)
-ln -sf "$DOTFILES/.config/waybar/themes/tokyonight.css"           ~/.config/waybar/theme.css
-ln -sf "$DOTFILES/.config/kitty/themes/tokyonight.conf"           ~/.config/kitty/theme.conf
-ln -sf "$DOTFILES/.config/rofi/themes/tokyonight.rasi"            ~/.config/rofi/theme.rasi
-ln -sf "$DOTFILES/.config/swaync/themes/tokyonight.css"           ~/.config/swaync/theme.css
-ln -sf "$DOTFILES/.config/hypr/themes/tokyonight.conf"            ~/.config/hypr/theme.conf
-ln -sf "$DOTFILES/.config/hypr/themes/hyprlock-tokyonight.conf"   ~/.config/hypr/hyprlock-theme.conf
-ln -sf "$DOTFILES/.config/tmux/themes/tokyonight.conf"            ~/.config/tmux/theme.conf
-ln -sf "$DOTFILES/.config/starship/themes/tokyonight.toml"        ~/.config/starship/starship.toml
+# Aplicar tema inicial (tokyonight) usando theme-functions
+# shellcheck source=.config/hypr/scripts/lib/theme-functions.sh
+source "$DOTFILES/.config/hypr/scripts/lib/theme-functions.sh"
+apply_theme_symlinks "tokyonight"
 
 echo "tokyonight"        > ~/.config/.current-theme
 echo "Bibata-Modern-Ice" > ~/.config/.current-cursor
@@ -898,57 +701,74 @@ xdg-user-dirs-update
 #============================================================
 #  TPM — TMUX PLUGIN MANAGER
 #============================================================
-echo "INSTALANDO TPM..."
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+echo "▶ Instalando TPM..."
+[[ -d ~/.tmux/plugins/tpm ]] \
+    || git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 #============================================================
 #  OH MY ZSH
 #============================================================
-echo "INSTALANDO OH MY ZSH..."
-if [ ! -d "$HOME/.oh-my-zsh" ]; then
+echo "▶ Instalando Oh My Zsh..."
+if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 fi
 
-git clone https://github.com/zsh-users/zsh-autosuggestions \
-    "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"
-git clone https://github.com/zsh-users/zsh-syntax-highlighting \
-    "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting"
-git clone https://github.com/zsh-users/zsh-history-substring-search \
-    "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-history-substring-search"
+ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
+[[ -d "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]] \
+    || git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH_CUSTOM/plugins/zsh-autosuggestions"
+[[ -d "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]] \
+    || git clone https://github.com/zsh-users/zsh-syntax-highlighting "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
+[[ -d "$ZSH_CUSTOM/plugins/zsh-history-substring-search" ]] \
+    || git clone https://github.com/zsh-users/zsh-history-substring-search "$ZSH_CUSTOM/plugins/zsh-history-substring-search"
 
 #============================================================
 #  CRONTAB — ACTUALIZACIÓN AUTOMÁTICA AL ARRANCAR
 #============================================================
-echo "CONFIGURANDO ACTUALIZACIÓN AUTOMÁTICA..."
+echo "▶ Configurando actualización automática..."
 (crontab -l 2>/dev/null | grep -v 'update.sh'; \
- echo "@reboot sleep 60 && ${DOTFILES_STATIC}/update.sh >> \$HOME/.local/share/update.log 2>&1") | crontab -
+ echo "@reboot sleep 60 && ${DOTFILES}/update.sh >> \$HOME/.local/share/update.log 2>&1") | crontab -
 
 #============================================================
-#  INICIO DE SESIÓN EN TERMINAL (autologin TTY1 → zsh → Hyprland)
+#  AUTOLOGIN TTY1 → ZSH → HYPRLAND (via uwsm)
 #============================================================
-echo "CONFIGURANDO INICIO DE SESIÓN EN TERMINAL..."
+echo "▶ Configurando autologin en TTY1..."
 
 for dm in gdm sddm lightdm ly greetd lxdm; do
-    if systemctl is-enabled "$dm" &>/dev/null; then
-        echo "  → Deshabilitando $dm..."
-        sudo systemctl disable "$dm"
-    fi
+    systemctl is-enabled "$dm" &>/dev/null && sudo systemctl disable "$dm"
 done
 
-sudo systemctl set-default multi-user.target
-echo "Login configurado en terminal"
+sudo systemctl enable getty@tty1
+sudo mkdir -p /etc/systemd/system/getty@tty1.service.d
+sudo tee /etc/systemd/system/getty@tty1.service.d/autologin.conf > /dev/null <<EOF
+[Service]
+ExecStart=
+ExecStart=-/sbin/agetty --autologin $USER --noclear %I \$TERM
+EOF
+echo "  ✓ Autologin configurado para '$USER' en TTY1."
 
 #============================================================
 #  RESUMEN FINAL
 #============================================================
 echo ""
 echo "======================================================"
-echo " INSTALACIÓN COMPLETADA — $DISTRO + HYPRLAND"
+echo "  INSTALACIÓN COMPLETADA — $DISTRO + Hyprland"
 echo "======================================================"
 echo ""
-echo "  → Reinicia el sistema para aplicar todos los cambios."
+echo "  → Reinicia para aplicar todos los cambios."
 echo ""
-echo "  PENDIENTE (configura antes de usar git):"
+echo "  Configura git antes de usar:"
 echo "    git config --global user.name  'Tu Nombre'"
 echo "    git config --global user.email 'tu@email.com'"
 echo ""
+
+if [[ "$DISTRO" =~ ^(fedora|debian)$ ]]; then
+    echo "  APPS INSTALADAS COMO FLATPAK:"
+    echo "    brave      → flatpak run com.brave.Browser"
+    echo "    chrome     → flatpak run com.google.Chrome"
+    echo "    spotify    → flatpak run com.spotify.Client"
+    echo "    discord    → flatpak run com.discordapp.Discord"
+    echo "    torbrowser → flatpak run com.github.micahflee.torbrowser-launcher"
+    echo ""
+    echo "  pypr instalado en ~/.local/bin (ya en \$PATH via .zprofile)"
+    echo ""
+fi
