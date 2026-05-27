@@ -19,7 +19,7 @@ count_cut      = { fg = "#16161e", bg = "#f7768e" }
 count_selected = { fg = "#16161e", bg = "#7aa2f7" }
 
 border_symbol = "│"
-border_style  = { fg = "#27a1b9" }
+border_style  = { fg = "#0db9d7" }
 
 [tabs]
 active   = { fg = "#15161e", bg = "#7aa2f7" }
@@ -49,7 +49,7 @@ perm_exec  = { fg = "#9ece6a" }
 perm_sep   = { fg = "#414868" }
 
 [pick]
-border   = { fg = "#27a1b9" }
+border   = { fg = "#0db9d7" }
 active   = { fg = "#c0caf5", bg = "#283457" }
 inactive = { fg = "#c0caf5" }
 
@@ -61,15 +61,15 @@ selected = { bg = "#283457" }
 
 [cmp]
 border   = { fg = "#0db9d7" }
-active   = { fg = "#c0caf5", bg = "#343a55" }
+active   = { fg = "#c0caf5", bg = "#292e42" }
 inactive = { fg = "#c0caf5" }
 icon_file    = ""
 icon_folder  = ""
 icon_command = ""
 
 [tasks]
-border  = { fg = "#27a1b9" }
-title   = { fg = "#27a1b9" }
+border  = { fg = "#0db9d7" }
+title   = { fg = "#0db9d7" }
 hovered = { fg = "#c0caf5", bg = "#283457" }
 
 [which]
@@ -83,14 +83,14 @@ separator_style = { fg = "#565f89" }
 
 [confirm]
 border     = { fg = "#0db9d7" }
-title      = { fg = "#27a1b9" }
+title      = { fg = "#0db9d7" }
 btn_yes    = { bg = "#283457" }
 btn_no     = {}
 btn_labels = [ "  [Y]es  ", "  (N)o  " ]
 
 [spot]
-border = { fg = "#27a1b9" }
-title  = { fg = "#27a1b9" }
+border = { fg = "#0db9d7" }
+title  = { fg = "#0db9d7" }
 
 [notify]
 title_info  = { fg = "#0db9d7" }

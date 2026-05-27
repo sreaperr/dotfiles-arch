@@ -3,9 +3,9 @@
  */
 
 * {
-    background:       rgba(26, 27, 46, 0.90);
-    background-alt:   rgba(18, 19, 36, 0.95);
-    background-hover: rgba(32, 34, 62, 0.82);
+    background:       rgba(26, 27, 38, 0.90);
+    background-alt:   rgba(22, 22, 30, 0.95);
+    background-hover: rgba(41, 46, 66, 0.82);
     foreground:       #c0caf5;
     foreground-dim:   #565f89;
     selected:         #7dcfff;
