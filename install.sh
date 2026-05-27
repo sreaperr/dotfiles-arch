@@ -16,6 +16,16 @@ echo "===================================================="
 echo "  Distribución: $DISTRO  (${PRETTY_NAME:-})"
 echo "===================================================="
 
+# ── Arquitectura ──────────────────────────────────────────
+# ARCH     → x86_64 | aarch64  (herramientas Rust, la mayoría)
+# ARCH_GO  → amd64  | arm64    (herramientas Go: lazygit, glow, age, duf, cliphist…)
+ARCH=$(uname -m)
+case "$ARCH" in
+    x86_64)  ARCH_GO="amd64" ;;
+    aarch64) ARCH_GO="arm64" ;;
+    *)        echo "WARN: arquitectura '$ARCH' no probada — los binarios de GitHub pueden fallar." ;;
+esac
+
 # ── Comprobaciones previas ────────────────────────────────
 [[ "$EUID" -eq 0 ]]                        && { echo "No ejecutar como root."; exit 1; }
 [[ ! -x "$(realpath "${BASH_SOURCE[0]}")" ]] && { echo "Haz ejecutable: chmod +x install.sh"; exit 1; }
@@ -197,22 +207,6 @@ case "$DISTRO" in
     debian) sudo apt update && sudo apt full-upgrade -y ;;
 esac
 
-#============================================================
-#  LIMPIAR OTROS WM/DE
-#============================================================
-echo "▶ Eliminando otros WM/DE..."
-OTHER_WM=(gnome-shell gnome-session gnome-control-center mutter gdm
-          plasma-desktop plasma-workspace kwin sddm
-          xfce4-session xfwm4 lxqt-session lxde-common
-          i3 i3-gaps sway openbox bspwm awesome qtile
-          mate-session-manager cinnamon lightdm ly greetd lxdm)
-for pkg in "${OTHER_WM[@]}"; do
-    case "$DISTRO" in
-        arch)   pacman -Qi "$pkg" &>/dev/null && sudo pacman -Rns --noconfirm "$pkg" 2>/dev/null || true ;;
-        fedora) rpm -q "$pkg" &>/dev/null && sudo dnf remove -y "$pkg" 2>/dev/null || true ;;
-        debian) dpkg -l "$pkg" 2>/dev/null | grep -q "^ii" && sudo apt remove -y --purge "$pkg" 2>/dev/null || true ;;
-    esac
-done
 
 #============================================================
 #  BASE DEL SISTEMA
@@ -246,32 +240,32 @@ P fd
 # starship (Debian no tiene paquete oficial)
 case "$DISTRO" in
     arch|fedora) PKG starship ;;
-    debian) gh_install 'starship/starship' 'starship-x86_64-unknown-linux-gnu\.tar\.gz' 'starship' ;;
+    debian) gh_install 'starship/starship' "starship-${ARCH}-unknown-linux-gnu\.tar\.gz" 'starship' ;;
 esac
 
 # eza
 case "$DISTRO" in
     arch|fedora) PKG eza ;;
     debian) PKG eza 2>/dev/null \
-                || gh_install 'eza-community/eza' 'eza_x86_64-unknown-linux-gnu\.tar\.gz' 'eza' ;;
+                || gh_install 'eza-community/eza' "eza_${ARCH}-unknown-linux-gnu\.tar\.gz" 'eza' ;;
 esac
 
-# sd, procs — mismas en arch/fedora; Debian puede no tenerlas
+# sd, procs
 case "$DISTRO" in
     arch|fedora) PKG sd procs ;;
     debian)
-        PKG sd    2>/dev/null || gh_install 'chmln/sd'      'sd-v.*-x86_64-unknown-linux-gnu\.tar\.gz' 'sd'
-        PKG procs 2>/dev/null || gh_install 'dalance/procs' 'procs-v.*-x86_64-linux\.zip'              'procs'
+        PKG sd    2>/dev/null || gh_install 'chmln/sd'      "sd-v.*-${ARCH}-unknown-linux-gnu\.tar\.gz" 'sd'
+        PKG procs 2>/dev/null || gh_install 'dalance/procs' "procs-v.*-${ARCH}-linux\.zip"              'procs'
         ;;
 esac
 
-# duf, dust, fastfetch
+# duf (Go → ARCH_GO), dust, fastfetch (Go → ARCH_GO)
 case "$DISTRO" in
     arch|fedora) PKG duf dust fastfetch ;;
     debian)
-        PKG duf       2>/dev/null || gh_install 'muesli/duf'              'duf_.*_linux_amd64\.tar\.gz'                  'duf'
-        PKG dust      2>/dev/null || gh_install 'bootandy/dust'           'dust-v.*-x86_64-unknown-linux-gnu\.tar\.gz'   'dust'
-        PKG fastfetch 2>/dev/null || gh_install 'fastfetch-cli/fastfetch' 'fastfetch-linux-amd64\.tar\.gz'               'fastfetch'
+        PKG duf       2>/dev/null || gh_install 'muesli/duf'              "duf_.*_linux_${ARCH_GO}\.tar\.gz"          'duf'
+        PKG dust      2>/dev/null || gh_install 'bootandy/dust'           "dust-v.*-${ARCH}-unknown-linux-gnu\.tar\.gz" 'dust'
+        PKG fastfetch 2>/dev/null || gh_install 'fastfetch-cli/fastfetch' "fastfetch-linux-${ARCH}\.tar\.gz"           'fastfetch'
         ;;
 esac
 
@@ -287,46 +281,46 @@ case "$DISTRO" in
     arch)   PKG tldr ;;
     fedora) PKG tealdeer ;;
     debian) PKG tealdeer 2>/dev/null \
-                || gh_install 'dbrgn/tealdeer' 'tealdeer-linux-x86_64-musl' 'tldr' ;;
+                || gh_install 'dbrgn/tealdeer' "tealdeer-linux-${ARCH}-musl" 'tldr' ;;
 esac
 
-# yazi (Arch tiene paquete; resto desde GitHub)
+# yazi
 case "$DISTRO" in
     arch) PKG yazi ;;
-    *)    gh_install 'sxyazi/yazi' 'yazi-x86_64-unknown-linux-gnu\.tar\.gz' 'yazi' ;;
+    *)    gh_install 'sxyazi/yazi' "yazi-${ARCH}-unknown-linux-gnu\.tar\.gz" 'yazi' ;;
 esac
 
 # git-delta
 case "$DISTRO" in
     arch|fedora) PKG git-delta ;;
     debian) PKG git-delta 2>/dev/null \
-                || gh_install 'dandavison/delta' 'delta-.*-x86_64-unknown-linux-gnu\.tar\.gz' 'delta' ;;
+                || gh_install 'dandavison/delta' "delta-.*-${ARCH}-unknown-linux-gnu\.tar\.gz" 'delta' ;;
 esac
 
-# lazygit (solo Arch tiene paquete)
+# lazygit (Go → ARCH_GO)
 case "$DISTRO" in
     arch) PKG lazygit ;;
-    *)    gh_install 'jesseduffield/lazygit' 'lazygit_.*_Linux_x86_64\.tar\.gz' 'lazygit' ;;
+    *)    gh_install 'jesseduffield/lazygit' "lazygit_.*_Linux_${ARCH_GO}\.tar\.gz" 'lazygit' ;;
 esac
 
 # bandwhich
 case "$DISTRO" in
     arch|fedora) PKG bandwhich ;;
     debian) PKG bandwhich 2>/dev/null \
-                || gh_install 'imsnif/bandwhich' 'bandwhich-v.*-x86_64-unknown-linux-musl\.tar\.gz' 'bandwhich' ;;
+                || gh_install 'imsnif/bandwhich' "bandwhich-v.*-${ARCH}-unknown-linux-musl\.tar\.gz" 'bandwhich' ;;
 esac
 
-# glow (solo Arch tiene paquete)
+# glow (Go → ARCH_GO)
 case "$DISTRO" in
     arch) PKG glow ;;
-    *)    gh_install 'charmbracelet/glow' 'glow_Linux_x86_64\.tar\.gz' 'glow' ;;
+    *)    gh_install 'charmbracelet/glow' "glow_Linux_${ARCH_GO}\.tar\.gz" 'glow' ;;
 esac
 
 # hyperfine
 case "$DISTRO" in
     arch|fedora) PKG hyperfine ;;
     debian) PKG hyperfine 2>/dev/null \
-                || gh_install 'sharkdp/hyperfine' 'hyperfine-v.*-x86_64-unknown-linux-gnu\.tar\.gz' 'hyperfine' ;;
+                || gh_install 'sharkdp/hyperfine' "hyperfine-v.*-${ARCH}-unknown-linux-gnu\.tar\.gz" 'hyperfine' ;;
 esac
 
 #============================================================
@@ -355,7 +349,7 @@ P gnupg
 case "$DISTRO" in
     arch|fedora) PKG age ;;
     debian) PKG age 2>/dev/null \
-                || gh_install 'FiloSottile/age' 'age-v.*-linux-amd64\.tar\.gz' 'age' ;;
+                || gh_install 'FiloSottile/age' "age-v.*-linux-${ARCH_GO}\.tar\.gz" 'age' ;;
 esac
 
 P cronie
@@ -485,7 +479,7 @@ case "$DISTRO" in
             # gh_install no sirve para .deb → descargar e instalar con dpkg
             _SNC_TMP=$(mktemp -d)
             _SNC_URL=$(curl -s "https://api.github.com/repos/ErikReider/SwayNotificationCenter/releases/latest" \
-                | grep "browser_download_url" | grep 'amd64\.deb' | head -1 | cut -d '"' -f 4)
+                | grep "browser_download_url" | grep "${ARCH_GO}\.deb" | head -1 | cut -d '"' -f 4)
             if [[ -n "$_SNC_URL" ]]; then
                 curl -sL "$_SNC_URL" -o "$_SNC_TMP/swaync.deb"
                 sudo apt install -y "$_SNC_TMP/swaync.deb" 2>/dev/null \
@@ -502,7 +496,7 @@ esac
 case "$DISTRO" in
     arch|fedora) PKG swww ;;
     debian) PKG swww 2>/dev/null \
-                || gh_install 'LGFae/swww' 'swww-.*-x86_64-unknown-linux-musl\.tar\.gz' 'swww' ;;
+                || gh_install 'LGFae/swww' "swww-.*-${ARCH}-unknown-linux-musl\.tar\.gz" 'swww' ;;
 esac
 
 PKG grim slurp
@@ -519,7 +513,7 @@ PKG wl-clipboard
 case "$DISTRO" in
     arch|fedora) PKG cliphist ;;
     debian) PKG cliphist 2>/dev/null \
-                || gh_install 'sentriz/cliphist' 'linux_amd64$' 'cliphist' ;;
+                || gh_install 'sentriz/cliphist' "linux_${ARCH_GO}$" 'cliphist' ;;
 esac
 
 PKG brightnessctl playerctl
@@ -643,7 +637,7 @@ case "$DISTRO" in
     debian)
         PKG calcurse flameshot rofi
         PKG uwsm 2>/dev/null \
-            || gh_install 'Vladimir-csp/uwsm' 'uwsm-.*-x86_64.*\.tar\.gz' 'uwsm' 2>/dev/null \
+            || gh_install 'Vladimir-csp/uwsm' "uwsm-.*-${ARCH}.*\.tar\.gz" 'uwsm' 2>/dev/null \
             || echo "  WARN: uwsm no disponible — arranca Hyprland directamente desde TTY"
         PKG python3-pip && pip3 install --user --break-system-packages pyprland
         echo "  NOTA: pypr instalado en ~/.local/bin — asegúrate de que está en \$PATH"
@@ -753,22 +747,21 @@ echo "▶ Configurando actualización automática..."
  echo "@reboot sleep 60 && ${DOTFILES}/update.sh >> \$HOME/.local/share/update.log 2>&1") | crontab -
 
 #============================================================
-#  AUTOLOGIN TTY1 → ZSH → HYPRLAND (via uwsm)
+#  LOGIN EN TERMINAL → ZSH → HYPRLAND (via uwsm)
 #============================================================
-echo "▶ Configurando autologin en TTY1..."
+echo "▶ Configurando arranque en terminal..."
 
+# Deshabilitar display managers gráficos
 for dm in gdm sddm lightdm ly greetd lxdm; do
     systemctl is-enabled "$dm" &>/dev/null && sudo systemctl disable "$dm"
 done
 
+# Arrancar en consola (multi-user.target) — login manual en TTY
+# El .zprofile lanza Hyprland automáticamente tras el login
+sudo systemctl set-default multi-user.target
 sudo systemctl enable getty@tty1
-sudo mkdir -p /etc/systemd/system/getty@tty1.service.d
-sudo tee /etc/systemd/system/getty@tty1.service.d/autologin.conf > /dev/null <<EOF
-[Service]
-ExecStart=
-ExecStart=-/sbin/agetty --autologin $USER --noclear %I \$TERM
-EOF
-echo "  ✓ Autologin configurado para '$USER' en TTY1."
+
+echo "  ✓ El sistema arrancará en TTY. Hyprland se lanza desde .zprofile tras el login."
 
 #============================================================
 #  RESUMEN FINAL
