@@ -2,7 +2,7 @@
 #============================================================
 #  INSTALADOR MULTI-DISTRO — HYPRLAND
 #  HECHO POR: SREAPER
-#  DISTROS SOPORTADAS: Arch Linux | Fedora | Debian Sid/Testing
+#  DISTROS SOPORTADAS: Arch Linux | Fedora | Debian Testing 
 #============================================================
 
 #---------
@@ -18,7 +18,7 @@ DOTFILES_STATIC="$(dirname "$path_install")"
 if [[ -f /etc/os-release ]]; then
     # shellcheck source=/dev/null
     . /etc/os-release
-    DISTRO="$ID"   # "arch" | "fedora" | "debian"
+    DISTRO="$ID"   
 else
     echo "ERROR: No se puede detectar la distribución (/etc/os-release no existe)." && exit 1
 fi
@@ -109,7 +109,7 @@ install_nerd_font() {
         curl -sL "$url" | tar -xJ -C "$fonts_dir"
         echo "  ✓ ${font_name} Nerd Font instalada en $fonts_dir"
     else
-        echo "  WARN: No se pudo descargar ${font_name} Nerd Font"
+        echo "  WARNING: No se pudo descargar ${font_name} Nerd Font"
     fi
 }
 
@@ -754,7 +754,7 @@ case "$DISTRO" in
         # Calendario en terminal
         PKG calcurse
         # Navegadores
-        paru -S --noconfirm brave-bin tor-browser
+        paru -S --noconfirm brave-bin tor-browser google-chrome-stable
         # Música
         paru -S --noconfirm spotify
         # Nerd Fonts (pack completo)
