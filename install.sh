@@ -226,9 +226,14 @@ P man-pages
 PKG xdg-user-dirs
 
 # Herramientas de compilación (Fedora necesita groupinstall)
-[[ "$DISTRO" == "fedora" ]] && sudo dnf groupinstall -y "Development Tools" || P build-tools
+if [[ "$DISTRO" == "fedora" ]]; then
+    sudo dnf groupinstall -y "Development Tools"
+else
+    P build-tools
+fi
 
-chsh -s "$(command -v zsh)"
+# usermod evita el prompt de contraseña que bloquearía chsh en Debian/Fedora
+sudo usermod -s "$(command -v zsh)" "$USER"
 
 #============================================================
 #  HERRAMIENTAS CLI
@@ -392,8 +397,17 @@ P nm-applet
 echo "▶ Docker..."
 
 case "$DISTRO" in
-    arch) PKG docker ;;
-    *)    PKG docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin ;;
+    arch)
+        PKG docker docker-compose
+        ;;
+    fedora)
+        PKG docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+        ;;
+    debian)
+        # Intentar Docker CE oficial; si el repo no tiene trixie, usar docker.io de Debian
+        PKG docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin 2>/dev/null \
+            || PKG docker.io docker-compose
+        ;;
 esac
 sudo systemctl enable docker
 sudo usermod -aG docker "$USER"
@@ -467,10 +481,20 @@ case "$DISTRO" in
     arch)   PKG swaync ;;
     fedora) PKG SwayNotificationCenter ;;
     debian)
-        PKG swaync 2>/dev/null \
-            || gh_install 'ErikReider/SwayNotificationCenter' \
-               'sway-notification-center_.*_amd64\.deb' 'swaync' 2>/dev/null \
-            || echo "  WARN: swaync no instalado — instalar desde github.com/ErikReider/SwayNotificationCenter"
+        if ! PKG swaync 2>/dev/null; then
+            # gh_install no sirve para .deb → descargar e instalar con dpkg
+            _SNC_TMP=$(mktemp -d)
+            _SNC_URL=$(curl -s "https://api.github.com/repos/ErikReider/SwayNotificationCenter/releases/latest" \
+                | grep "browser_download_url" | grep 'amd64\.deb' | head -1 | cut -d '"' -f 4)
+            if [[ -n "$_SNC_URL" ]]; then
+                curl -sL "$_SNC_URL" -o "$_SNC_TMP/swaync.deb"
+                sudo apt install -y "$_SNC_TMP/swaync.deb" 2>/dev/null \
+                    || echo "  WARN: swaync .deb no instalado — instalar desde github.com/ErikReider/SwayNotificationCenter"
+            else
+                echo "  WARN: swaync no disponible — instalar desde github.com/ErikReider/SwayNotificationCenter"
+            fi
+            rm -rf "$_SNC_TMP"
+        fi
         ;;
 esac
 
@@ -588,7 +612,7 @@ case "$DISTRO" in
 
     fedora)
         PKG calcurse flameshot uwsm rofi-wayland
-        PKG python3-pip && pip3 install --user pyprland
+        PKG python3-pip && pip3 install --user --break-system-packages pyprland
         echo "  NOTA: pypr instalado en ~/.local/bin — asegúrate de que está en \$PATH"
 
         PKG firefox
@@ -621,7 +645,7 @@ case "$DISTRO" in
         PKG uwsm 2>/dev/null \
             || gh_install 'Vladimir-csp/uwsm' 'uwsm-.*-x86_64.*\.tar\.gz' 'uwsm' 2>/dev/null \
             || echo "  WARN: uwsm no disponible — arranca Hyprland directamente desde TTY"
-        PKG python3-pip && pip3 install --user pyprland
+        PKG python3-pip && pip3 install --user --break-system-packages pyprland
         echo "  NOTA: pypr instalado en ~/.local/bin — asegúrate de que está en \$PATH"
 
         PKG firefox 2>/dev/null || PKG firefox-esr 2>/dev/null || true
