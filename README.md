@@ -17,20 +17,19 @@ Configuración personal para **Hyprland** en múltiples distribuciones Linux.
 | Notificaciones | SwayNC |
 | File manager | Yazi |
 | Wallpaper | swww |
-| Tema | Tokyo Night / Kali (Auditory) |
+| Temas | Tokyo Night · Auditory |
 
 ---
 
 ## Distros soportadas
 
-| Distro | Gestor de paquetes | Paquetes extra |
+| Distro | Gestor de paquetes | Extras |
 |---|---|---|
 | **Arch Linux** | `pacman` + `paru` (AUR) | — |
 | **Fedora** | `dnf` + COPR `solopasha/hyprland` | Flatpak (Flathub) |
-| **Debian** | `apt` + GitHub releases | Flatpak (Flathub) |
+| **Debian 13 Trixie** | `apt` + GitHub releases | Flatpak (Flathub) |
 
-> **Debian** requiere **Sid (unstable)** o **Testing** para tener Hyprland disponible en `apt`.
-> En Debian Stable, los paquetes del ecosistema Wayland/Hyprland son demasiado antiguos.
+> **Debian** requiere **Trixie (13 Testing)** o **Sid** — Hyprland no está empaquetado en Debian Stable.
 
 ---
 
@@ -38,16 +37,34 @@ Configuración personal para **Hyprland** en múltiples distribuciones Linux.
 
 Dos temas intercambiables con `SUPER + T`:
 
-- **Tokyo Night** — cyan y púrpura
-- **Kali (Auditory)** — magenta y verde
+| Tema | Paleta | Base |
+|---|---|---|
+| **Tokyo Night** | Azul · Cyan · Púrpura | [`folke/tokyonight.nvim`](https://github.com/folke/tokyonight.nvim) (night) |
+| **Auditory** | Verde oscuro · Menta | [`jpwol/thorn.nvim`](https://github.com/jpwol/thorn.nvim) (forest) |
 
-El cambio aplica simultáneamente a: Hyprland, Waybar, Kitty, Rofi, SwayNC, Tmux, Yazi, Starship y Fastfetch.
+El cambio de tema aplica simultáneamente a: Hyprland, Waybar, Kitty, Rofi, SwayNC, Tmux, Yazi, Starship, Fastfetch y SwayOSD.
+Todos los archivos de tema viven en `.config/themes/<nombre>/` y se aplican mediante symlinks.
 
 ---
 
 ## Instalación
 
-El mismo script detecta la distro automáticamente al ejecutarse:
+### Requisitos previos
+
+Antes de ejecutar el instalador necesitas tener:
+
+```bash
+sudo apt install -y git curl sudo   # Debian
+```
+
+En Debian, el usuario debe estar en el grupo `sudo`. Si no:
+
+```bash
+su -c "usermod -aG sudo $USER" root
+# cierra sesión y vuelve a entrar
+```
+
+### Ejecutar
 
 ```bash
 git clone https://github.com/sreaperr/dotfiles-arch.git ~/dotfiles-arch
@@ -56,29 +73,43 @@ chmod +x install.sh
 ./install.sh
 ```
 
-Reinicia sesión al terminar.
+Reinicia cuando termine.
 
-### Qué hace el instalador por distro
+### Qué instala el script
 
 #### Arch Linux
-- Instala paquetes con `pacman`
-- Instala `paru` (AUR helper) y paquetes AUR: `rofi-wayland`, `brave-bin`, `spotify`, `bibata-cursor-theme`, `tokyonight-gtk-theme-git`, `nerd-fonts`, etc.
+- Paquetes via `pacman`
+- `paru` (AUR helper) y paquetes AUR: `rofi-wayland`, `brave-bin`, `google-chrome`, `firefox`, `spotify`, `bibata-cursor-theme`, `tokyonight-gtk-theme-git`, `nerd-fonts`, `uwsm`, `pypr`
 - Aplica `pacman.conf` y `reflector.conf` del repo
 
 #### Fedora
 - Habilita **RPM Fusion** (free + non-free)
 - Habilita COPR **`solopasha/hyprland`** — ecosistema Hyprland completo
-- Habilita COPR **`erikreider/SwayNotificationCenter`** — swaync
-- Instala paquetes con `dnf`
-- Instala via **Flatpak** (Flathub): Brave, Spotify, Discord, Tor Browser
+- Habilita COPR **`erikreider/SwayNotificationCenter`**
+- Instala via **Flatpak**: Firefox, Brave, Chrome, Spotify, Discord, Tor Browser
 - Instala desde **GitHub releases**: yazi, lazygit, glow, Nerd Fonts, Bibata cursor, TokyoNight GTK
 
-#### Debian (Sid/Testing)
-- Añade repo oficial de **Docker CE**
+#### Debian (Trixie / Sid)
+- Añade repo oficial de **Docker CE** (fallback a `docker.io` si Trixie no está soportado aún)
 - Habilita **Flatpak + Flathub**
-- Instala paquetes con `apt`
-- Instala desde **GitHub releases**: starship, eza, yazi, lazygit, glow, fastfetch, bandwhich, hyperfine, cliphist, Nerd Fonts, Bibata cursor, TokyoNight GTK
-- Instala via **Flatpak**: Brave, Spotify, Discord, Tor Browser
+- Instala desde **GitHub releases**: starship, eza, yazi, lazygit, glow, bandwhich, hyperfine, cliphist, swaync, Nerd Fonts, Bibata cursor, TokyoNight GTK
+- Instala via **Flatpak**: Brave, Chrome, Spotify, Discord, Tor Browser
+
+---
+
+## Pasos post-instalación
+
+Estas acciones deben ejecutarse **una vez dentro de la primera sesión de Hyprland** porque necesitan comunicarse con el compositor:
+
+```bash
+# Plugins de Hyprland (borders-plus-plus, hyprexpo, hyprfocus)
+hyprpm update
+hyprpm add https://github.com/hyprwm/hyprland-plugins
+hyprpm add https://github.com/VortexCoyote/hyprfocus
+hyprpm enable borders-plus-plus
+hyprpm enable hyprexpo
+hyprpm enable hyprfocus
+```
 
 ---
 
@@ -132,4 +163,4 @@ El `.zshrc` detecta la distro y expone los mismos alias en todas:
 | `SUPER + L` | Bloquear pantalla |
 | `SUPER + I` | Menú de energía |
 | `SUPER + 1–8` | Cambiar workspace |
-| `SUPER + k` | Calendar |
+| `SUPER + k` | Calendario |
