@@ -935,15 +935,8 @@ for dm in gdm sddm lightdm ly greetd lxdm; do
     fi
 done
 
-sudo systemctl enable getty@tty1
-sudo mkdir -p /etc/systemd/system/getty@tty1.service.d
-sudo tee /etc/systemd/system/getty@tty1.service.d/autologin.conf > /dev/null <<EOF
-[Service]
-ExecStart=
-ExecStart=-/sbin/agetty --autologin $USER --noclear %I \$TERM
-EOF
-
-echo "  Autologin configurado para '$USER' en TTY1."
+sudo systemctl set-default multi-user.target
+echo "Login configurado en terminal"
 
 #============================================================
 #  RESUMEN FINAL
@@ -959,16 +952,3 @@ echo "  PENDIENTE (configura antes de usar git):"
 echo "    git config --global user.name  'Tu Nombre'"
 echo "    git config --global user.email 'tu@email.com'"
 echo ""
-
-case "$DISTRO" in
-    fedora|debian)
-        echo "  APPS INSTALADAS COMO FLATPAK:"
-        echo "    brave      → flatpak run com.brave.Browser"
-        echo "    spotify    → flatpak run com.spotify.Client"
-        echo "    discord    → flatpak run com.discordapp.Discord"
-        echo "    torbrowser → flatpak run com.github.micahflee.torbrowser-launcher"
-        echo ""
-        echo "  pypr instalado en ~/.local/bin (ya en \$PATH via .zprofile)"
-        echo ""
-        ;;
-esac
