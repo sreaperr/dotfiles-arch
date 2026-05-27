@@ -1,8 +1,8 @@
-/* KALI MODE */
-@define-color bg       #000000;
-@define-color bg-alt   #0a0a0a;
-@define-color fg       #e2eaf8;
-@define-color fg-dim   #00802a;
-@define-color accent   #00ff41;
-@define-color border   #ff2d78;
-@define-color urgent   #ff1744;
+/* THORN FOREST */
+@define-color bg       #172526;
+@define-color bg-alt   #26403E;
+@define-color fg       #DBD2C7;
+@define-color fg-dim   #9B9A8C;
+@define-color accent   #87CBB1;
+@define-color border   #26403E;
+@define-color urgent   #D2696C;

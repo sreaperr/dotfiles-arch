@@ -1,49 +1,84 @@
-/* KALI MODE */
+/* THORN FOREST */
 
 /* ── Variables de color del tema ── */
-@define-color bg            #000000;
-@define-color bg-alpha      rgba(10, 26, 13, 0.95);
-@define-color bg-border     rgba(0, 255, 65, 0.25);   /* borde verde oscuro translúcido */
-@define-color bg1           #080d14;
-@define-color bg2           #0d1a0f;                   /* fondo del chip en hover — verde muy oscuro */
-@define-color fg            #e2eaf8;                   /* texto principal */
-@define-color fg-dim        #00b33c;                   /* texto tenue (verde medio, legible sobre negro) */
-@define-color cyan          #00ff41;                   /* color de hover y workspace activo */
-@define-color green         #00ff41;
-@define-color pink          #ff2d78;
-@define-color yellow        #ffd700;
-@define-color red           #ff1744;
-@define-color blue          #4da6ff;
+@define-color bg            #172526;
+@define-color bg-alpha      rgba(23, 37, 38, 0.93);
+@define-color bg-border     rgba(23, 37, 38, 0.55);
+@define-color bg1           #131F20;
+@define-color bg2           #26403E;                   /* fondo del chip en hover */
+@define-color fg            #DBD2C7;                   /* texto principal */
+@define-color fg-dim        #9B9A8C;                   /* texto tenue */
+@define-color cyan          #87CBB1;                   /* color de hover y workspace activo */
+@define-color green         #6FA791;
+@define-color red           #D2696C;
+@define-color orange        #F2A597;
+@define-color yellow        #FFD7AA;
+@define-color blue          #91C4C0;
 
-/* ── WORKSPACES ── verde medio en reposo, cyan al activar (style.css) */
-#workspaces button { color: @fg-dim; }
+
+/* ── WORKSPACES ── */
+#workspaces button        { color: @fg-dim; }
+#workspaces button.urgent { background-color: @red; color: @fg; }
 
 /* ── LAUNCHER ── */
-#custom-launcher { color: @fg-dim; font-size: 16px; padding: 0 10px; }
+#custom-launcher { color: @fg; font-size: 16px; padding: 0 10px; }
 
 /* ── SEPARADOR ── */
 #custom-separator { color: @bg2; padding: 0 4px; }
 
-/* ── ATAJOS DE APPS ── Spotify, Discord, terminal, archivos */
-#custom-spotify,
+/* ── ATAJOS DE APPS ── */
 #custom-discord,
 #custom-terminal,
-#custom-files { color: @fg-dim; }
+#custom-files { color: @fg; }
 
-#custom-spotify:hover,
-#custom-security:hover { color: @cyan; background-color: @bg2; border-radius: 8px; }
+/* ── SPOTIFY MONITOR ── */
+#custom-spotify                  { color: @fg; }
+#custom-spotify.spotify-playing  { color: @green; }
+#custom-spotify.spotify-paused   { color: @fg-dim; }
+#custom-spotify.spotify-off      { color: @fg-dim; }
 
 /* ── RELOJ ── */
-#clock { color: @fg-dim; font-weight: bold; padding: 0 12px; }
+#clock { color: @fg; font-weight: bold; padding: 0 12px; }
 
 /* ── VOLUMEN ── */
-#pulseaudio { color: @fg-dim; }
+#pulseaudio       { color: @fg; }
+#pulseaudio.muted { color: @red; }
+
+/* ── BLUETOOTH ── */
+#bluetooth     { color: @cyan; }
+#bluetooth.off { color: @fg-dim; }
 
 /* ── RED ── */
-#network { color: @fg-dim; }
+#network              { color: @fg; }
+#network.disconnected { color: @red; }
 
 /* ── INFO DEL SISTEMA ── */
-#custom-sysinfo { color: @fg-dim; }
+#custom-sysinfo { color: @fg; }
 
 /* ── BANDEJA ── */
 #tray { padding: 0 6px; }
+
+/* ── SECURITY MONITOR ── */
+#custom-security          { color: @fg; font-weight: bold; }
+#custom-security.sec-ok   { color: @fg; }
+#custom-security.sec-warn { color: @red; }
+
+/* ── TOOLTIP GLOBAL ── */
+tooltip {
+    background:    rgba(19, 31, 32, 0.97);
+    border:        1px solid rgba(135, 203, 177, 0.25);
+    border-radius: 14px;
+    padding:       6px 10px;
+    color:         @fg;
+    font-size:     13px;
+    font-family:   "Hack Nerd Font";
+}
+
+tooltip > box {
+    background:    transparent;
+    border-radius: 14px;
+}
+
+tooltip label {
+    background:    transparent;
+}

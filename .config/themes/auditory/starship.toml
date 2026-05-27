@@ -1,5 +1,5 @@
 #==========================
-# STARSHIP DE DOTFILES KALI
+# STARSHIP — THORN FOREST
 #==========================
 format = """
 ┌──($username$hostname) [$directory]($git_branch$git_status)($cmd_duration)($time)
@@ -12,24 +12,24 @@ format = """
 [username]
 show_always = true
 format = "[$user]($style)"
-style_user = "bold #ff2d78"
-style_root = "bold #ff1744"
+style_user = "bold #FFD7AA"
+style_root = "bold #D2696C"
 
 [hostname]
 ssh_only = false
-format = "[   $hostname]($style)"
-style = "bold #00ff41"
+format = "[ $hostname]($style)"
+style = "bold #87CBB1"
 
 #-----------
 # DIRECTORIO
 #-----------
 [directory]
 format = "[$path]($style)[$read_only]($read_only_style)"
-style = "bold #00ff41"
+style = "bold #6FA791"
 truncation_length = 3
 truncate_to_repo = false
 read_only = " 󰌾"
-read_only_style = "bold #ff1744"
+read_only_style = "bold #D2696C"
 
 #----
 # GIT
@@ -37,11 +37,11 @@ read_only_style = "bold #ff1744"
 [git_branch]
 format = "[ $symbol$branch(:$remote_branch)]($style)"
 symbol = " "
-style = "bold #ff2d78"
+style = "bold #9EC59B"
 
 [git_status]
 format = '([$all_status$ahead_behind]($style))'
-style = "bold #ffd700"
+style = "bold #FFD7AA"
 ahead = "⇡${count}"
 behind = "⇣${count}"
 diverged = "⇕⇡${ahead_count}⇣${behind_count}"
@@ -163,19 +163,19 @@ disabled = false
 #--------------------
 [cmd_duration]
 min_time = 2_000
-format = "[ $duration](bold #ffd700)"
+format = "[ $duration](bold #FFD7AA)"
 
 #-----
 # HORA
 #-----
 [time]
 disabled = false
-format = "[ $time](bold #ff2d78)"
+format = "[ $time](dimmed white)"
 time_format = "%H:%M"
 
 #-------
 # PROMPT
 #-------
 [character]
-success_symbol = "[❯](bold #00ff41)"
-error_symbol = "[❯](bold #ff1744)"
+success_symbol = "[❯](bold #87CBB1)"
+error_symbol = "[❯](bold #D2696C)"

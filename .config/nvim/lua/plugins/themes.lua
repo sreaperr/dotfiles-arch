@@ -3,10 +3,9 @@ local theme = vim.fn.system("cat ~/.config/.current-theme 2>/dev/null"):gsub("\n
 vim.api.nvim_create_autocmd("ColorScheme", {
   callback = function(args)
     local name = args.match
-    local slug = name:find("tokyonight%-neon")  and "tokyonight-neon"
-      or name:find("tokyonight%-storm") and "tokyonight-storm"
+    local slug = name:find("thorn%-forest") and "thorn-forest"
+      or name:find("thorn")      and "thorn-forest"
       or name:find("tokyonight") and "tokyonight"
-      or name:find("auditory")   and "auditory"
     if slug then
       vim.fn.system("echo " .. slug .. " > ~/.config/.current-theme")
     end
@@ -45,14 +44,23 @@ return {
   },
 
   --==========================
+  -- THORN FOREST (auditory)
+  --==========================
+  {
+    "jpwol/thorn.nvim",
+    priority = 1000,
+    opts = {
+      theme = "forest",
+    },
+  },
+
+  --==========================
   -- TEMA ACTIVO
   --==========================
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = theme == "auditory"          and "auditory"
-        or theme == "tokyonight-neon"  and "tokyonight-neon"
-        or theme == "tokyonight-storm" and "tokyonight-storm"
+      colorscheme = theme == "thorn-forest" and "thorn-forest"
         or "tokyonight",
     },
   },

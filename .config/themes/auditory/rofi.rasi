@@ -1,16 +1,16 @@
-/* ROFI — AUDITORY (KALI) COLORS
+/* ROFI — THORN FOREST COLORS
  * Variables usadas por todos los layouts
  */
 
 * {
-    background:       rgba(5, 8, 12, 0.92);
-    background-alt:   rgba(8, 13, 20, 0.96);
-    background-hover: rgba(10, 26, 13, 0.85);
-    foreground:       #e2eaf8;
-    foreground-dim:   #3a4060;
-    selected:         #00ff41;
-    active:           #ff2d78;
-    urgent:           #ff1744;
+    background:       rgba(23, 37, 38, 0.90);
+    background-alt:   rgba(19, 31, 32, 0.95);
+    background-hover: rgba(38, 64, 62, 0.82);
+    foreground:       #DBD2C7;
+    foreground-dim:   #9B9A8C;
+    selected:         #87CBB1;
+    active:           #6FA791;
+    urgent:           #D2696C;
 
     background-color: transparent;
     text-color:       @foreground;
