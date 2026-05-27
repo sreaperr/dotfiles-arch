@@ -2,48 +2,52 @@
 
 DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../../.." && pwd)"
 
-WAYBAR_THEMES="$DOTFILES/.config/waybar/themes"
-KITTY_THEMES="$DOTFILES/.config/kitty/themes"
-ROFI_THEMES="$DOTFILES/.config/rofi/themes"
-SWAYNC_THEMES="$DOTFILES/.config/swaync/themes"
-HYPR_THEMES="$DOTFILES/.config/hypr/themes"
-YAZI_THEMES="$DOTFILES/.config/yazi/themes"
-STARSHIP_THEMES="$DOTFILES/.config/starship/themes"
-SWAYOSD_THEMES="$DOTFILES/.config/swayosd/themes"
-CALCURSE_THEMES="$DOTFILES/.config/calcurse/themes"
+# ── Carpeta centralizada de temas ────────────────────────────────────────────
+THEMES_DIR="$DOTFILES/.config/themes"
 
 apply_theme_symlinks() {
     local THEME=$1
-    ln -sf "$WAYBAR_THEMES/$THEME.css"         "$HOME/.config/waybar/theme.css"
-    ln -sf "$YAZI_THEMES/$THEME.toml"          "$HOME/.config/yazi/theme.toml"
-    if [[ "$THEME" == "auditory" ]]; then
-        ln -sf "$STARSHIP_THEMES/auditory.toml" "$HOME/.config/starship/starship.toml"
-    else
-        ln -sf "$STARSHIP_THEMES/tokyonight.toml" "$HOME/.config/starship/starship.toml"
-    fi
-    rm -rf "$HOME/.cache/starship/" 2>/dev/null
-    ln -sf "$DOTFILES/.config/tmux/themes/$THEME.conf" "$HOME/.config/tmux/theme.conf"
-    ln -sf "$KITTY_THEMES/$THEME.conf"         "$HOME/.config/kitty/theme.conf"
-    ln -sf "$ROFI_THEMES/$THEME.rasi"          "$HOME/.config/rofi/theme.rasi"
-    ln -sf "$SWAYNC_THEMES/$THEME.css"         "$HOME/.config/swaync/theme.css"
-    ln -sf "$HYPR_THEMES/$THEME.conf"          "$HOME/.config/hypr/theme.conf"
-    ln -sf "$HYPR_THEMES/hyprlock-$THEME.conf" "$HOME/.config/hypr/hyprlock-theme.conf"
+    local T="$THEMES_DIR/$THEME"
 
-    # Calcurse — actualizar solo la línea del color en el conf existente
-    if [[ -f "$CALCURSE_THEMES/$THEME.conf" ]]; then
+    # Comprobar que el tema existe
+    if [[ ! -d "$T" ]]; then
+        echo "ERROR: tema '$THEME' no encontrado en $THEMES_DIR" >&2
+        return 1
+    fi
+
+    # ── Symlinks directos ──────────────────────────────────────────────────
+    ln -sf "$T/waybar.css"      "$HOME/.config/waybar/theme.css"
+    ln -sf "$T/kitty.conf"      "$HOME/.config/kitty/theme.conf"
+    ln -sf "$T/rofi.rasi"       "$HOME/.config/rofi/theme.rasi"
+    ln -sf "$T/swaync.css"      "$HOME/.config/swaync/theme.css"
+    ln -sf "$T/hypr.conf"       "$HOME/.config/hypr/theme.conf"
+    ln -sf "$T/hyprlock.conf"   "$HOME/.config/hypr/hyprlock-theme.conf"
+    ln -sf "$T/yazi.toml"       "$HOME/.config/yazi/theme.toml"
+    ln -sf "$T/starship.toml"   "$HOME/.config/starship/starship.toml"
+    ln -sf "$T/tmux.conf"       "$HOME/.config/tmux/theme.conf"
+    ln -sf "$T/fastfetch.jsonc" "$HOME/.config/fastfetch/config.jsonc"
+    rm -rf "$HOME/.cache/starship/" 2>/dev/null
+
+    # ── Nvim: solo si el tema tiene colorscheme propio (.lua) ─────────────
+    if [[ -f "$T/nvim.lua" ]]; then
+        ln -sf "$T/nvim.lua" "$HOME/.config/nvim/colors/${THEME}.lua"
+    fi
+
+    # ── Calcurse: actualizar solo la línea de color ────────────────────────
+    if [[ -f "$T/calcurse.conf" ]]; then
         local calcurse_color
-        calcurse_color=$(cat "$CALCURSE_THEMES/$THEME.conf" | tr -d '\n')
+        calcurse_color=$(tr -d '\n' < "$T/calcurse.conf")
         sed -i "s|^appearance\.theme=.*|appearance.theme=$calcurse_color|" \
             "$HOME/.config/calcurse/conf"
     fi
 
-    # SwayOSD — copiar CSS del tema y reiniciar servidor
-    if [[ -f "$SWAYOSD_THEMES/$THEME.css" ]]; then
-        cp "$SWAYOSD_THEMES/$THEME.css" "$HOME/.config/swayosd/style.css"
+    # ── SwayOSD: copiar CSS y reiniciar servidor ───────────────────────────
+    if [[ -f "$T/swayosd.css" ]]; then
+        cp "$T/swayosd.css" "$HOME/.config/swayosd/style.css"
         pkill -x swayosd-server 2>/dev/null || true
-        nohup swayosd-server --style "$HOME/.config/swayosd/style.css" >/dev/null 2>&1 &
+        nohup swayosd-server --style "$HOME/.config/swayosd/style.css" \
+            >/dev/null 2>&1 &
     fi
-
 }
 
 apply_gtk_cursor() {
@@ -56,7 +60,8 @@ gtk-cursor-theme-name = $CURSOR
 gtk-cursor-theme-size = $CURSOR_SIZE
 gtk-font-name         = Hack Nerd Font 11
 gtk-application-prefer-dark-theme = 1"
-    for ini in "$HOME/.config/gtk-3.0/settings.ini" "$HOME/.config/gtk-4.0/settings.ini"; do
+    for ini in "$HOME/.config/gtk-3.0/settings.ini" \
+               "$HOME/.config/gtk-4.0/settings.ini"; do
         printf '%s\n' "$content" > "$ini"
     done
 }
