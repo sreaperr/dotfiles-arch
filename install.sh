@@ -22,7 +22,7 @@ echo "===================================================="
 [[ "$DISTRO" =~ ^(arch|fedora|debian)$ ]]  || { echo "Distro '$DISTRO' no soportada (arch|fedora|debian)."; exit 1; }
 
 if [[ "$DISTRO" == "debian" ]]; then
-    echo "AVISO: Debian requiere Sid/Testing para Hyprland."
+    echo "AVISO: Debian 13 Trixie (Testing) o Sid requerido para Hyprland."
     echo "Ctrl+C para cancelar o Enter para continuar..."; read -r
 fi
 
