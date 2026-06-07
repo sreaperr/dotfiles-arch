@@ -1,0 +1,49 @@
+[pyprland]
+plugins = ["expose", "scratchpads"]
+
+[expose]
+include_special = false
+
+# ── Scratchpads F4 ───────────────────────────────────────────────────────────
+#
+#  x=1%      x=54%  x=75%
+#  y=2% ┌──────────┬──────┬──────┐
+#        │          │clock │fetch │ h=32%
+#        │  keys    ├──────┴──────┤ y=35%
+#        │  52x95%  │             │
+#        │          │    btop     │ h=63%
+#  y=98% └──────────┴─────────────┘
+#
+# Márgenes: 1% bordes, 1% entre ventanas, 2% arriba (waybar)
+
+[scratchpads.keys]
+command   = "kitty --class scratchpad-keys -e bash -c 'while true; do glow -p ~/.config/hypr/shortcuts.md; done'"
+class     = "scratchpad-keys"
+size      = "52% 95%"
+position  = "1% 2%"
+animation = "fromLeft"
+pinned    = false
+
+[scratchpads.clock]
+command   = "kitty --class scratchpad-clock -e tty-clock -c -s -C 4"
+class     = "scratchpad-clock"
+size      = "20% 40%"
+position  = "54% 2%"
+animation = "fromTop"
+pinned    = false
+
+[scratchpads.fetch]
+command   = "kitty --class scratchpad-fetch -e bash -c 'printf \"\\033[?25l\"; sleep 0.2; c=$(tput cols); r=$(tput lines); w=$((c*6/10)); h=$((r*7/10)); x=$(((c-w)/2)); y=$((r/10)); kitty +kitten icat --place ${w}x${h}@${x}x${y} ~/.config/fastfetch/logo.png; sleep infinity'"
+class     = "scratchpad-fetch"
+size      = "24% 40%"
+position  = "75% 2%"
+animation = "fromTop"
+pinned    = false
+
+[scratchpads.monitor]
+command   = "kitty --class scratchpad-btop -e btop"
+class     = "scratchpad-btop"
+size      = "45% 55%"
+position  = "54% 43%"
+animation = "fromRight"
+pinned    = false

@@ -1,0 +1,88 @@
+{
+  "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+  "blocks": [
+    {
+      "alignment": "left",
+      "segments": [
+        {
+          "foreground": "#00ff41",
+          "foreground_templates": [
+            "{{ if .Root }}lightRed{{ end }}"
+          ],
+          "style": "plain",
+          "template": "<{{ if .Root }}lightBlue{{ else }}#00ff41{{ end }}>┌──(</>{{ if .Root }}<lightRed>{{ else }}<#00ff41>{{ end }}{{ .UserName }}{{ if .Root }}💀{{ else }}㉿{{ end }}{{ .HostName }}</><{{ if .Root }}lightBlue{{ else }}#00ff41{{ end }}>)</>",
+          "type": "session"
+        },
+        {
+          "foreground": "yellow",
+          "options": {
+            "fetch_version": false,
+            "fetch_virtual_env": true
+          },
+          "style": "plain",
+          "template": "<{{ if .Root }}lightBlue{{ else }}#00ff41{{ end }}>-[</> {{ if .Error }}{{ .Error }}{{ else }}{{ if .Venv }}{{ .Venv }}{{ end }}{{ .Full }}{{ end }}<{{ if .Root }}lightBlue{{ else }}#00ff41{{ end }}>]</>",
+          "type": "python"
+        },
+        {
+          "foreground": "lightWhite",
+          "options": {
+            "folder_separator_icon": "<#005500>/</>",
+            "style": "full"
+          },
+          "style": "plain",
+          "template": "<{{ if .Root }}lightBlue{{ else }}#00ff41{{ end }}>-[</><#00cc00>{{ .Path }}</><{{ if .Root }}lightBlue{{ else }}#00ff41{{ end }}>]</>",
+          "type": "path"
+        },
+        {
+          "foreground": "#00cc00",
+          "style": "plain",
+          "template": "<{{ if .Root }}lightBlue{{ else }}#00ff41{{ end }}>-[</>{{ .HEAD }}<{{ if .Root }}lightBlue{{ else }}#00ff41{{ end }}>]</>",
+          "type": "git"
+        }
+      ],
+      "type": "prompt"
+    },
+    {
+      "alignment": "right",
+      "segments": [
+        {
+          "foreground": "#004400",
+          "options": {
+            "always_enabled": true,
+            "style": "round"
+          },
+          "style": "plain",
+          "template": " {{ .FormattedMs }} ",
+          "type": "executiontime"
+        },
+        {
+          "foreground": "#00ff41",
+          "foreground_templates": [
+            "{{ if gt .Code 0 }}red{{ end }}"
+          ],
+          "options": {
+            "always_enabled": true
+          },
+          "style": "plain",
+          "template": " {{ if gt .Code 0 }}{{else}}{{ end }} ",
+          "type": "status"
+        }
+      ],
+      "type": "prompt"
+    },
+    {
+      "alignment": "left",
+      "newline": true,
+      "segments": [
+        {
+          "foreground": "#00ff41",
+          "style": "plain",
+          "template": "<{{ if .Root }}lightBlue{{ else }}#00ff41{{ end }}>└─</>{{ if .Root }}<lightRed>#</> {{ else }}<#00ff41>$</> {{ end }}",
+          "type": "text"
+        }
+      ],
+      "type": "prompt"
+    }
+  ],
+  "version": 4
+}

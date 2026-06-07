@@ -1,0 +1,34 @@
+/* Tokyo Night */
+
+@define-color bg0     #15161E;
+@define-color bg1     #1A1B26;
+@define-color bg2     #1F202E;
+@define-color bg3     #242536;
+@define-color fg      #C0CAF5;
+@define-color comment #565F89;
+@define-color accent  #7AA2F7;
+@define-color green   #9ECE6A;
+@define-color red     #F7768E;
+@define-color yellow  #E0AF68;
+
+@define-color main-bg   @bg0;
+@define-color main-fg   @fg;
+@define-color main-br   @comment;
+@define-color hover-bg  @bg2;
+@define-color hover-fg  alpha(@main-fg, 0.75);
+@define-color outline   shade(@main-bg, 0.5);
+
+@define-color workspaces   @bg1;
+@define-color temperature  @bg1;
+@define-color memory       @bg2;
+@define-color cpu          @bg3;
+@define-color time         @bg3;
+@define-color date         @bg2;
+@define-color tray         @bg1;
+@define-color volume       @bg2;
+@define-color backlight    @bg1;
+@define-color battery      @bg1;
+
+@define-color warning  @yellow;
+@define-color critical @red;
+@define-color charging @green;

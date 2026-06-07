@@ -1,0 +1,8 @@
+/* dracula */
+@define-color bg      #1E1F29;
+@define-color bg-alt  #282A36;
+@define-color fg      #F8F8F2;
+@define-color fg-dim  #6272A4;
+@define-color accent  #BD93F9;
+@define-color border  #6272A4;
+@define-color urgent  #FF5555;

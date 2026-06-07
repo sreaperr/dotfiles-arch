@@ -1,0 +1,34 @@
+/* Lovelace */
+
+@define-color bg0     #1D1F28;
+@define-color bg1     #282A36;
+@define-color bg2     #333544;
+@define-color bg3     #3E4052;
+@define-color fg      #FDFDFD;
+@define-color comment #6272A4;
+@define-color accent  #79E6F3;
+@define-color green   #5ADECD;
+@define-color red     #F37F97;
+@define-color yellow  #FFCA80;
+
+@define-color main-bg   @bg0;
+@define-color main-fg   @fg;
+@define-color main-br   @comment;
+@define-color hover-bg  @bg2;
+@define-color hover-fg  alpha(@main-fg, 0.75);
+@define-color outline   shade(@main-bg, 0.5);
+
+@define-color workspaces   @bg1;
+@define-color temperature  @bg1;
+@define-color memory       @bg2;
+@define-color cpu          @bg3;
+@define-color time         @bg3;
+@define-color date         @bg2;
+@define-color tray         @bg1;
+@define-color volume       @bg2;
+@define-color backlight    @bg1;
+@define-color battery      @bg1;
+
+@define-color warning  @yellow;
+@define-color critical @red;
+@define-color charging @green;

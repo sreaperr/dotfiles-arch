@@ -1,0 +1,18 @@
+/* ROFI — ONE DARK COLORS
+ * Variables usadas por todos los layouts
+ */
+
+* {
+    background:       rgba(30, 33, 39, 0.90);
+    background-alt:   rgba(24, 27, 31, 0.95);
+    background-hover: rgba(40, 44, 52, 0.82);
+    foreground:       #abb2bf;
+    foreground-dim:   #5c6370;
+    selected:         #61afef;
+    active:           #98c379;
+    urgent:           #e06c75;
+
+    background-color: transparent;
+    text-color:       @foreground;
+    font:             "Hack Nerd Font 12";
+}

@@ -1,0 +1,62 @@
+#==========================
+# YAZI KEYMAP - DOTFILES ARCH
+#==========================
+
+[manager]
+keymap = [
+    # ── Navegación ──
+    { on = "q", run = "quit",     desc = "Salir" },
+    { on = "k", run = "arrow -1", desc = "Arriba" },
+    { on = "j", run = "arrow 1",  desc = "Abajo" },
+    { on = "h", run = "leave",    desc = "Directorio padre" },
+    { on = "l", run = "plugin smart-enter", desc = "Entrar en dir / Abrir archivo" },
+    { on = "g", run = "arrow -99999", desc = "Ir al principio" },
+    { on = "G", run = "arrow 99999",  desc = "Ir al final" },
+
+    # ── Selección ──
+    { on = "<Space>", run = "select --state=none", desc = "Seleccionar" },
+    { on = ".",       run = "hidden toggle",        desc = "Mostrar/Ocultar ocultos" },
+
+    # ── Operaciones de archivo ──
+    { on = "y", run = "yank",         desc = "Copiar" },
+    { on = "x", run = "yank --cut",   desc = "Cortar" },
+    { on = "p", run = "paste",        desc = "Pegar" },
+    { on = "d", run = "trash",        desc = "Mover a papelera" },
+    { on = "D", run = "remove",       desc = "Eliminar permanente" },
+    { on = "r", run = "rename",       desc = "Renombrar" },
+    { on = "R", run = "bulk_rename",  desc = "Renombrar en lote" },
+    { on = "a", run = "create",       desc = "Crear archivo/directorio" },
+
+    # ── Apertura ──
+    { on = "<Enter>", run = "plugin smart-enter",     desc = "Entrar en dir / Abrir archivo" },
+    { on = "o",       run = "open --interactive",     desc = "Elegir app para abrir" },
+
+    # ── Búsqueda y navegación rápida ──
+    { on = "/", run = "find",               desc = "Buscar en directorio actual" },
+    { on = "z", run = "plugin zoxide",      desc = "Saltar con zoxide" },
+    { on = "f", run = "search fd",          desc = "Buscar archivos (fd)" },
+    { on = "J", run = "plugin jump-to-char", desc = "Saltar al carácter" },
+
+    # ── Diff ──
+    { on = "C", run = "plugin diff", desc = "Diff de archivos seleccionados" },
+
+    # ── Shell ──
+    { on = "!", run = "shell --block",      desc = "Ejecutar comando (espera)" },
+    { on = "s", run = "shell",              desc = "Ejecutar comando" },
+
+    # ── Ordenar ──
+    { on = ["S", "n"], run = "sort name --reverse false",  desc = "Ordenar por nombre" },
+    { on = ["S", "N"], run = "sort name --reverse true",   desc = "Ordenar por nombre (inverso)" },
+    { on = ["S", "m"], run = "sort modified --reverse true", desc = "Ordenar por fecha" },
+    { on = ["S", "s"], run = "sort size --reverse true",   desc = "Ordenar por tamaño" },
+
+    # ── Pestañas ──
+    { on = "t",     run = "tab_create --current", desc = "Nueva pestaña" },
+    { on = "T",     run = "tab_close",            desc = "Cerrar pestaña" },
+    { on = "<Tab>", run = "tab_switch 1",         desc = "Siguiente pestaña" },
+    { on = "<S-Tab>", run = "tab_switch -1",      desc = "Pestaña anterior" },
+
+    # ── Vista ──
+    { on = "m", run = "linemode size",      desc = "Mostrar tamaño" },
+    { on = "M", run = "linemode permissions", desc = "Mostrar permisos" },
+]

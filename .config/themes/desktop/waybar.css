@@ -1,0 +1,45 @@
+/* One Dark */
+
+@define-color bg0           #1E2127;
+@define-color bg1           #282B31;
+@define-color bg2           #2C313A;
+@define-color bg3           #353B45;
+@define-color fg            #ABB2BF;
+@define-color fg-bright     #ECEFF4;
+@define-color blue          #61AFEF;
+@define-color cyan          #56B6C2;
+@define-color green         #98C379;
+@define-color yellow        #E5C07B;
+@define-color orange        #D19A66;
+@define-color red           #E06C75;
+@define-color purple        #C678DD;
+@define-color gray          #4B5263;
+
+/* Main colors */
+
+@define-color accent         @blue;
+@define-color main-br        @gray;
+@define-color main-bg        @bg0;
+@define-color main-fg        @fg;
+@define-color hover-bg       @bg1;
+@define-color hover-fg       alpha(@fg, 0.75);
+@define-color outline        shade(@bg0, 0.5);
+
+/* Module colors */
+
+@define-color workspaces     @bg1;
+@define-color temperature    @bg1;
+@define-color memory         @bg2;
+@define-color cpu            @bg3;
+@define-color time           @bg3;
+@define-color date           @bg2;
+@define-color tray           @bg1;
+@define-color volume         @bg1;
+@define-color backlight      @bg2;
+@define-color battery        @bg3;
+
+/* State colors */
+
+@define-color warning        @yellow;
+@define-color critical       @red;
+@define-color charging       @green;

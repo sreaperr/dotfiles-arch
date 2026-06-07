@@ -1,0 +1,64 @@
+#!/bin/bash
+#==========================
+# SCRIPT DE CAMBIO DE TEMA
+# Solo cambia kitty, prompt, fastfetch y wallpaper
+# Los colores de waybar/rofi se gestionan con SUPER+R
+#==========================
+
+source "$(dirname "${BASH_SOURCE[0]}")/lib/theme-functions.sh"
+
+# ── Generar lista de temas ────────────────────────────────────────────────────
+declare -A THEME_MAP
+
+for dir in "$THEMES_DIR"/*/; do
+    [[ -f "$dir/meta.sh" ]] || continue
+    dir_name=$(basename "$dir")
+    display=$(bash -c "source \"$dir/meta.sh\"; echo \"\${DISPLAY_NAME:-$dir_name}\"")
+    THEME_MAP["$display"]="$dir_name"
+done
+
+TEMAS=$(printf '%s\n' "${!THEME_MAP[@]}" | sort)
+
+SELECTED=$(printf '%s\n' "$TEMAS" | rofi -dmenu \
+    -p "  Tema" \
+    -theme ~/.config/rofi/selector.rasi \
+    -no-custom)
+
+[ -z "$SELECTED" ] && exit 0
+
+THEME="${THEME_MAP[$SELECTED]}"
+[ -z "$THEME" ] && exit 1
+
+source "$THEMES_DIR/$THEME/meta.sh"
+
+echo "$THEME" > "$HOME/.config/.current-theme"
+
+# ── Solo cambios de terminal y prompt ─────────────────────────────────────────
+apply_partial_theme_symlinks "$THEME"
+pkill -SIGUSR1 kitty 2>/dev/null || true
+rm -f "$HOME/.cache/oh-my-posh/"*.omp.cache 2>/dev/null || true
+tmux source-file "$HOME/.config/tmux/theme.conf" 2>/dev/null || true
+
+# ── Wallpaper (con persistencia por tema y monitor) ───────────────────────────
+mapfile -t MONITORS < <(hyprctl monitors -j 2>/dev/null | \
+    python3 -c "import sys,json; [print(m['name']) for m in json.load(sys.stdin)]" 2>/dev/null)
+
+if [[ ${#MONITORS[@]} -gt 0 ]]; then
+    for _mon in "${MONITORS[@]}"; do
+        saved="$HOME/.config/.wallpaper-$THEME-$_mon"
+        if [[ -f "$saved" ]]; then
+            wp=$(cat "$saved")
+        else
+            wp="${DEFAULT_WALLPAPER:-}"
+        fi
+        [[ -n "$wp" && -f "$wp" ]] || continue
+        awww img "$wp" \
+            --outputs "$_mon" \
+            --transition-type fade \
+            --transition-duration 1.5 \
+            --transition-fps 60
+        echo "$wp" > "$HOME/.config/.current-wallpaper"
+    done
+fi
+
+notify-send "Tema activado" "$DISPLAY_NAME" -i preferences-desktop-theme

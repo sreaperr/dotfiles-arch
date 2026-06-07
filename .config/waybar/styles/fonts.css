@@ -1,0 +1,24 @@
+* {
+	font-family: "GeistMono Nerd Font";
+	font-weight: 600;
+	font-size: 15px;
+}
+
+#window label,
+#mpris,
+tooltip label {
+	font-weight: normal;
+}
+
+#workspaces button.active label,
+#workspaces button.focused label,
+#custom-distro {
+	font-size: 20px;
+}
+
+#custom-left_div,
+#custom-left_inv,
+#custom-right_div,
+#custom-right_inv {
+	font-size: 22px;
+}

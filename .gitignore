@@ -1,0 +1,48 @@
+#==========================
+# GITIGNORE - DOTFILES ARCH
+#==========================
+
+# Archivos temporales de prueba
+preview-themes.html
+
+# Wallpapers incluidos en el repo
+
+# Archivos de estado generados en runtime
+.config/.current-theme
+.config/.current-cursor
+.config/.current-wallpaper
+
+# Archivos de estado de tmux
+.tmux/
+
+# Archivos sensibles
+.ssh/id_*
+.ssh/known_hosts
+.ssh/authorized_keys
+
+# Plugins de Hyprland compilados — se generan con hyprpm en cada máquina
+*.so
+
+# Lock de plugins de Neovim — se omite para instalar siempre la última versión
+.config/nvim/lazy-lock.json
+
+# Caché y temporales
+*.log
+*.tmp
+
+# Estado por tema (generado en runtime)
+.config/.wallpaper-*
+
+# Archivos de estado de omp (generados en runtime por theme-functions.sh)
+.config/omp/theme.json
+
+# Keybinds específicos de cada máquina (VM passthrough, etc.)
+.config/hypr/keybinds-local.conf
+
+# Archivos de tema activo — generados en runtime por rofi-theme-cycle.sh
+# y apply-theme.sh. Son symlinks a rutas absolutas de la máquina local,
+# nunca deben estar en el repo.
+.config/waybar/theme.css
+.config/swaync/theme.css
+.config/rofi/theme.rasi
+.config/rofi/colors/current.rasi

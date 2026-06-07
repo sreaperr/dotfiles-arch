@@ -1,0 +1,10 @@
+/* Puente dinámico: importa current.rasi y añade variables extra que necesitan los layouts */
+@import "~/.config/rofi/colors/current.rasi"
+
+* {
+    background-hover:  @background-alt;
+    foreground-dim:    @active;
+    background-color:  transparent;
+    text-color:        @foreground;
+    font:              "GeistMono Nerd Font 12";
+}

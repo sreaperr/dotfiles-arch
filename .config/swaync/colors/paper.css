@@ -1,0 +1,8 @@
+/* paper */
+@define-color bg      #F1F1F1;
+@define-color bg-alt  #E0E0E0;
+@define-color fg      #252525;
+@define-color fg-dim  #8A8A8A;
+@define-color accent  #008EC4;
+@define-color border  #8A8A8A;
+@define-color urgent  #C30771;

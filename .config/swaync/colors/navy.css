@@ -1,0 +1,8 @@
+/* navy */
+@define-color bg      #021B21;
+@define-color bg-alt  #0C252B;
+@define-color fg      #F2F1B9;
+@define-color fg-dim  #7A866D;
+@define-color accent  #44B5B1;
+@define-color border  #7A866D;
+@define-color urgent  #C2454E;

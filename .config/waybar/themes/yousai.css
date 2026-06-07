@@ -1,0 +1,34 @@
+/* Yousai (warm light) */
+
+@define-color bg0     #F5E7DE;
+@define-color bg1     #EBDCD2;
+@define-color bg2     #E1D1C6;
+@define-color bg3     #D7C6BA;
+@define-color fg      #34302D;
+@define-color comment #958C86;
+@define-color accent  #D97742;
+@define-color green   #BF8F60;
+@define-color red     #B23636;
+@define-color yellow  #C4891A;
+
+@define-color main-bg   @bg0;
+@define-color main-fg   @fg;
+@define-color main-br   @comment;
+@define-color hover-bg  @bg2;
+@define-color hover-fg  alpha(@main-fg, 0.75);
+@define-color outline   shade(@main-bg, 0.85);
+
+@define-color workspaces   @bg1;
+@define-color temperature  @bg1;
+@define-color memory       @bg2;
+@define-color cpu          @bg3;
+@define-color time         @bg3;
+@define-color date         @bg2;
+@define-color tray         @bg1;
+@define-color volume       @bg2;
+@define-color backlight    @bg1;
+@define-color battery      @bg1;
+
+@define-color warning  @yellow;
+@define-color critical @red;
+@define-color charging @green;

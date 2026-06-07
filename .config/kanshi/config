@@ -1,0 +1,20 @@
+# ======================================
+# KANSHI — PERFILES DE MONITOR
+# Detecta automáticamente qué pantallas
+# hay conectadas y aplica el perfil.
+# ======================================
+#
+# Para ver los nombres exactos de tus salidas ejecuta:
+#   hyprctl monitors
+#
+# Los nombres más comunes:
+#   DP-1 / DP-2   → DisplayPort
+#   HDMI-A-1      → HDMI
+#   eDP-1         → Pantalla integrada del portátil
+#   Virtual-1     → VM (QEMU/VirtualBox/VMware)
+# ======================================
+
+# Usa resolución preferida, sin fijar nombre de salida
+profile generic {
+    output * mode preferred position 0,0 scale 1
+}

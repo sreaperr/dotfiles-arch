@@ -1,0 +1,8 @@
+/* catppuccin */
+@define-color bg      #1E1D2F;
+@define-color bg-alt  #282839;
+@define-color fg      #D9E0EE;
+@define-color fg-dim  #7C7F8F;
+@define-color accent  #7AA2F7;
+@define-color border  #7C7F8F;
+@define-color urgent  #F28FAD;

@@ -1,0 +1,52 @@
+#!/bin/zsh
+#-----------------------------------------------
+#INICIO DE SESIÓN EN TERMINAL Y SALTO A HYPRLAND
+#-----------------------------------------------
+
+# === VARAIBLES DE ENTORNO ===
+#EDITOR POR DEFECTO
+export EDITOR=nvim
+export VISUAL=nvim
+#VARIABLE DE SESIÓN
+export XDG_SESSION_TYPE=wayland
+#VARIABLES QUE IDENTIFICAN EL DESKTOP
+export XDG_SESSION_DESKTOP=Hyprland
+export XDG_CURRENT_DESKTOP=Hyprland
+#VARIABLE DE APPS CON WAYLAND(BACKEND)
+export QT_QPA_PLATFORM=wayland
+#VARIABLE QUE DESACTIVA DECORACIONES PROPIAS
+export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+#VARIABLE PARA WAYLAND DE APPS CON XWAYLAND
+export ELECTRON_OZONE_PLATFORM_HINT=wayland
+#VARIABLE PARA APPS DE JAVA CON AWT/SWING, PARA QUE SE MUESTREN CORRECTAMENTE
+export _JAVA_AWT_WM_NONREPARENTING=1
+#FIREFOX Y THUNDERBIRD CON WAYLAND NATIVO
+export MOZ_ENABLE_WAYLAND=1
+#ACELERACIÓN DE HARDWARE PARA FIREFOX
+export MOZ_WEBRENDER=1
+#VARIABLE PARA QUE SE MANTENGA EL CURSOR
+export XCURSOR_THEME=$(cat "$HOME/.config/.current-cursor" 2>/dev/null || echo "Bibata-Modern-Ice")
+export XCURSOR_SIZE=24
+#DIRECTORIOS BASE
+export XDG_CONFIG_HOME=$HOME/.config
+export XDG_DATA_HOME=$HOME/.local/share
+export XDG_CACHE_HOME=$HOME/.cache
+#VARIABLE PARA EL PATH
+export PATH="$HOME/.local/bin:$PATH"
+
+# === LAUNCH DE HYPRLAND ===
+if [ -z "$WAYLAND_DISPLAY" ] && [ "$XDG_VTNR" -eq 1 ];then
+    case "$(systemd-detect-virt 2>/dev/null)" in
+        vmware|oracle|qemu|kvm)
+            export WLR_NO_HARDWARE_CURSORS=1
+            export LIBGL_ALWAYS_SOFTWARE=1
+            ;;
+    esac
+    if command -v uwsm &>/dev/null && [[ -f /usr/share/wayland-sessions/hyprland-uwsm.desktop ]]; then
+        exec uwsm start hyprland-uwsm.desktop
+    elif command -v Hyprland &>/dev/null; then
+        exec Hyprland
+    else
+        echo "[zprofile] uwsm/Hyprland no disponible — quedando en TTY"
+    fi
+fi

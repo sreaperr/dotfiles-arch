@@ -1,0 +1,94 @@
+/* ROFI — POPUP CENTRADO
+ * Para bluetooth, red y otros menús contextuales
+ */
+
+@import "~/.config/rofi/theme.rasi"
+
+window {
+    background-color: @background;
+    border:           1px solid;
+    border-color:     @selected;
+    border-radius:    12px;
+    width:            380px;
+    location:         center;
+    anchor:           center;
+}
+
+mainbox {
+    background-color: transparent;
+    children:         [ inputbar, separator, listview ];
+    spacing:          0px;
+    padding:          0px;
+}
+
+inputbar {
+    background-color: @background-alt;
+    border-radius:    12px 12px 0px 0px;
+    padding:          10px 14px;
+    spacing:          10px;
+    children:         [ prompt, entry ];
+}
+
+prompt {
+    text-color: @selected;
+    font:       "Inter Bold 11";
+}
+
+entry {
+    text-color:        @foreground;
+    placeholder:       "buscar...";
+    placeholder-color: @foreground-dim;
+}
+
+separator {
+    background-color: rgba(86, 95, 137, 0.25);
+    height:           1px;
+    margin:           0px;
+}
+
+listview {
+    background-color: transparent;
+    padding:          6px;
+    spacing:          2px;
+    lines:            10;
+    scrollbar:        false;
+    dynamic:          true;
+}
+
+element {
+    background-color: transparent;
+    border-radius:    6px;
+    padding:          9px 12px;
+    cursor:           pointer;
+}
+
+element normal.normal,
+element alternate.normal {
+    background-color: transparent;
+    text-color:       @foreground;
+}
+
+element selected.normal {
+    background-color: @background-hover;
+    border:           0px 0px 0px 2px solid;
+    border-color:     @selected;
+    text-color:       @selected;
+}
+
+element normal.urgent,
+element alternate.urgent {
+    text-color: @urgent;
+}
+
+element selected.urgent {
+    background-color: @background-hover;
+    border:           0px 0px 0px 2px solid;
+    border-color:     @urgent;
+    text-color:       @urgent;
+}
+
+element-text {
+    background-color: transparent;
+    text-color:       inherit;
+    vertical-align:   0.5;
+}
