@@ -39,12 +39,12 @@ if [[ "$layout" == 'NO' ]]; then
 	option_5=" Music <span weight='light' size='small'><i>($music_cmd)</i></span>"
 	option_6=" Settings <span weight='light' size='small'><i>($setting_cmd)</i></span>"
 else
-	option_1=""
-	option_2=""
-	option_3=""
-	option_4=""
-	option_5=""
-	option_6=""
+	option_1=""
+	option_2=""
+	option_3=""
+	option_4=""
+	option_5=""
+	option_6=""
 fi
 
 # Rofi CMD

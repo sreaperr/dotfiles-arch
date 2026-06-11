@@ -1,0 +1,15 @@
+/**
+ *
+ * Matrix (hacker green/black)
+ *
+ * Colors
+ **/
+
+* {
+    background:     #000000E6;
+    background-alt: #001A00F2;
+    foreground:     #00FF41FF;
+    selected:       #00AA2EEE;
+    active:         #00FFFFFF;
+    urgent:         #FF0000FF;
+}

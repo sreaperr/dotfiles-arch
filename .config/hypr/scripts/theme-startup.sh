@@ -23,6 +23,7 @@ gsettings set org.gnome.desktop.interface gtk-theme    "$GTK_THEME"
 gsettings set org.gnome.desktop.interface icon-theme   "$ICON_THEME"
 gsettings set org.gnome.desktop.interface cursor-theme "$CURSOR"
 gsettings set org.gnome.desktop.interface cursor-size  "$CURSOR_SIZE"
+gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"
 apply_gtk_cursor "$GTK_THEME" "$ICON_THEME" "$CURSOR" "$CURSOR_SIZE"
 
 # Recargar tmux si hay sesiones activas
@@ -39,6 +40,10 @@ else
 fi
 
 if [[ -n "$THEME_WALLPAPER" && -f "$THEME_WALLPAPER" ]]; then
+    if ! awww query &>/dev/null; then
+        awww-daemon &
+    fi
+
     TRIES=0
     until awww query &>/dev/null; do
         sleep 0.2

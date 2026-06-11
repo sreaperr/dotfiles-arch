@@ -34,6 +34,10 @@
     padding: 4px;
 }
 
+.close-button {
+    margin: 12px !important;
+}
+
 .notification-default-action {
     border-radius: 10px;
 }

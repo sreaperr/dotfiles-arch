@@ -1,15 +1,15 @@
-/* Tokyo Night */
+/* Grayscale + transparency */
 
-@define-color bg0     rgba(21, 22, 30, 0.6);
-@define-color bg1     rgba(26, 27, 38, 0.6);
-@define-color bg2     rgba(31, 32, 46, 0.6);
-@define-color bg3     rgba(36, 37, 54, 0.6);
-@define-color fg      #C0CAF5;
-@define-color comment #565F89;
-@define-color accent  #7AA2F7;
-@define-color green   #9ECE6A;
-@define-color red     #F7768E;
-@define-color yellow  #E0AF68;
+@define-color bg0     rgba(13, 13, 13, 0.6);
+@define-color bg1     rgba(26, 26, 26, 0.6);
+@define-color bg2     rgba(38, 38, 38, 0.6);
+@define-color bg3     rgba(51, 51, 51, 0.6);
+@define-color fg      #E8E8E8;
+@define-color comment #808080;
+@define-color accent  #B3B3B3;
+@define-color green   #999999;
+@define-color red     #666666;
+@define-color yellow  #ABABAB;
 
 @define-color main-bg   @bg0;
 @define-color main-fg   @fg;

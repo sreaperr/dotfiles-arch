@@ -7,48 +7,42 @@ THEMES_DIR="$DOTFILES/.config/themes"
 
 safe_cp() { [[ -L "$2" ]] && rm -f "$2"; cp -f "$1" "$2"; }
 
-apply_theme_symlinks() {
-    local THEME=$1
-    local T="$THEMES_DIR/$THEME"
+# ── Colores compartidos de rofi/waybar/swaync (SUPER+R) ──────────────────────
+apply_color_scheme() {
+    local SCHEME=$1
+    local COLORS_DIR="$HOME/.config/rofi/colors"
 
-    # Comprobar que el tema existe
-    if [[ ! -d "$T" ]]; then
-        echo "ERROR: tema '$THEME' no encontrado en $THEMES_DIR" >&2
-        return 1
+    [[ -f "$COLORS_DIR/$SCHEME.rasi" ]] && ln -sf "$COLORS_DIR/$SCHEME.rasi" "$COLORS_DIR/current.rasi"
+    ln -sf "$HOME/.config/rofi/colors-bridge.rasi" "$HOME/.config/rofi/theme.rasi"
+
+    local WAYBAR_CSS="$HOME/.config/waybar/themes/$SCHEME.css"
+    if [[ -f "$WAYBAR_CSS" ]]; then
+        ln -sf "$WAYBAR_CSS" "$HOME/.config/waybar/theme.css"
+        pkill -x waybar 2>/dev/null
+        sleep 0.3
+        (systemctl --user start waybar 2>/dev/null || waybar &) >/dev/null 2>&1
+        (sleep 0.5 && awww restore) >/dev/null 2>&1 &
     fi
 
-    # ── Copiar archivos de tema ────────────────────────────────────────────
-    safe_cp "$T/waybar.css"      "$HOME/.config/waybar/theme.css"
-    safe_cp "$T/kitty.conf"      "$HOME/.config/kitty/theme.conf"
-    safe_cp "$T/rofi.rasi"       "$HOME/.config/rofi/theme.rasi"
-    safe_cp "$T/swaync.css"      "$HOME/.config/swaync/theme.css"
-    safe_cp "$T/hypr.conf"       "$HOME/.config/hypr/theme.conf"
-    safe_cp "$T/hyprlock.conf"   "$HOME/.config/hypr/hyprlock-theme.conf"
-    safe_cp "$T/yazi.toml"       "$HOME/.config/yazi/theme.toml"
-    safe_cp "$T/tmux.conf"       "$HOME/.config/tmux/theme.conf"
-    safe_cp "$T/fastfetch.jsonc" "$HOME/.config/fastfetch/config.jsonc"
-    rm -f "$HOME/.config/omp/theme.json" && cp "$T/omp.json" "$HOME/.config/omp/theme.json"
-    [[ -f "$T/highlight.zsh" ]] && safe_cp "$T/highlight.zsh" "$HOME/.config/zsh/highlight.zsh"
+    local SWAYNC_CSS="$HOME/.config/swaync/colors/$SCHEME.css"
+    if [[ -f "$SWAYNC_CSS" ]]; then
+        ln -sf "$SWAYNC_CSS" "$HOME/.config/swaync/theme.css"
+        swaync-client --reload-css >/dev/null 2>&1 || true
+    fi
+}
 
-    # ── Nvim: solo si el tema tiene colorscheme propio (.lua) ─────────────
+# ── Colorscheme de Neovim ─────────────────────────────────────────────────────
+apply_nvim_colorscheme() {
+    local SCHEME=$1 T=$2
+
+    [[ -z "$SCHEME" ]] && return 0
+
+    local THEMES_LUA="$HOME/.config/nvim/lua/plugins/themes.lua"
+    [[ -f "$THEMES_LUA" ]] && sed -i "s|colorscheme = \".*\"|colorscheme = \"$SCHEME\"|" "$THEMES_LUA"
+
     if [[ -f "$T/nvim.lua" ]]; then
-        cp -f "$T/nvim.lua" "$HOME/.config/nvim/colors/${THEME}.lua"
-    fi
-
-    # ── Calcurse: actualizar solo la línea de color ────────────────────────
-    if [[ -f "$T/calcurse.conf" ]]; then
-        local calcurse_color
-        calcurse_color=$(tr -d '\n' < "$T/calcurse.conf")
-        sed -i "s|^appearance\.theme=.*|appearance.theme=$calcurse_color|" \
-            "$HOME/.config/calcurse/conf"
-    fi
-
-    # ── SwayOSD: copiar CSS y reiniciar servidor ───────────────────────────
-    if [[ -f "$T/swayosd.css" ]]; then
-        cp "$T/swayosd.css" "$HOME/.config/swayosd/style.css"
-        pkill -x swayosd-server 2>/dev/null || true
-        nohup swayosd-server --style "$HOME/.config/swayosd/style.css" \
-            >/dev/null 2>&1 &
+        mkdir -p "$HOME/.config/nvim/colors"
+        cp -f "$T/nvim.lua" "$HOME/.config/nvim/colors/$SCHEME.lua"
     fi
 }
 
@@ -65,6 +59,52 @@ apply_partial_theme_symlinks() {
     safe_cp "$T/fastfetch.jsonc" "$HOME/.config/fastfetch/config.jsonc"
     rm -f "$HOME/.config/omp/theme.json" && cp "$T/omp.json" "$HOME/.config/omp/theme.json"
     [[ -f "$T/highlight.zsh" ]] && safe_cp "$T/highlight.zsh" "$HOME/.config/zsh/highlight.zsh"
+
+    # ── Colores de rofi/waybar/swaync a juego con el tema ──────────────────
+    apply_color_scheme "$ROFI_COLORS"
+
+    # ── Colorscheme de nvim ─────────────────────────────────────────────────
+    apply_nvim_colorscheme "$NVIM_SCHEME" "$T"
+
+    # ── Calcurse: actualizar solo la línea de color ────────────────────────
+    if [[ -f "$T/calcurse.conf" ]]; then
+        local calcurse_color
+        calcurse_color=$(tr -d '\n' < "$T/calcurse.conf")
+        sed -i "s|^appearance\.theme=.*|appearance.theme=$calcurse_color|" \
+            "$HOME/.config/calcurse/conf"
+    fi
+
+    # ── Bordes de ventana ────────────────────────────────────────────────────
+    if [[ -f "$T/hypr.conf" ]]; then
+        safe_cp "$T/hypr.conf" "$HOME/.config/hypr/theme.conf"
+        hyprctl reload &>/dev/null || true
+    fi
+}
+
+apply_theme_symlinks() {
+    local THEME=$1
+    local T="$THEMES_DIR/$THEME"
+
+    # Comprobar que el tema existe
+    if [[ ! -d "$T" ]]; then
+        echo "ERROR: tema '$THEME' no encontrado en $THEMES_DIR" >&2
+        return 1
+    fi
+
+    apply_partial_theme_symlinks "$THEME"
+
+    # ── Copiar archivos de tema ────────────────────────────────────────────
+    safe_cp "$T/hyprlock.conf"   "$HOME/.config/hypr/hyprlock-theme.conf"
+    safe_cp "$T/yazi.toml"       "$HOME/.config/yazi/theme.toml"
+    safe_cp "$T/tmux.conf"       "$HOME/.config/tmux/theme.conf"
+
+    # ── SwayOSD: copiar CSS y reiniciar servidor ───────────────────────────
+    if [[ -f "$T/swayosd.css" ]]; then
+        cp "$T/swayosd.css" "$HOME/.config/swayosd/style.css"
+        pkill -x swayosd-server 2>/dev/null || true
+        nohup swayosd-server --style "$HOME/.config/swayosd/style.css" \
+            >/dev/null 2>&1 &
+    fi
 }
 
 apply_gtk_cursor() {

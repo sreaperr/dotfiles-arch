@@ -1,0 +1,8 @@
+/* grayscale */
+@define-color bg      rgba(13, 13, 13, 0.8);
+@define-color bg-alt  rgba(26, 26, 26, 0.8);
+@define-color fg      #E8E8E8;
+@define-color fg-dim  #808080;
+@define-color accent  #B3B3B3;
+@define-color border  #4D4D4D;
+@define-color urgent  #666666;

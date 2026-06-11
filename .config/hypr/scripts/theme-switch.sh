@@ -1,8 +1,9 @@
 #!/bin/bash
 #==========================
 # SCRIPT DE CAMBIO DE TEMA
-# Solo cambia kitty, prompt, fastfetch y wallpaper
-# Los colores de waybar/rofi se gestionan con SUPER+R
+# Aplica kitty, prompt, fastfetch, rofi/waybar/swaync, nvim,
+# calcurse y wallpaper. Si el tema es parcial (PARTIAL_THEME=true)
+# se dejan hypr/hyprlock/yazi/tmux/swayosd sin tocar.
 #==========================
 
 source "$(dirname "${BASH_SOURCE[0]}")/lib/theme-functions.sh"
@@ -33,8 +34,22 @@ source "$THEMES_DIR/$THEME/meta.sh"
 
 echo "$THEME" > "$HOME/.config/.current-theme"
 
-# ── Solo cambios de terminal y prompt ─────────────────────────────────────────
-apply_partial_theme_symlinks "$THEME"
+# ── Aplicar tema (completo o parcial según PARTIAL_THEME) ─────────────────────
+if [[ "${PARTIAL_THEME:-false}" == "true" ]]; then
+    apply_partial_theme_symlinks "$THEME"
+else
+    apply_theme_symlinks "$THEME"
+    hyprctl reload &>/dev/null || true
+fi
+
+# ── GTK + iconos + cursor (todos los temas, incluidos los parciales) ──────────
+gsettings set org.gnome.desktop.interface gtk-theme    "$GTK_THEME"
+gsettings set org.gnome.desktop.interface icon-theme   "$ICON_THEME"
+gsettings set org.gnome.desktop.interface cursor-theme "$CURSOR"
+gsettings set org.gnome.desktop.interface cursor-size  "$CURSOR_SIZE"
+gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"
+apply_gtk_cursor "$GTK_THEME" "$ICON_THEME" "$CURSOR" "$CURSOR_SIZE"
+
 pkill -SIGUSR1 kitty 2>/dev/null || true
 rm -f "$HOME/.cache/oh-my-posh/"*.omp.cache 2>/dev/null || true
 tmux source-file "$HOME/.config/tmux/theme.conf" 2>/dev/null || true

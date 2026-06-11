@@ -1,10 +1,3 @@
-local theme = vim.fn.system("cat ~/.config/.current-theme 2>/dev/null"):gsub("\n", "")
-
-local THEME_MAP = {
-  desktop  = "tokyonight",
-  auditory = "thorn-forest",
-}
-
 return {
   --==========================
   -- TOKYO NIGHT
@@ -37,14 +30,11 @@ return {
   },
 
   --==========================
-  -- THORN FOREST (auditory)
+  -- NO CLOWN FIESTA (auditory, escala de grises)
   --==========================
   {
-    "jpwol/thorn.nvim",
+    "aktersnurra/no-clown-fiesta.nvim",
     priority = 1000,
-    opts = {
-      theme = "forest",
-    },
   },
 
   --==========================
@@ -53,7 +43,7 @@ return {
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = THEME_MAP[theme] or "tokyonight",
+      colorscheme = "tokyonight",
     },
   },
 }

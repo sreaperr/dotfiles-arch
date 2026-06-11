@@ -61,14 +61,6 @@ export FZF_DEFAULT_OPTS="
 export FZF_CTRL_T_OPTS="$FZF_DEFAULT_OPTS"
 
 #============================
-#     == FASTFETCH ==
-#============================
-# config.jsonc gestionado por theme-functions.sh → themes/{tema}/fastfetch.jsonc
-fastfetch() {
-    command fastfetch --config "$HOME/.config/fastfetch/config.jsonc" "$@"
-}
-
-#============================
 #  == ZSH HIGHLIGHT / SUGGEST ==
 #============================
 # Colores del syntax highlighting — por tema, gestionado por el theme switcher
@@ -81,6 +73,6 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=8"
 #============================
 #     == INTEGRATIONS ==
 #============================
-eval "$(zoxide init zsh --cmd cd)"
 [[ -f "$HOME/.config/omp/theme.json" ]] && eval "$(oh-my-posh init zsh --config ~/.config/omp/theme.json)"
+eval "$(zoxide init zsh --cmd cd)"
 

@@ -1,0 +1,8 @@
+/* Matrix (hacker green/black) */
+@define-color bg      #000000;
+@define-color bg-alt  #001A00;
+@define-color fg      #00FF41;
+@define-color fg-dim  #008F11;
+@define-color accent  #00FF41;
+@define-color border  #008F11;
+@define-color urgent  #FF0000;
