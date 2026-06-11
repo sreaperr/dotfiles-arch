@@ -18,16 +18,16 @@
 @define-color hover-fg  alpha(@main-fg, 0.75);
 @define-color outline   shade(@main-bg, 0.5);
 
-@define-color workspaces   @bg1;
-@define-color temperature  @bg1;
-@define-color memory       @bg2;
-@define-color cpu          @bg3;
-@define-color time         @bg3;
-@define-color date         @bg2;
-@define-color tray         @bg1;
-@define-color volume       @bg2;
-@define-color backlight    @bg1;
-@define-color battery      @bg1;
+@define-color workspaces   transparent;
+@define-color temperature  transparent;
+@define-color memory       transparent;
+@define-color cpu          transparent;
+@define-color time         transparent;
+@define-color date         transparent;
+@define-color tray         transparent;
+@define-color volume       transparent;
+@define-color backlight    transparent;
+@define-color battery      transparent;
 
 @define-color warning  @yellow;
 @define-color critical @red;
