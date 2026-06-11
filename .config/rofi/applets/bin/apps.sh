@@ -23,7 +23,7 @@ fi
 
 # CMDs (add your apps here)
 term_cmd='kitty'
-file_cmd='nautilus'
+file_cmd='thunar'
 text_cmd='kitty -e nvim'
 web_cmd='google-chrome-stable'
 music_cmd='spotify'
