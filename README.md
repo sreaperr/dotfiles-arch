@@ -25,21 +25,11 @@ Dotfiles personales para **Arch Linux + Hyprland**.
 | Scratchpads | Pyprland |
 | File manager | Yazi | Nautilus
 | Wallpaper | awww |
-| Temas | Desktop · Auditory |
+| Temas | Desktop · Auditory · TokyoNight |
 
 ---
 
-## Temas Principales
-
-Dos temas intercambiables con `SUPER + T`:
-
-| Tema | Paleta | Componentes |
-|---|---|---|
-| **Desktop** | Colores principales | Kitty, prompt, fastfetch, wallpaper |
-| **Auditory** | Verde cyber / negro | Kitty, prompt, fastfetch, wallpaper |
-
-## Temas Generales(Rofi, Waybar, Swaync, Yazi, Calcurse...)
-Los archivos de cada tema viven en `.config/themes/<nombre>/` e incluyen colores para waybar, rofi, hyprland, kitty, tmux, swaync, swayosd, yazi y oh-my-posh.
+Tres temas intercambiables con `SUPER + T`:
 
 ---
 
@@ -82,20 +72,6 @@ El script hace lo siguiente en orden:
 10. Cambia la shell a zsh
 
 Reinicia cuando termine.
-
-### Post-instalación
-
-Una vez dentro de la primera sesión de Hyprland:
-
-```bash
-# Aplicar tema GTK, cursor e iconos
-nwg-look
-
-# Instalar plugins de tmux (dentro de tmux)
-<prefix> + I
-```
-
----
 
 ## Sincronizar en un equipo existente
 
@@ -157,35 +133,6 @@ dotfiles-arch/
 
 ---
 
-## Capturas de pantalla
-
-<div align="center">
-
-### Desktop limpio — Tema Desktop
-
-![Desktop clean](assets/screenshots/desktop-clean.png)
-
----
-
-### Terminal - Desktop
-
-![Hyprland overview](assets/screenshots/hyprland-overview.png)
-
----
-
-### Dashboard (keybindings · btop · reloj)
-
-![Dashboard](assets/screenshots/dashboard.png)
-
----
-
-### Tema Auditory
-
-<img src="assets/screenshots/theme-auditory.png" width="49%"> <img src="assets/screenshots/theme-auditory-terminal.png" width="49%">
-
-</div>
-
----
 ## Créditos
 
 Partes de esta configuración están basadas o inspiradas en los siguientes proyectos:
