@@ -41,10 +41,28 @@ cp "$PATH_REPO/.zprofile" "$HOME/.zprofile"
 
 # Re-aplicar el tema activo para regenerar los archivos de runtime
 CURRENT_THEME=$(cat "$HOME/.config/.current-theme" 2>/dev/null || echo "desktop")
-APPLY="$HOME/.config/themes/apply-theme.sh"
-if [[ -x "$APPLY" ]]; then
+THEME_FUNCS="$HOME/.config/hypr/scripts/lib/theme-functions.sh"
+THEME_META="$HOME/.config/themes/$CURRENT_THEME/meta.sh"
+
+if [[ -f "$THEME_FUNCS" && -f "$THEME_META" ]]; then
     echo "Re-aplicando tema '$CURRENT_THEME'..."
-    "$APPLY" "$CURRENT_THEME"
+    source "$THEME_FUNCS"
+    source "$THEME_META"
+
+    if [[ "${PARTIAL_THEME:-false}" == "true" ]]; then
+        apply_partial_theme_symlinks "$CURRENT_THEME"
+    else
+        apply_theme_symlinks "$CURRENT_THEME"
+    fi
+
+    gsettings set org.gnome.desktop.interface gtk-theme    "$GTK_THEME"
+    gsettings set org.gnome.desktop.interface icon-theme   "$ICON_THEME"
+    gsettings set org.gnome.desktop.interface cursor-theme "$CURSOR"
+    gsettings set org.gnome.desktop.interface cursor-size  "$CURSOR_SIZE"
+    gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"
+    apply_gtk_cursor "$GTK_THEME" "$ICON_THEME" "$CURSOR" "$CURSOR_SIZE"
+
+    hyprctl reload &>/dev/null || true
 fi
 
 echo ""
