@@ -66,7 +66,7 @@ sudo pacman -S --needed --noconfirm wlsunset grim slurp wf-recorder flameshot
 # Portapapeles
 sudo pacman -S --needed --noconfirm wl-clipboard cliphist
 # Sistema
-sudo pacman -S --needed --noconfirm polkit-gnome kanshi udiskie libnotify nautilus xdg-user-dirs
+sudo pacman -S --needed --noconfirm polkit-gnome kanshi udiskie libnotify thunar xdg-user-dirs
 # Terminal y utilidades CLI
 sudo pacman -S --needed --noconfirm kitty tmux neovim yazi btop fastfetch calcurse bat jq ffmpeg lazygit eza fd fzf ripgrep brightnessctl pacman-contrib figlet glow git-delta
 # Python
@@ -131,19 +131,38 @@ cp "$PATH_REPO/.zshrc" "$HOME/.zshrc"
 
 # == Tema por defecto (desktop) ==
 # Solo copia los archivos de color — no se recarga nada porque Hyprland aún no está corriendo.
-# Al primer arranque, apply-theme.sh se ejecuta desde theme-startup.sh dentro de la sesión.
 THEME_SRC="$HOME/.config/themes/desktop"
-cp -f "$THEME_SRC/waybar.css" "$HOME/.config/waybar/theme.css"
-cp -f "$THEME_SRC/rofi.rasi" "$HOME/.config/rofi/theme.rasi"
-cp -f "$THEME_SRC/rofi.rasi" "$HOME/.config/rofi/colors/current.rasi"
-cp -f "$THEME_SRC/swaync.css" "$HOME/.config/swaync/theme.css"
+source "$THEME_SRC/meta.sh"
+
+# Colores compartidos de waybar/rofi/swaync (sin symlinks, copia directa)
+cp -f "$HOME/.config/waybar/themes/$ROFI_COLORS.css" "$HOME/.config/waybar/theme.css"
+cp -f "$HOME/.config/rofi/colors-bridge.rasi" "$HOME/.config/rofi/theme.rasi"
+cp -f "$HOME/.config/rofi/colors/$ROFI_COLORS.rasi" "$HOME/.config/rofi/colors/current.rasi"
+cp -f "$HOME/.config/swaync/colors/$ROFI_COLORS.css" "$HOME/.config/swaync/theme.css"
+
 cp -f "$THEME_SRC/hypr.conf" "$HOME/.config/hypr/theme.conf"
 cp -f "$THEME_SRC/hyprlock.conf" "$HOME/.config/hypr/hyprlock-theme.conf"
 cp -f "$THEME_SRC/kitty.conf" "$HOME/.config/kitty/theme.conf"
 cp -f "$THEME_SRC/tmux.conf" "$HOME/.config/tmux/theme.conf"
 cp -f "$THEME_SRC/yazi.toml" "$HOME/.config/yazi/theme.toml"
 cp -f "$THEME_SRC/omp.json" "$HOME/.config/omp/theme.json"
+cp -f "$THEME_SRC/fastfetch.jsonc" "$HOME/.config/fastfetch/config.jsonc"
+cp -f "$THEME_SRC/swayosd.css" "$HOME/.config/swayosd/style.css"
 [[ -f "$THEME_SRC/highlight.zsh" ]] && cp -f "$THEME_SRC/highlight.zsh" "$HOME/.config/zsh/highlight.zsh"
+
+# Calcurse: aplicar línea de color del tema
+if [[ -f "$THEME_SRC/calcurse.conf" ]]; then
+    calcurse_color=$(tr -d '\n' <"$THEME_SRC/calcurse.conf")
+    sed -i "s|^appearance\.theme=.*|appearance.theme=$calcurse_color|" "$HOME/.config/calcurse/conf"
+fi
+
+# GTK, iconos y cursor
+gsettings set org.gnome.desktop.interface gtk-theme "$GTK_THEME"
+gsettings set org.gnome.desktop.interface icon-theme "$ICON_THEME"
+gsettings set org.gnome.desktop.interface cursor-theme "$CURSOR"
+gsettings set org.gnome.desktop.interface cursor-size "$CURSOR_SIZE"
+gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"
+
 echo "desktop" >"$HOME/.config/.current-theme"
 clear
 echo ""

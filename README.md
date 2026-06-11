@@ -23,7 +23,7 @@ Dotfiles personales para **Arch Linux + Hyprland**.
 | Launcher | Rofi |
 | Notificaciones | SwayNC |
 | Scratchpads | Pyprland |
-| File manager | Yazi | Nautilus
+| File manager | Yazi · Thunar |
 | Wallpaper | awww |
 | Temas | Desktop · Auditory · TokyoNight |
 
@@ -91,7 +91,6 @@ git pull
 | `SUPER + Enter` | Terminal (Kitty) |
 | `SUPER + Space` | Launcher de apps (Rofi) |
 | `SUPER + T` | Cambiar tema |
-| `SUPER + N` | Selector de wallpaper |
 | `SUPER + Y` | Yazi flotante |
 | `SUPER + K` | Calcurse flotante |
 | `SUPER + L` | Bloquear pantalla |
@@ -101,7 +100,7 @@ git pull
 | `SUPER + W` | Cerrar ventana |
 | `SUPER + F` | Fullscreen |
 | `SUPER + SHIFT + F` | Flotar ventana |
-| `F4` | Toggle scratchpads |
+| `F4` | Menú de atajos de teclado |
 | `SUPER + 1–0` | Cambiar workspace |
 | `SUPER + SHIFT + 1–0` | Mover ventana a workspace |
 
