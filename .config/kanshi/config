@@ -17,4 +17,11 @@
 # Usa resolución preferida, sin fijar nombre de salida
 profile generic {
     output * mode preferred position 0,0 scale 1
+
+}
+
+# Dual monitor: DP-1 izquierda, HDMI-A-1 derecha
+profile dual {
+    output DP-1 mode 3440x1440@144 position 0,0 scale 1
+    output HDMI-A-1 mode 1920x1080@60 position 3440,0 scale 1
 }
