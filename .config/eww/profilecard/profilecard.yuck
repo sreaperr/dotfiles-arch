@@ -268,6 +268,6 @@
 
 (defwindow launchermenu
     :monitor 0
-    :geometry (geometry :x "700px" :y "80px" :anchor "top left")
+    :geometry (geometry :x "20px" :y "0px" :anchor "top left")
     :wm-ignore true
     (launchermenu))

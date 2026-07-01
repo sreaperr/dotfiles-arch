@@ -46,6 +46,6 @@
 
 (defwindow fetch
   :monitor 0
-  :geometry (geometry :x "50px" :y "80px" :anchor "top right")
+  :geometry (geometry :x "0px" :y "0px" :anchor "center")
   :wm-ignore true
   (fetch-panel))

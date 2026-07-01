@@ -176,9 +176,9 @@
   :monitor 0
   :geometry
   (geometry
-    :x "700px"
-    :y "80px"
-    :anchor "bottom left"
+    :x "20px"
+    :y "0px"
+    :anchor "top right"
   )
 	:wm-ignore true
   (player)
