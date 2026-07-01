@@ -29,7 +29,7 @@ Dotfiles personales para **Arch Linux + Hyprland**.
 
 ---
 
-Tres temas intercambiables con `SUPER + T`:
+Wallpapers intercambiables con `SUPER + T`:
 
 ---
 
@@ -90,17 +90,16 @@ git pull
 |---|---|
 | `SUPER + Enter` | Terminal (Kitty) |
 | `SUPER + Space` | Launcher de apps (Rofi) |
-| `SUPER + T` | Cambiar tema |
+| `SUPER + T` | Cambiar wallpaper |
 | `SUPER + Y` | Yazi flotante |
 | `SUPER + K` | Calcurse flotante |
 | `SUPER + L` | Bloquear pantalla |
 | `SUPER + I` | Menú de energía |
 | `SUPER + H` | Historial del portapapeles |
-| `SUPER + B` | Brave |
 | `SUPER + W` | Cerrar ventana |
 | `SUPER + F` | Fullscreen |
 | `SUPER + SHIFT + F` | Flotar ventana |
-| `F4` | Menú de atajos de teclado |
+| `F4` | Widgets |
 | `SUPER + 1–0` | Cambiar workspace |
 | `SUPER + SHIFT + 1–0` | Mover ventana a workspace |
 
