@@ -25,7 +25,7 @@ Dotfiles personales para **Arch Linux + Hyprland**.
 | Scratchpads | Pyprland |
 | File manager | Yazi · Thunar |
 | Wallpaper | awww |
-| Temas | Desktop · Auditory · TokyoNight |
+| Temas | GreyScale |
 
 ---
 
