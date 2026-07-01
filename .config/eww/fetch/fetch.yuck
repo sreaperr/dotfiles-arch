@@ -1,0 +1,51 @@
+;; Fetch
+
+(defpoll fi-os     :interval "24h" "~/.config/eww/fetch/scripts/sysinfo os")
+(defpoll fi-kernel :interval "24h" "~/.config/eww/fetch/scripts/sysinfo kernel")
+(defpoll fi-term   :interval "24h" "~/.config/eww/fetch/scripts/sysinfo term")
+(defpoll fi-shell  :interval "24h" "~/.config/eww/fetch/scripts/sysinfo shell")
+(defpoll fi-host   :interval "24h" "~/.config/eww/fetch/scripts/sysinfo host")
+(defpoll fi-cpu    :interval "24h" "~/.config/eww/fetch/scripts/sysinfo cpu")
+(defpoll fi-gpu    :interval "24h" "~/.config/eww/fetch/scripts/sysinfo gpu")
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defwidget fi-row [icon key val color]
+  (box :orientation "h" :class "fi-row" :spacing 10
+    (label :class "fi-icon" :style "color: ${color};" :text icon)
+    (label :class "fi-key"  :text key)
+    (label :class "fi-val"  :text val :halign "start" :hexpand true)))
+
+(defwidget fi-sep []
+  (box :class "fi-sep" :hexpand true))
+
+(defwidget fetch-panel []
+  (box :class "fi-window" :orientation "h" :space-evenly false :spacing 0
+    (box :class "fi-image"
+         :style "background-image: url('/home/sreaper/.config/fastfetch/ralsei.png');")
+    (box :orientation "v" :space-evenly false :spacing 5 :hexpand true
+      (box :class "fi-header" :halign "center"
+        (label :text "${username}@${hostname}"))
+      (fi-sep)
+    (fi-row :icon ""    :key "OS    " :val fi-os     :color "#B3B3B3")
+    (fi-row :icon ""  :key "KERNEL" :val fi-kernel :color "#888888")
+    (fi-row :icon ""  :key "PKGS  " :val packages  :color "#ABABAB")
+    (fi-row :icon ""    :key "WM    " :val wm        :color "#B3B3B3")
+    (fi-row :icon ""  :key "TERM  " :val fi-term   :color "#888888")
+    (fi-row :icon "" :key "SHELL " :val fi-shell  :color "#ABABAB")
+    (fi-sep)
+    (fi-row :icon ""  :key "HOST  " :val fi-host   :color "#B3B3B3")
+    (fi-row :icon ""   :key "CPU   " :val fi-cpu    :color "#B3B3B3")
+    (fi-row :icon ""   :key "GPU   " :val fi-gpu    :color "#888888")
+    (fi-row :icon ""   :key "RAM   "
+            :val "${round(EWW_RAM.used_mem / 1073741824, 1)} / ${round(EWW_RAM.total_mem / 1073741824, 1)} GiB"
+            :color "#ABABAB")
+    (fi-row :icon ""  :key "DISK  "
+            :val "${round(EWW_DISK["/"].used / 1073741824, 0)} / ${round(EWW_DISK["/"].total / 1073741824, 0)} GiB"
+            :color "#B3B3B3"))))
+
+(defwindow fetch
+  :monitor 0
+  :geometry (geometry :x "50px" :y "80px" :anchor "top right")
+  :wm-ignore true
+  (fetch-panel))

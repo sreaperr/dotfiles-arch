@@ -176,10 +176,10 @@
   :monitor 0
   :geometry
   (geometry
-    :x "0px"
-    :y "0px"
-    :anchor "center"
+    :x "700px"
+    :y "80px"
+    :anchor "bottom left"
   )
-	:wm-ignore false
+	:wm-ignore true
   (player)
 )

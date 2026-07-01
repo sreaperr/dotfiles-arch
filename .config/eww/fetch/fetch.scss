@@ -1,0 +1,52 @@
+.fi-image {
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  min-width: 320px;
+  min-height: 380px;
+  margin-right: 1.5rem;
+}
+
+.fi-window {
+  background-color: $bg;
+  border-radius: 0.8rem;
+  padding: 1.4rem 2rem;
+  min-width: 60rem;
+}
+
+.fi-header {
+  font-family: "Hack Nerd Font";
+  font-size: 1rem;
+  font-weight: bold;
+  color: $fg;
+  padding-bottom: 0.2rem;
+}
+
+.fi-sep {
+  background-color: $black;
+  min-height: 1px;
+  margin: 0.3rem 0;
+}
+
+.fi-row {
+  padding: 0.15rem 0;
+}
+
+.fi-icon {
+  font-family: "Hack Nerd Font";
+  font-size: 0.9rem;
+  min-width: 1.4rem;
+}
+
+.fi-key {
+  font-family: "Hack Nerd Font Mono";
+  font-size: 0.8rem;
+  color: $cyan;
+  min-width: 5.5rem;
+}
+
+.fi-val {
+  font-family: "Hack Nerd Font";
+  font-size: 0.8rem;
+  color: $fg;
+}

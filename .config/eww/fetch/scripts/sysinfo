@@ -1,0 +1,31 @@
+#!/bin/sh
+
+case "$1" in
+    os)
+        awk -F= '/^PRETTY_NAME/{gsub(/"/, "", $2); print $2}' /etc/os-release
+        ;;
+    kernel)
+        uname -r | cut -d- -f1-2
+        ;;
+    term)
+        for t in kitty alacritty wezterm foot; do
+            pgrep -x "$t" >/dev/null 2>&1 && echo "$t" && break
+        done
+        ;;
+    shell)
+        basename "$SHELL"
+        ;;
+    host)
+        cat /sys/class/dmi/id/product_name 2>/dev/null
+        ;;
+    cpu)
+        grep -m1 'model name' /proc/cpuinfo \
+            | cut -d: -f2 \
+            | sed 's/^ //;s/(R)//g;s/(TM)//g;s/ CPU//;s/ with Radeon Graphics//;s/@.*//' \
+            | xargs
+        ;;
+    gpu)
+        lspci 2>/dev/null | grep -iE 'VGA|3D' | tail -1 \
+            | sed 's/.*: //;s/Advanced Micro Devices, Inc. \[AMD\/ATI\] /AMD /;s/ (rev.*//'
+        ;;
+esac
