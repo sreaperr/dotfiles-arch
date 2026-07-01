@@ -1,0 +1,34 @@
+#!/bin/sh
+
+cache_file=$HOME/.cache/$(whoami)/nightlight_state
+
+mkdir -p "$(dirname "$cache_file")"
+[ -f "$cache_file" ] || echo off > "$cache_file"
+
+get_state() {
+    cat "$cache_file"
+}
+
+disable_nightlight() {
+    pkill -x hyprsunset >/dev/null 2>&1
+    echo off > "$cache_file"
+}
+
+enable_nightlight() {
+    pkill -x hyprsunset >/dev/null 2>&1
+    hyprsunset -t 3350 &
+    echo on > "$cache_file"
+}
+
+toggle() {
+    if [ "$(get_state)" = "on" ]; then
+        disable_nightlight
+    else
+        enable_nightlight
+    fi
+}
+
+case $1 in
+    state) get_state ;;
+    toggle) toggle ;;
+esac

@@ -1,0 +1,98 @@
+#!/bin/sh
+
+KEY="8b05d62206f459e1d298cbe5844d7d87"
+UNITS="metric"
+LAT="37.6427"
+LON="-0.7231"
+CITY="La Manga del Mar Menor"
+
+wait_for_internet() {
+    while ! curl -fsS --max-time 5 https://google.com >/dev/null 2>&1; do
+        sleep 0.5
+    done
+}
+
+get_weather_data() {
+    curl -fsS --max-time 10 \
+        "https://api.openweathermap.org/data/2.5/weather?lat=${LAT}&lon=${LON}&appid=$KEY&units=$UNITS"
+}
+
+parse_weather_values() {
+    data=$1
+    W_TEMP=$(echo "$data" | jq -r '.main.temp | round')
+    W_FEELS=$(echo "$data" | jq -r '.main.feels_like | round')
+    W_DESC=$(echo "$data" | jq -r '.weather[0].description')
+    W_ICON=$(echo "$data" | jq -r '.weather[0].icon')
+}
+
+get_weather_icon() {
+    case "$1" in
+        "01d") printf '\xef\x86\x85\n' ;;   # sun
+        "01n") printf '\xef\x86\x86\n' ;;   # moon
+        "02d") printf '\xef\x9b\x84\n' ;;   # cloud-sun
+        "02n") printf '\xef\x9b\x83\n' ;;   # cloud-moon
+        "03d"|"03n") printf '\xef\x83\x82\n' ;;  # cloud
+        "04d"|"04n") printf '\xef\x9c\xbb\n' ;;  # cloud-meatball
+        "09d"|"09n") printf '\xef\x9d\x80\n' ;;  # cloud-showers-heavy
+        "10d") printf '\xef\x9d\x83\n' ;;   # cloud-sun-rain
+        "10n") printf '\xef\x9c\xbc\n' ;;   # cloud-moon-rain
+        "11d"|"11n") printf '\xef\x83\xa7\n' ;;  # bolt
+        "13d"|"13n") printf '\xef\x8b\x9c\n' ;;  # snowflake
+        "50d"|"50n") printf '\xef\x9d\x9f\n' ;;  # smog
+        *) printf '\xef\x83\x82\n' ;;       # cloud
+    esac
+}
+
+get_weather_hex() {
+    icon_prefix=$(echo "$1" | cut -c1-2)
+    case "$icon_prefix" in
+        "01") echo "#ffd86b" ;;
+        "02"|"03"|"04") echo "#adadff" ;;
+        "09"|"10") echo "#6b95ff" ;;
+        "11") echo "#ffeb57" ;;
+        "13") echo "#e3e6fc" ;;
+        "50") echo "#84afdb" ;;
+        *) echo "#adadff" ;;
+    esac
+}
+
+wait_for_internet
+weather_data=$(get_weather_data || exit 1)
+parse_weather_values "$weather_data"
+
+case "$1" in
+    "current_temp")
+        echo "$W_TEMP"
+        ;;
+    "current_temp_fahrenheit")
+        temp_f=$(expr \( "$W_TEMP" \* 9 / 5 \) + 32)
+        echo "${temp_f}°F"
+        ;;
+    "feels_like")
+        echo "${W_FEELS}°C"
+        ;;
+    "weather_desc")
+        echo "$W_DESC" | sed 's/.*/\u&/'
+        ;;
+    "icon")
+        get_weather_icon "$W_ICON"
+        ;;
+    "hex")
+        get_weather_hex "$W_ICON"
+        ;;
+    "full")
+        echo "$weather_data"
+        ;;
+    "city")
+        echo "$CITY"
+        ;;
+    "wmodule")
+        icon=$(get_weather_icon "$W_ICON")
+        hex=$(get_weather_hex "$W_ICON")
+        echo "%{F${hex}}${icon}%{F-} ${W_TEMP}°"
+        ;;
+    *)
+        echo "No valid option" >&2
+        exit 1
+        ;;
+esac
