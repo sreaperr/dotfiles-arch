@@ -24,8 +24,14 @@ Dotfiles personales para **Arch Linux + Hyprland**.
 | Notificaciones | SwayNC |
 | Scratchpads | Pyprland |
 | File manager | Yazi · Thunar |
+| ls / tree | eza |
+| cat / pager | bat |
+| cd inteligente | zoxide |
+| Git diff | delta |
+| Git TUI | lazygit |
 | Wallpaper | awww |
-| Temas | GreyScale |
+| Fetch | Fastfetch |
+| Temas | Tokyo Night Night |
 
 ---
 
@@ -113,11 +119,17 @@ dotfiles-arch/
 │   ├── hypr/         # Hyprland + scripts
 │   ├── waybar/       # Barra de estado
 │   ├── rofi/         # Launcher y menús
-│   ├── kitty/        # Terminal
+│   ├── kitty/        # Terminal (tema Tokyo Night)
 │   ├── nvim/         # Neovim (LazyVim)
 │   ├── tmux/         # Multiplexor de terminal
 │   ├── zsh/          # Config de zsh (aliases.zsh, highlight.zsh)
-│   ├── themes/       # Temas (desktop, auditory)
+│   ├── bat/          # Pager con tema tokyonight_night
+│   ├── eza/          # Colores Tokyo Night para ls
+│   ├── lazygit/      # Git TUI con tema Tokyo Night
+│   ├── fastfetch/    # Fetch con colores Tokyo Night
+│   ├── yazi/         # File manager con tema Tokyo Night
+│   ├── btop/         # Monitor con tema Tokyo Night
+│   ├── themes/       # Temas (desktop)
 │   └── ...
 ├── etc/              # Configs del sistema
 │   ├── pacman.conf
@@ -142,3 +154,4 @@ Partes de esta configuración están basadas o inspiradas en los siguientes proy
 | [rofi-themes](https://github.com/fishyfishfish55/rofi-themes) | [fishyfishfish55](https://github.com/fishyfishfish55) | Paleta tokyonight para rofi |
 | [catppuccin/waybar](https://github.com/catppuccin/waybar) | [Catppuccin](https://github.com/catppuccin) | Temas catppuccin de waybar |
 | [yazi-rs/plugins](https://github.com/yazi-rs/plugins) | [yazi-rs](https://github.com/yazi-rs) | Plugins de yazi: git, diff, jump-to-char, smart-enter |
+| [tokyonight.nvim](https://github.com/folke/tokyonight.nvim) | [folke](https://github.com/folke) | Tema Tokyo Night para kitty, eza, lazygit, delta, fzf, bat |
