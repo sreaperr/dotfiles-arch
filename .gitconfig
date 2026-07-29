@@ -1,31 +1,33 @@
 [user]
-    name  = TU_NOMBRE
-    email = TU_EMAIL
+	email = manrubiasalvador@gmail.com
+	name = sreaperr
 
 [core]
-    editor     = nvim
-    pager      = delta
-    autocrlf   = input
+	pager = delta
 
-[init]
-    defaultBranch = main
+[interactive]
+	diffFilter = delta --color-only
 
 [delta]
-    navigate    = true
-    line-numbers = true
-    side-by-side = true
-    syntax-theme = gruvbox-dark
+	navigate = true
+	light = false
+	line-numbers = true
+	side-by-side = false
+	syntax-theme = tokyonight_night
+	minus-style                   = syntax "#4a272f"
+	minus-non-emph-style          = syntax "#4a272f"
+	minus-emph-style              = syntax "#713137"
+	minus-empty-line-marker-style = syntax "#4a272f"
+	line-numbers-minus-style      = "#914c54"
+	plus-style                    = syntax "#243e4a"
+	plus-non-emph-style           = syntax "#243e4a"
+	plus-emph-style               = syntax "#2c5a66"
+	plus-empty-line-marker-style  = syntax "#243e4a"
+	line-numbers-plus-style       = "#449dab"
+	line-numbers-zero-style       = "#3b4261"
 
 [merge]
-    conflictstyle = diff3
+	conflictstyle = diff3
 
 [diff]
-    colorMoved = default
-
-[alias]
-    st  = status
-    co  = checkout
-    br  = branch
-    lg  = log --oneline --graph --decorate --all
-    undo = reset --soft HEAD~1
-    aliases = config --get-regexp alias
+	colorMoved = default
