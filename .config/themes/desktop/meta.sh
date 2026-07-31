@@ -2,11 +2,11 @@
 # META: DESKTOP
 #============================
 DISPLAY_NAME="Desktop"
-NVIM_SCHEME="kanagawa-dragon"
-CURSOR="Bibata-Modern-Ice"
+NVIM_SCHEME="tokyonight"
+CURSOR="LHackneyed-Dark-24px"
 CURSOR_SIZE=24
-BTOP_THEME="grayscale"
-ROFI_COLORS="grayscale"
+BTOP_THEME="tokyonight_night"
+ROFI_COLORS="tokyonight"
 GTK_THEME="Orchis-Grey"
 ICON_THEME="Modern-Office-Night-Icons"
 PAPIRUS_COLOR="grey"

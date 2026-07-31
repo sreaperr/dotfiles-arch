@@ -127,7 +127,7 @@ apply_gtk_cursor() {
         _gtk_set_key "$ini" "gtk-icon-theme-name"               "$ICON_THEME"
         _gtk_set_key "$ini" "gtk-cursor-theme-name"             "$CURSOR"
         _gtk_set_key "$ini" "gtk-cursor-theme-size"             "$CURSOR_SIZE"
-        _gtk_set_key "$ini" "gtk-font-name"                     "Hack Nerd Font 11"
+        _gtk_set_key "$ini" "gtk-font-name"                     "SauceCodePro Nerd Font 11"
         _gtk_set_key "$ini" "gtk-application-prefer-dark-theme" "1"
     done
 }
