@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+#
+# Pick default PulseAudio/PipeWire output sink via rofi
+#
+
+# Get all sinks: "index name description"
+get_sinks() {
+	pactl list sinks | awk '
+		/^Sink #/        { idx = substr($2, 2) }
+		/^\tName:/        { name = $2 }
+		/^\tDescription:/ { sub(/^\tDescription: /, ""); desc = $0; print idx "\t" name "\t" desc }
+	'
+}
+
+# Current default sink name
+default_sink() {
+	pactl get-default-sink
+}
+
+main() {
+	local sinks
+	sinks=$(get_sinks)
+
+	local current
+	current=$(default_sink)
+
+	# Build display list, marking the active one with
+	local labels=()
+	local names=()
+	while IFS=$'\t' read -r _ name desc; do
+		if [[ "$name" == "$current" ]]; then
+			labels+=(" $desc")
+		else
+			labels+=("  $desc")
+		fi
+		names+=("$name")
+	done <<< "$sinks"
+
+	# Show rofi picker
+	local chosen
+	chosen=$(printf '%s\n' "${labels[@]}" | rofi -dmenu \
+		-theme ~/.config/rofi/dropdown.rasi \
+		-p "󰕾  Salida" \
+		-no-custom \
+		-i)
+
+	[[ -z "$chosen" ]] && exit 0
+
+	# Find selected index
+	local i
+	for i in "${!labels[@]}"; do
+		if [[ "${labels[$i]}" == "$chosen" ]]; then
+			local sink="${names[$i]}"
+			pactl set-default-sink "$sink"
+			# Move all active streams to new sink
+			pactl list short sink-inputs | awk '{print $1}' | \
+				xargs -I{} pactl move-sink-input {} "$sink"
+			notify-send "Audio" "Salida: $(echo "$chosen" | sed 's/^[[:space:]]*//')" \
+				-i audio-volume-high \
+				-h string:x-canonical-private-synchronous:audio-picker
+			break
+		fi
+	done
+}
+
+main "$@"
