@@ -37,9 +37,10 @@ button:hover {
 }
 
 tooltip {
-	border: 2px solid @main-br;
+	background: linear-gradient(@main-bg, @main-bg) padding-box,
+	            linear-gradient(45deg, @purple, @accent) border-box;
+	border: 2px solid transparent;
 	border-radius: 10px;
-	background-color: @main-bg;
 }
 tooltip > box {
 	padding: 0 6px;

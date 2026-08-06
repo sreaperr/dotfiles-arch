@@ -18,8 +18,9 @@
 }
 
 .notification {
-    background-color: @bg;
-    border: 1px solid @border;
+    background: linear-gradient(@bg, @bg) padding-box,
+                linear-gradient(45deg, @purple, @accent) border-box;
+    border: 1px solid transparent;
     border-radius: 10px;
     padding: 10px;
     margin: 4px 8px;
@@ -98,8 +99,9 @@
   PANEL CENTRAL
 ------------------*/
 .control-center {
-    background-color: @bg;
-    border: 1px solid @border;
+    background: linear-gradient(@bg, @bg) padding-box,
+                linear-gradient(45deg, @purple, @accent) border-box;
+    border: 1px solid transparent;
     border-radius: 12px;
     padding: 8px;
 }
