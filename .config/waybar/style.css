@@ -12,7 +12,9 @@
 @import "styles/states.css";
 
 .module {
-	margin-bottom: -1px;
+	border-radius: 10px;
+	margin: 2px 4px;
+	border: 1px solid @outline;
 }
 
 #waybar {
@@ -20,9 +22,8 @@
 }
 #waybar > box {
 	margin: 0;
-	background-color: @main-bg;
-	border: 1px solid @outline;
-	border-radius: 12px;
+	background-color: transparent;
+	border: none;
 }
 
 button {

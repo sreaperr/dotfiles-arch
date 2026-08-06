@@ -1,0 +1,16 @@
+/**
+ *
+ * Kanagawa Dragon
+ *
+ * Colors
+ **/
+
+* {
+    background:     #181616CC;
+    background-alt: #1D1C19CC;
+    foreground:     #C5C9C5FF;
+    selected:       #C4B28ACC;
+    active:         #7AA89FFF;
+    urgent:         #C34043FF;
+    border-col:     #C4B28AFF;
+}

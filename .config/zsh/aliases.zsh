@@ -9,16 +9,11 @@ alias ls="eza --icons"
 alias list="eza --icons"
 alias ll="eza -lah --icons"
 alias lt="eza --tree --icons"
-alias yy="yazi"
-alias cp="cp -iv"
-alias rm="rm -iv"
 alias mkdir="mkdir -p"
 
 # HERRAMIENTAS MODERNAS
 alias cat="bat --paging=never"
-alias grep="rg"
 alias ps="procs"
-alias du="dust"
 alias df="duf"
 
 # RED
@@ -67,10 +62,6 @@ alias dc="docker compose"
 alias dps="docker ps"
 alias dimg="docker images"
 
-# HACKING — DIRECTORIOS
-alias hacking="cd $HOME/HACKING"
-alias dockerhack="cd $HOME/HACKING/DockerLabs/"
-
 # HACKING — RED
 alias ifaces="ip -br a"
 alias mymac="ip link show | grep ether"
@@ -116,10 +107,3 @@ alias hydra-http="hydra -l admin -P /usr/share/wordlists/rockyou.txt http-post-f
 alias atajos="~/.config/hypr/scripts/show-atajos.sh | less -R"
 alias keybinds="~/.config/hypr/scripts/show-atajos.sh | less -R"
 alias info="fastfetch"
-
-# LIMPIEZA DE PAQUETES HUÉRFANOS
-cleanup() {
-    local orphans
-    orphans=$(pacman -Qtdq 2>/dev/null)
-    [[ -n "$orphans" ]] && sudo pacman -Rns $orphans || echo "No hay paquetes huérfanos."
-}

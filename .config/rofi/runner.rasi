@@ -13,9 +13,10 @@ configuration {
 }
 
 window {
+    transparency:     "real";
     background-color: @background;
     border:           1px solid;
-    border-color:     @selected;
+    border-color:     @foreground;
     border-radius:    12px;
     width:            480px;
     location:         center;
@@ -41,7 +42,7 @@ inputbar {
 
 prompt {
     text-color: @selected;
-    font:       "Inter Bold 11";
+    font:       "SauceCodePro Nerd Font Bold 11";
 }
 
 entry {
@@ -108,6 +109,6 @@ message {
 textbox {
     background-color: transparent;
     text-color:       @foreground-dim;
-    font:             "Inter 10";
+    font:             "SauceCodePro Nerd Font 10";
     horizontal-align: 0;
 }

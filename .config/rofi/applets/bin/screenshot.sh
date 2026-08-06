@@ -18,9 +18,9 @@ if [[ "$theme" == *'type-1'* ]]; then
 	list_row='5'
 	win_width='400px'
 elif [[ "$theme" == *'type-3'* ]]; then
-	list_col='1'
-	list_row='5'
-	win_width='120px'
+	list_col='5'
+	list_row='1'
+	win_width='670px'
 elif [[ "$theme" == *'type-5'* ]]; then
 	list_col='1'
 	list_row='5'

@@ -9,7 +9,7 @@
 window {
     background-color: @background;
     border:           1px solid;
-    border-color:     @selected;
+    border-color:     @foreground;
     border-radius:    10px 0px 10px 10px;
     width:            340px;
     location:         northeast;
@@ -35,7 +35,7 @@ message {
 textbox {
     background-color: transparent;
     text-color:       @foreground-dim;
-    font:             "Inter 10";
+    font:             "SauceCodePro Nerd Font 10";
     horizontal-align: 0;
 }
 

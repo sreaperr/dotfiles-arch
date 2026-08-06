@@ -32,14 +32,6 @@ position  = "54% 2%"
 animation = "fromTop"
 pinned    = false
 
-[scratchpads.fetch]
-command   = "kitty --class scratchpad-fetch -e bash -c 'printf \"\\033[?25l\"; sleep 0.2; c=$(tput cols); r=$(tput lines); w=$((c*6/10)); h=$((r*7/10)); x=$(((c-w)/2)); y=$((r/10)); kitty +kitten icat --place ${w}x${h}@${x}x${y} ~/.config/fastfetch/logo.png; sleep infinity'"
-class     = "scratchpad-fetch"
-size      = "24% 40%"
-position  = "75% 2%"
-animation = "fromTop"
-pinned    = false
-
 [scratchpads.monitor]
 command   = "kitty --class scratchpad-btop -e btop"
 class     = "scratchpad-btop"

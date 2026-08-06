@@ -23,17 +23,17 @@ USE_ICON=YES
 /*****----- Main Window -----*****/
 window {
     transparency:                "real";
-    location:                    east;
-    anchor:                      east;
+    location:                    south;
+    anchor:                      south;
     fullscreen:                  false;
-    width:                       120px;
-    x-offset:                    -20px;
-    y-offset:                    0px;
+    width:                       700px;
+    x-offset:                    0px;
+    y-offset:                    -15px;
     margin:                      0px;
     padding:                     0px;
-    border:                      0px solid;
+    border:                      1px solid;
     border-radius:               16px;
-    border-color:                @selected;
+    border-color:                @foreground;
     cursor:                      "default";
     background-color:            @background;
 }
@@ -122,7 +122,7 @@ element {
     cursor:                      pointer;
 }
 element-text {
-    font:                        "GeistMono Nerd Font 24";
+    font:                        "SauceCodePro Nerd Font 24";
     background-color:            transparent;
     text-color:                  inherit;
     cursor:                      inherit;

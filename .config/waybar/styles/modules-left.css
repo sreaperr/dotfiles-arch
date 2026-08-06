@@ -1,24 +1,19 @@
-/*----------------
-    Workspaces
-----------------*/
+/*--------------
+    Arch icon
+--------------*/
 
-#custom-left_div.1,
-#custom-right_div.1 {
-	color: @workspaces;
-}
-#workspaces {
-	padding: 0 1px;
-	background-color: @workspaces;
-}
-#workspaces button.active label,
-#workspaces button.focused label {
-	color: @accent;
+#custom-distro {
+	padding: 0 12px;
+	background-color: @accent;
+	color: @main-bg;
+	font-size: 20px;
 }
 
-/*------------------
-    Window title
-------------------*/
+/*---------
+    Clock
+---------*/
 
-#window {
-	margin: 0 12px;
+#clock {
+	padding: 0 12px;
+	background-color: alpha(shade(@main-bg, 0.7), 0.88);
 }

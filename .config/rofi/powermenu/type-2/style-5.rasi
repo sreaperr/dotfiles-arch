@@ -24,20 +24,20 @@ USE_BUTTONS=YES
 window {
     /* properties for window widget */
     transparency:                "real";
-    location:                    west;
-    anchor:                      west;
+    location:                    south;
+    anchor:                      south;
     fullscreen:                  false;
-    width:                       115px;
-    x-offset:                    15px;
-    y-offset:                    0px;
+    width:                       650px;
+    x-offset:                    0px;
+    y-offset:                    -15px;
 
     /* properties for all widgets */
     enabled:                     true;
     margin:                      0px;
     padding:                     0px;
-    border:                      0px solid;
+    border:                      1px solid;
     border-radius:               12px;
-    border-color:                @selected;
+    border-color:                @foreground;
     cursor:                      "default";
     background-color:            @background;
 }
@@ -122,8 +122,8 @@ error-message {
 /*****----- Listview -----*****/
 listview {
     enabled:                     true;
-    columns:                     1;
-    lines:                       5;
+    columns:                     5;
+    lines:                       1;
     cycle:                       true;
     dynamic:                     true;
     scrollbar:                   false;
@@ -157,7 +157,7 @@ element {
     cursor:                      pointer;
 }
 element-text {
-    font:                        "GeistMono Nerd Font Bold 24";
+    font:                        "SauceCodePro Nerd Font Bold 24";
     background-color:            transparent;
     text-color:                  inherit;
     cursor:                      inherit;

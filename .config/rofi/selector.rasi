@@ -6,7 +6,7 @@
 @import "~/.config/rofi/colors/current.rasi"
 
 * {
-    font: "Inter 10";
+    font: "SauceCodePro Nerd Font 10";
 }
 
 configuration {
@@ -26,9 +26,9 @@ window {
     enabled:             true;
     margin:              0px;
     padding:             0px;
-    border:              0px solid;
+    border:              1px solid;
     border-radius:       16px;
-    border-color:        @selected;
+    border-color:        @foreground;
     background-color:    @background;
     cursor:              "default";
 }

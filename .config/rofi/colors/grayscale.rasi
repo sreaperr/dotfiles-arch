@@ -6,10 +6,11 @@
  **/
 
 * {
-    background:     #0D0D0DCC;
-    background-alt: #1A1A1ACC;
+    background:     #050505FF;
+    background-alt: #0F0F0FFF;
     foreground:     #E8E8E8FF;
     selected:       #4D4D4DEE;
     active:         #888888FF;
     urgent:         #707070FF;
+    border-col:     #E8E8E8FF;
 }

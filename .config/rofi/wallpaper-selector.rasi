@@ -1,0 +1,82 @@
+/* ROFI — WALLPAPER SELECTOR con previews (estilo gh0stzk RiceSelector) */
+
+@import "~/.config/rofi/colors/current.rasi"
+
+configuration {
+    show-icons:  true;
+    font:        "SauceCodePro Nerd Font Bold 10";
+    icon-size:   300;
+}
+
+window {
+    enabled:             true;
+    fullscreen:          false;
+    width:               900px;
+    location:            center;
+    anchor:              center;
+    transparency:        "real";
+    cursor:              "default";
+    spacing:             0px;
+    padding:             0px;
+    border:              1px solid;
+    border-color:        @foreground;
+    border-radius:       16px;
+    background-color:    transparent;
+}
+
+mainbox {
+    enabled:             true;
+    children:            [ "listview" ];
+    background-color:    @background;
+}
+
+listview {
+    enabled:             true;
+    columns:             4;
+    lines:               1;
+    spacing:             20px;
+    padding:             20px;
+    cycle:               true;
+    dynamic:             false;
+    scrollbar:           false;
+    layout:              vertical;
+    reverse:             false;
+    fixed-height:        true;
+    fixed-columns:       true;
+    cursor:              "default";
+    background-color:    transparent;
+    text-color:          @foreground;
+}
+
+element {
+    enabled:             true;
+    orientation:         vertical;
+    spacing:             0px;
+    padding:             8px;
+    border-radius:       12px;
+    cursor:              pointer;
+    background-color:    transparent;
+    text-color:          @foreground;
+}
+
+element selected.normal {
+    background-color:    @selected;
+    text-color:          @foreground;
+}
+
+element-icon {
+    size:                300px;
+    cursor:              inherit;
+    border-radius:       8px;
+    background-color:    transparent;
+    margin:              0px 0px 6px 0px;
+}
+
+element-text {
+    vertical-align:      0.5;
+    horizontal-align:    0.5;
+    padding:             4px 0px 0px 0px;
+    cursor:              inherit;
+    background-color:    transparent;
+    text-color:          inherit;
+}

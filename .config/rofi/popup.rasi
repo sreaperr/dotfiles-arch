@@ -7,7 +7,7 @@
 window {
     background-color: @background;
     border:           1px solid;
-    border-color:     @selected;
+    border-color:     @foreground;
     border-radius:    12px;
     width:            380px;
     location:         center;
@@ -31,7 +31,7 @@ inputbar {
 
 prompt {
     text-color: @selected;
-    font:       "Inter Bold 11";
+    font:       "SauceCodePro Nerd Font Bold 11";
 }
 
 entry {

@@ -1,37 +1,20 @@
-#custom-user:hover,
-#idle_inhibitor:hover,
-#clock.date:hover,
-#network:hover,
+/* Hover */
 #bluetooth:hover,
-#custom-update:hover,
-#mpris:hover,
-#pulseaudio:hover,
-#wireplumber:hover {
+#pulseaudio:hover {
 	color: @hover-fg;
 }
 
-/* Inactive states */
-#idle_inhibitor.deactivated,
-#mpris.paused,
-#pulseaudio.output.muted,
-#pulseaudio.input.source-muted,
-#wireplumber.muted {
+/* Inactive / muted */
+#pulseaudio.output.muted {
 	color: @hover-fg;
 }
 
+/* Warnings */
 #memory.warning,
-#cpu.warning,
-#battery.warning {
+#cpu.warning {
 	color: @warning;
 }
-
-#temperature.critical,
 #memory.critical,
-#cpu.critical,
-#battery.critical {
+#cpu.critical {
 	color: @critical;
-}
-
-#battery.charging {
-	color: @charging;
 }
