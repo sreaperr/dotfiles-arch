@@ -6,7 +6,7 @@
 @import "~/.config/rofi/colors/current.rasi"
 
 * {
-    font: "SauceCodePro Nerd Font 10";
+    font: "JetBrainsMono Nerd Font 10";
 }
 
 configuration {

@@ -35,7 +35,7 @@ message {
 textbox {
     background-color: transparent;
     text-color:       @foreground-dim;
-    font:             "SauceCodePro Nerd Font 10";
+    font:             "JetBrainsMono Nerd Font 10";
     horizontal-align: 0;
 }
 

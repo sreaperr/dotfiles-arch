@@ -42,7 +42,7 @@ inputbar {
 
 prompt {
     text-color: @selected;
-    font:       "SauceCodePro Nerd Font Bold 11";
+    font:       "JetBrainsMono Nerd Font Bold 11";
 }
 
 entry {
@@ -109,6 +109,6 @@ message {
 textbox {
     background-color: transparent;
     text-color:       @foreground-dim;
-    font:             "SauceCodePro Nerd Font 10";
+    font:             "JetBrainsMono Nerd Font 10";
     horizontal-align: 0;
 }

@@ -31,7 +31,7 @@ inputbar {
 
 prompt {
     text-color: @selected;
-    font:       "SauceCodePro Nerd Font Bold 11";
+    font:       "JetBrainsMono Nerd Font Bold 11";
 }
 
 entry {

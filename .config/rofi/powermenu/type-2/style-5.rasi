@@ -157,7 +157,7 @@ element {
     cursor:                      pointer;
 }
 element-text {
-    font:                        "SauceCodePro Nerd Font Bold 24";
+    font:                        "JetBrainsMono Nerd Font Bold 24";
     background-color:            transparent;
     text-color:                  inherit;
     cursor:                      inherit;

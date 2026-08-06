@@ -5,7 +5,7 @@
 configuration {
     modi:                "Apps:drun,Ventanas:window,Favoritas:/home/sreaper/.config/rofi/scripts/favapps.sh,Links:/home/sreaper/.config/rofi/scripts/quicklinks.sh";
     show-icons:          true;
-    font:                "SauceCodePro Nerd Font 11";
+    font:                "JetBrainsMono Nerd Font 11";
     display-drun:        " Apps";
     display-window:      " Ventanas";
     drun-display-format: "{name}";
