@@ -3,6 +3,8 @@
 # Pick default PulseAudio/PipeWire output sink via rofi
 #
 
+ROFI_WIDTH=260
+
 # Get all sinks: "index name description"
 get_sinks() {
 	pactl list sinks | awk '
@@ -12,9 +14,22 @@ get_sinks() {
 	'
 }
 
-# Current default sink name
 default_sink() {
 	pactl get-default-sink
+}
+
+# Position rofi just below the click point, centered horizontally on cursor
+rofi_position() {
+	local pos
+	pos=$(hyprctl cursorpos 2>/dev/null)
+	local cx cy
+	cx=$(echo "$pos" | awk -F',' '{print int($1)}')
+	cy=$(echo "$pos" | awk -F',' '{print int($2)}')
+
+	local x=$(( cx - ROFI_WIDTH / 2 ))
+	local y=$(( cy + 5 ))
+
+	echo "-theme-str 'window { x-offset: ${x}px; y-offset: ${y}px; }'"
 }
 
 main() {
@@ -24,7 +39,6 @@ main() {
 	local current
 	current=$(default_sink)
 
-	# Build display list, marking the active one with
 	local labels=()
 	local names=()
 	while IFS=$'\t' read -r _ name desc; do
@@ -36,23 +50,24 @@ main() {
 		names+=("$name")
 	done <<< "$sinks"
 
-	# Show rofi picker
+	local pos_args
+	pos_args=$(rofi_position)
+
 	local chosen
-	chosen=$(printf '%s\n' "${labels[@]}" | rofi -dmenu \
+	chosen=$(printf '%s\n' "${labels[@]}" | eval rofi -dmenu \
 		-theme ~/.config/rofi/dropdown.rasi \
+		"$pos_args" \
 		-p "󰕾  Salida" \
 		-no-custom \
 		-i)
 
 	[[ -z "$chosen" ]] && exit 0
 
-	# Find selected index
 	local i
 	for i in "${!labels[@]}"; do
 		if [[ "${labels[$i]}" == "$chosen" ]]; then
 			local sink="${names[$i]}"
 			pactl set-default-sink "$sink"
-			# Move all active streams to new sink
 			pactl list short sink-inputs | awk '{print $1}' | \
 				xargs -I{} pactl move-sink-input {} "$sink"
 			notify-send "Audio" "Salida: $(echo "$chosen" | sed 's/^[[:space:]]*//')" \
