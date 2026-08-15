@@ -37,6 +37,18 @@ mapfile -t MONITORS < <(hyprctl monitors -j 2>/dev/null | \
 
 FIRST_WP=""
 for _mon in "${MONITORS[@]}"; do
+    # Fondo fijo por monitor (ignora el tema)
+    fixed_file="$HOME/.config/.wallpaper-fixed${_mon:+-$_mon}"
+    if [[ -n "$_mon" && -f "$fixed_file" ]]; then
+        FIXED_WP=$(cat "$fixed_file")
+        if [[ -f "$FIXED_WP" ]]; then
+            awww query &>/dev/null || { awww-daemon &; sleep 1; }
+            awww img "$FIXED_WP" --outputs "$_mon" --transition-type none
+            [[ -z "$FIRST_WP" ]] && FIRST_WP="$FIXED_WP"
+            continue
+        fi
+    fi
+
     saved="$HOME/.config/.wallpaper-$THEME${_mon:+-$_mon}"
     THEME_WALLPAPER=""
     if [[ -f "$saved" ]]; then

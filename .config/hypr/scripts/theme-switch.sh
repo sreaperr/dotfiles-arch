@@ -60,6 +60,20 @@ mapfile -t MONITORS < <(hyprctl monitors -j 2>/dev/null | \
 
 if [[ ${#MONITORS[@]} -gt 0 ]]; then
     for _mon in "${MONITORS[@]}"; do
+        # Fondo fijo por monitor (ignora el tema)
+        fixed_file="$HOME/.config/.wallpaper-fixed-$_mon"
+        if [[ -f "$fixed_file" ]]; then
+            fixed_wp=$(cat "$fixed_file")
+            if [[ -f "$fixed_wp" ]]; then
+                awww img "$fixed_wp" \
+                    --outputs "$_mon" \
+                    --transition-type fade \
+                    --transition-duration 1.5 \
+                    --transition-fps 60
+                continue
+            fi
+        fi
+
         saved="$HOME/.config/.wallpaper-$THEME-$_mon"
         wp=""
         if [[ -f "$saved" ]]; then

@@ -1,16 +1,16 @@
+[
 {
+	/*==========================
+	    BARRA PRINCIPAL — DP-1
+	==========================*/
+
 	"include": [
 		"~/.config/waybar/modules/*.jsonc",
 		"~/.config/waybar/modules/custom/*.jsonc",
 		"~/.config/waybar/modules/hyprland/*.jsonc"
-
-		// Modules that are not included by default:
-		// "~/.config/waybar/modules/extras/*.jsonc"
 	],
 
-	/*------------
-	    Layout
-	------------*/
+	"output": "DP-1",
 
 	"modules-left": [
 		"custom/distro",
@@ -29,34 +29,49 @@
 		"custom/notifications"
 	],
 
-	/*-------------
-	    Options
-	-------------*/
-
-	// "expand-center":
-	// "expand-left":
-	// "expand-right":
 	"layer": "top",
-	// "output":
-	// "position":
 	"height": 0,
 	"width": 0,
 	"margin-top": 8,
 	"margin-left": 8,
 	"margin-right": 8,
 	"margin-bottom": 0,
-	// "no-center":
 	"spacing": 0,
-	// "name":
 	"mode": "dock",
-	// "start_hidden":
-	// "modifier-reset":
-	// "exclusive":
-	// "fixed-center":
-	// "passthrough":
-	// "ipc":
-	// "id":
 	"reload_style_on_change": true
-	// "on-sigusr1":
-	// "on-sigusr2":
+},
+
+{
+	/*==============================
+	    BARRA SECUNDARIA — HDMI-A-1
+	    (1080 px ancho lógico tras rotación 90°)
+	==============================*/
+
+	"include": [
+		"~/.config/waybar/modules/*.jsonc",
+		"~/.config/waybar/modules/hyprland/*.jsonc"
+	],
+
+	"output": "HDMI-A-1",
+
+	"modules-left": [
+		"clock#time",
+		"clock#date"
+	],
+	"modules-center": [
+		"hyprland/workspaces"
+	],
+	"modules-right": [],
+
+	"layer": "top",
+	"height": 0,
+	"width": 0,
+	"margin-top": 8,
+	"margin-left": 8,
+	"margin-right": 8,
+	"margin-bottom": 0,
+	"spacing": 0,
+	"mode": "dock",
+	"reload_style_on_change": true
 }
+]
