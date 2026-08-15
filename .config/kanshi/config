@@ -20,8 +20,8 @@ profile generic {
 
 }
 
-# Dual monitor: DP-1 arriba, HDMI-A-1 debajo centrado
+# Dual monitor: DP-1 principal, HDMI-A-1 a la derecha
 profile dual {
     output DP-1 mode 3440x1440@144 position 0,0 scale 1
-    output HDMI-A-1 mode 1920x1080@60 position 760,1440 scale 1
+    output HDMI-A-1 mode 1920x1080@60 position 3440,0 scale 1 transform 270
 }
