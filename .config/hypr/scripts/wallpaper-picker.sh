@@ -76,6 +76,7 @@ if [[ -v "WE_MAP[$SELECTED]" ]]; then
     sleep 0.3
 
     for _mon in "${MONITORS[@]}"; do
+        [[ -n "$_mon" && -f "$HOME/.config/.wallpaper-fixed-$_mon" ]] && continue
         if [[ -n "$_mon" ]]; then
             linux-wallpaperengine --layer background --screen-root "$_mon" --bg "$WE_ID" --silent &
         else
@@ -103,6 +104,7 @@ else
     fi
 
     for _mon in "${MONITORS[@]}"; do
+        [[ -n "$_mon" && -f "$HOME/.config/.wallpaper-fixed-$_mon" ]] && continue
         if [[ -n "$_mon" ]]; then
             awww img "$WP" --outputs "$_mon" \
                 --transition-type fade --transition-duration 1.5 --transition-fps 60
