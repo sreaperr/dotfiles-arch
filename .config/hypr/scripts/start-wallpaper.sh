@@ -17,11 +17,8 @@ done
 WALLPAPER=$(cat ~/.config/.current-wallpaper 2>/dev/null)
 
 if [ -z "$WALLPAPER" ] || [ ! -f "$WALLPAPER" ]; then
-    WALLPAPER="$HOME/.config/.wallpaper/retro.webp"
+    WALLPAPER="$HOME/.config/.wallpaper/CODING"
 fi
 
 # Aplicar fondo en todos los monitores conectados
 awww img "$WALLPAPER" --transition-type fade --transition-duration 1
-
-# Dar tiempo a kanshi para posicionar los monitores y cubrir los que se añadan después
-(sleep 3 && awww img "$WALLPAPER" --transition-type none) &

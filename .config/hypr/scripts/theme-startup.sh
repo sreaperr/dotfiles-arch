@@ -97,3 +97,22 @@ for _mon in "${MONITORS[@]}"; do
 done
 
 [[ -n "$FIRST_WP" ]] && echo "$FIRST_WP" > "$HOME/.config/.current-wallpaper"
+
+# Re-aplicar wallpapers por monitor tras la reconfiguración de kanshi (~4s)
+(
+    sleep 5
+    for _mon in "${MONITORS[@]}"; do
+        fixed_file="$HOME/.config/.wallpaper-fixed${_mon:+-$_mon}"
+        if [[ -n "$_mon" && -f "$fixed_file" ]]; then
+            FIXED_WP=$(cat "$fixed_file")
+            [[ -f "$FIXED_WP" ]] && awww img "$FIXED_WP" --outputs "$_mon" --transition-type none
+            continue
+        fi
+        saved="$HOME/.config/.wallpaper-$THEME${_mon:+-$_mon}"
+        WP=""
+        [[ -f "$saved" ]] && WP=$(cat "$saved")
+        [[ -z "$WP" ]] && WP="$DEFAULT_WALLPAPER"
+        [[ "$WP" == we:* ]] && continue
+        [[ -f "$WP" ]] && awww img "$WP" --outputs "$_mon" --transition-type none
+    done
+) &
