@@ -53,14 +53,14 @@ for _mon in "${MONITORS[@]}"; do
     THEME_WALLPAPER=""
     if [[ -f "$saved" ]]; then
         THEME_WALLPAPER=$(cat "$saved")
-        if [[ "$THEME_WALLPAPER" != we:* && ! -f "$THEME_WALLPAPER" ]]; then
+        if [[ ! -f "$THEME_WALLPAPER" ]]; then
             rm -f "$saved"
             THEME_WALLPAPER="$DEFAULT_WALLPAPER"
         fi
     else
         THEME_WALLPAPER="$DEFAULT_WALLPAPER"
     fi
-    [[ -n "$THEME_WALLPAPER" && ( "$THEME_WALLPAPER" == we:* || -f "$THEME_WALLPAPER" ) ]] || continue
+    [[ -n "$THEME_WALLPAPER" && -f "$THEME_WALLPAPER" ]] || continue
     [[ -z "$FIRST_WP" ]] && FIRST_WP="$THEME_WALLPAPER"
 
     if ! awww query &>/dev/null; then
@@ -73,26 +73,11 @@ for _mon in "${MONITORS[@]}"; do
         done
     fi
 
-    if [[ "$THEME_WALLPAPER" == we:* ]]; then
-        WE_ID="${THEME_WALLPAPER#we:}"
-        pkill -f linux-wallpaperengine 2>/dev/null; sleep 0.2
-        if [[ -n "$_mon" ]]; then
-            linux-wallpaperengine --layer background --screen-root "$_mon" --bg "$WE_ID" --silent &
-            # Re-aplicar tras ~4s para sobrevivir la reconfiguración de kanshi
-            (sleep 4 && pkill -f linux-wallpaperengine 2>/dev/null; sleep 0.3 \
-                && linux-wallpaperengine --layer background --screen-root "$_mon" --bg "$WE_ID" --silent) &
-        else
-            linux-wallpaperengine --layer background --bg "$WE_ID" --silent &
-            (sleep 4 && pkill -f linux-wallpaperengine 2>/dev/null; sleep 0.3 \
-                && linux-wallpaperengine --layer background --bg "$WE_ID" --silent) &
-        fi
+    if [[ -n "$_mon" ]]; then
+        awww img "$THEME_WALLPAPER" --outputs "$_mon" \
+            --transition-type fade --transition-duration 1
     else
-        if [[ -n "$_mon" ]]; then
-            awww img "$THEME_WALLPAPER" --outputs "$_mon" \
-                --transition-type fade --transition-duration 1
-        else
-            awww img "$THEME_WALLPAPER" --transition-type fade --transition-duration 1
-        fi
+        awww img "$THEME_WALLPAPER" --transition-type fade --transition-duration 1
     fi
 done
 
@@ -112,7 +97,6 @@ done
         WP=""
         [[ -f "$saved" ]] && WP=$(cat "$saved")
         [[ -z "$WP" ]] && WP="$DEFAULT_WALLPAPER"
-        [[ "$WP" == we:* ]] && continue
         [[ -f "$WP" ]] && awww img "$WP" --outputs "$_mon" --transition-type none
     done
 ) &
