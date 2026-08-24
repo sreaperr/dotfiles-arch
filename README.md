@@ -67,17 +67,15 @@ chmod +x install.sh
 El script hace lo siguiente en orden:
 
 1. Actualiza los repos con `pacman -Syu`
-2. Integra el repo BlackArch (`strap.sh` oficial) y refresca pacman
-3. Instala `paru` (AUR helper)
-4. Instala todos los paquetes de pacman y AUR
-5. Instala herramientas BlackArch por categorías (recon, scanner, webapp, proxy, fuzzer, exploitation, cracker) más Burp Suite y Metasploit
-6. Instala TPM (gestor de plugins de tmux)
-7. Activa servicios: NetworkManager, bluetooth
-8. Crea carpetas de usuario en español
-9. Instala oh-my-zsh
-10. Copia `.config/` del repo a `~/.config/`
-11. Copia `pacman.conf` y `reflector.conf` al sistema
-12. Cambia la shell a zsh
+2. Instala `paru` (AUR helper)
+3. Instala todos los paquetes de pacman y AUR
+4. Instala TPM (gestor de plugins de tmux)
+5. Activa servicios: NetworkManager, bluetooth
+6. Crea carpetas de usuario en español
+7. Instala oh-my-zsh
+8. Copia `.config/` del repo a `~/.config/`
+9. Copia `pacman.conf` y `reflector.conf` al sistema
+10. Cambia la shell a zsh
 
 Reinicia cuando termine.
 
