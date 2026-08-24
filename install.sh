@@ -31,6 +31,14 @@ PATH_REPO="$HOME_DIR/dotfiles-arch"
 # == Actualizar repos ==
 echo "*** Actualizar REPOS ***" && sleep 3
 sudo pacman -Syu --noconfirm
+# == Repo BlackArch (herramientas de pentesting) ==
+echo "*** Integrando repo BlackArch ***" && sleep 2
+sudo cp "$PATH_REPO/etc/pacman.conf" /etc/pacman.conf
+curl -O https://blackarch.org/strap.sh
+chmod +x strap.sh
+sudo ./strap.sh
+rm -f strap.sh
+sudo pacman -Syyu --noconfirm
 # == Instalar paru ==
 echo "*** Instalando PARU ***" && sleep 2
 # Rust necesario para compilar paru desde fuente
@@ -79,6 +87,9 @@ sudo pacman -S --needed --noconfirm firefox
 sudo pacman -S --needed --noconfirm zsh zoxide zsh-autosuggestions zsh-syntax-highlighting
 # Notificaciones (en repos oficiales desde 2024)
 sudo pacman -S --needed --noconfirm swaync
+# == Paquetes BlackArch (grupo completo — ~2800 herramientas de pentesting) ==
+echo "*** Instalando grupo BlackArch (puede tardar bastante) ***" && sleep 2
+sudo pacman -S --needed --noconfirm blackarch
 # == Paquetes AUR ==
 # WM extras + launcher (pyprland separado para evitar prompt de proveedor)
 paru -S --needed --noconfirm rofi-wayland uwsm swayosd
