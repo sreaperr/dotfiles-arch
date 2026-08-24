@@ -1,7 +1,7 @@
 * {
 	font-family: "JetBrainsMono Nerd Font", "Symbols Nerd Font Mono";
 	font-weight: 600;
-	font-size: 18px;
+	font-size: 14px;
 }
 
 tooltip label {
@@ -11,5 +11,5 @@ tooltip label {
 #workspaces button.active label,
 #workspaces button.focused label,
 #custom-distro {
-	font-size: 23px;
+	font-size: 18px;
 }
