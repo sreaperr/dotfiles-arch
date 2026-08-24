@@ -81,6 +81,17 @@ sudo pacman -S --needed --noconfirm kitty tmux neovim yazi btop fastfetch calcur
 sudo pacman -S --needed --noconfirm python python-pip
 # Fuentes e iconos
 sudo pacman -S --needed --noconfirm papirus-icon-theme
+# Nerd Fonts — solo las familias que realmente se usan en los configs
+# (JetBrainsMono en waybar/kitty/rofi/hyprlock/gtk, Hack en hyprexpose/swayosd,
+# Iosevka en varios temas de rofi, GeistMono en mpv/swaync, y el set de
+# símbolos como fallback de iconos). El meta-paquete `nerd-fonts` de AUR
+# descarga la colección entera (varios GB) y es, con diferencia, lo que más
+# tarda del script entero — evitarlo. Paquete a paquete por si algún nombre
+# cambia entre versiones de los repos oficiales; un fallo no aborta el resto.
+NERD_FONTS="ttf-jetbrains-mono-nerd ttf-hack-nerd ttf-iosevka-nerd ttf-geist-mono-nerd ttf-nerd-fonts-symbols"
+for font in $NERD_FONTS; do
+    sudo pacman -S --needed --noconfirm "$font" || echo "Aviso: no se pudo instalar $font"
+done
 # Navegadores
 sudo pacman -S --needed --noconfirm firefox
 # Shell
@@ -119,8 +130,6 @@ paru -S --needed --noconfirm brave-bin google-chrome tor-browser
 paru -S --needed --noconfirm spotify
 # Temas y apariencia
 paru -S --needed --noconfirm bibata-cursor-theme kora-icon-theme tokyonight-gtk-theme-git
-# Nerd Fonts (todas)
-paru -S --needed --noconfirm nerd-fonts
 # Terminal extras
 paru -S --needed --noconfirm tty-clock oh-my-posh-bin zsh-history-substring-search procs dust duf
 # GTK settings (Wayland)
