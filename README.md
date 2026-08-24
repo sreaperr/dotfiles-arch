@@ -79,6 +79,22 @@ El script hace lo siguiente en orden:
 
 Reinicia cuando termine.
 
+## Herramientas de pentesting
+
+`tools.sh` instala un set curado de herramientas de pentesting/CTF (no el
+repo BlackArch completo, que era demasiado lento). Requiere `paru` ya
+instalado, así que se ejecuta después de `install.sh`:
+
+```bash
+./tools.sh
+```
+
+Incluye reconocimiento (`nmap`, `gobuster`, `ffuf`, `nikto`, `whatweb`),
+explotación web (`sqlmap`, `wpscan`, `burpsuite`), explotación/post-explotación
+(`metasploit`, `netcat`, `socat`), cracking (`hydra`, `john`, `hashcat`),
+análisis de red (`wireshark`, `tcpdump`) y enumeración SMB (`smbclient`,
+`smbmap`, `enum4linux`), más `nuclei` para escaneo de plantillas.
+
 ## Sincronizar en un equipo existente
 
 Si ya tienes el repo clonado y quieres aplicar los últimos cambios a tu `~/.config/` local:
@@ -138,6 +154,7 @@ dotfiles-arch/
 ├── .zprofile
 ├── .gitconfig
 ├── install.sh        # Instalación limpia
+├── tools.sh           # Herramientas de pentesting/CTF
 └── update-local.sh   # Sincronizar configs locales
 ```
 
