@@ -87,16 +87,20 @@ sudo pacman -S --needed --noconfirm firefox
 sudo pacman -S --needed --noconfirm zsh zoxide zsh-autosuggestions zsh-syntax-highlighting
 # Notificaciones (en repos oficiales desde 2024)
 sudo pacman -S --needed --noconfirm swaync
-# == Paquetes BlackArch (grupo completo — ~2800 herramientas de pentesting) ==
-# Se instala paquete a paquete: en un grupo tan grande siempre hay algún
-# conflicto de proveedor o paquete roto, y con `pacman -S blackarch` de una
-# sola vez ese único fallo aborta la transacción entera (y con set -e, el
-# script completo). Instalando uno a uno, un fallo puntual solo se salta
-# ese paquete y se registra en el log.
-echo "*** Instalando grupo BlackArch (puede tardar bastante) ***" && sleep 2
+# == Paquetes BlackArch (por categorías, no el grupo completo) ==
+# El grupo `blackarch` completo son ~2800 paquetes y tarda demasiado.
+# Se instalan solo las categorías relevantes para pentesting web/CTF, más
+# burpsuite y metasploit explícitos. Paquete a paquete: en un grupo así
+# de grande siempre hay algún conflicto de proveedor o paquete roto, y
+# con `pacman -S <grupo>` de una sola vez ese único fallo aborta la
+# transacción entera (y con set -e, el script completo). Instalando uno
+# a uno, un fallo puntual solo se salta ese paquete y se registra en el log.
+echo "*** Instalando herramientas BlackArch (por categorías) ***" && sleep 2
 BLACKARCH_LOG="$HOME_DIR/blackarch-install-failed.log"
 : >"$BLACKARCH_LOG"
-for pkg in $(pacman -Sgq blackarch); do
+BLACKARCH_GROUPS="blackarch-recon blackarch-scanner blackarch-webapp blackarch-proxy blackarch-fuzzer blackarch-exploitation blackarch-cracker"
+BLACKARCH_EXTRA="burpsuite metasploit"
+for pkg in $(pacman -Sgq $BLACKARCH_GROUPS | sort -u) $BLACKARCH_EXTRA; do
     sudo pacman -S --needed --noconfirm "$pkg" || echo "$pkg" >>"$BLACKARCH_LOG"
 done
 if [ -s "$BLACKARCH_LOG" ]; then

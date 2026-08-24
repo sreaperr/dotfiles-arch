@@ -70,7 +70,7 @@ El script hace lo siguiente en orden:
 2. Integra el repo BlackArch (`strap.sh` oficial) y refresca pacman
 3. Instala `paru` (AUR helper)
 4. Instala todos los paquetes de pacman y AUR
-5. Instala el grupo `blackarch` completo (~2800 herramientas de pentesting)
+5. Instala herramientas BlackArch por categorías (recon, scanner, webapp, proxy, fuzzer, exploitation, cracker) más Burp Suite y Metasploit
 6. Instala TPM (gestor de plugins de tmux)
 7. Activa servicios: NetworkManager, bluetooth
 8. Crea carpetas de usuario en español
