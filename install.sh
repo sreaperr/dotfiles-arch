@@ -88,8 +88,20 @@ sudo pacman -S --needed --noconfirm zsh zoxide zsh-autosuggestions zsh-syntax-hi
 # Notificaciones (en repos oficiales desde 2024)
 sudo pacman -S --needed --noconfirm swaync
 # == Paquetes BlackArch (grupo completo — ~2800 herramientas de pentesting) ==
+# Se instala paquete a paquete: en un grupo tan grande siempre hay algún
+# conflicto de proveedor o paquete roto, y con `pacman -S blackarch` de una
+# sola vez ese único fallo aborta la transacción entera (y con set -e, el
+# script completo). Instalando uno a uno, un fallo puntual solo se salta
+# ese paquete y se registra en el log.
 echo "*** Instalando grupo BlackArch (puede tardar bastante) ***" && sleep 2
-sudo pacman -S --needed --noconfirm blackarch
+BLACKARCH_LOG="$HOME_DIR/blackarch-install-failed.log"
+: >"$BLACKARCH_LOG"
+for pkg in $(pacman -Sgq blackarch); do
+    sudo pacman -S --needed --noconfirm "$pkg" || echo "$pkg" >>"$BLACKARCH_LOG"
+done
+if [ -s "$BLACKARCH_LOG" ]; then
+    echo "Aviso: $(wc -l <"$BLACKARCH_LOG") paquetes de BlackArch fallaron. Lista en $BLACKARCH_LOG"
+fi
 # == Paquetes AUR ==
 # WM extras + launcher (pyprland separado para evitar prompt de proveedor)
 paru -S --needed --noconfirm rofi-wayland uwsm swayosd
