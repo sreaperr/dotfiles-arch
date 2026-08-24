@@ -83,15 +83,11 @@ sudo pacman -S --needed --noconfirm python python-pip
 sudo pacman -S --needed --noconfirm papirus-icon-theme
 # Nerd Fonts — solo las familias que realmente se usan en los configs
 # (JetBrainsMono en waybar/kitty/rofi/hyprlock/gtk, Hack en hyprexpose/swayosd,
-# Iosevka en varios temas de rofi, GeistMono en mpv/swaync, y el set de
-# símbolos como fallback de iconos). El meta-paquete `nerd-fonts` de AUR
-# descarga la colección entera (varios GB) y es, con diferencia, lo que más
-# tarda del script entero — evitarlo. Paquete a paquete por si algún nombre
-# cambia entre versiones de los repos oficiales; un fallo no aborta el resto.
-NERD_FONTS="ttf-jetbrains-mono-nerd ttf-hack-nerd ttf-iosevka-nerd ttf-geist-mono-nerd ttf-nerd-fonts-symbols"
-for font in $NERD_FONTS; do
-    sudo pacman -S --needed --noconfirm "$font" || echo "Aviso: no se pudo instalar $font"
-done
+# Iosevka en varios temas de rofi, GeistMono en mpv/swaync, y "Symbols Nerd
+# Font Mono" como fallback de iconos en waybar). El meta-paquete `nerd-fonts`
+# de AUR descarga la colección entera (varios GB) y es, con diferencia, lo
+# que más tarda del script entero — evitarlo.
+sudo pacman -S --needed --noconfirm ttf-jetbrains-mono-nerd ttf-hack-nerd ttf-iosevka-nerd otf-geist-mono-nerd ttf-nerd-fonts-symbols-mono
 # Navegadores
 sudo pacman -S --needed --noconfirm firefox
 # Shell
