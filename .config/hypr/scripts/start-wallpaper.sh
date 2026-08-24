@@ -17,7 +17,7 @@ done
 WALLPAPER=$(cat ~/.config/.current-wallpaper 2>/dev/null)
 
 if [ -z "$WALLPAPER" ] || [ ! -f "$WALLPAPER" ]; then
-    WALLPAPER="$HOME/.config/.wallpaper/CODING"
+    WALLPAPER="$HOME/.config/.wallpaper/the-ghost-coders-rj-3440x1440.jpg"
 fi
 
 # Aplicar fondo en todos los monitores conectados
