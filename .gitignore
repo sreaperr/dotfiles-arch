@@ -38,6 +38,7 @@ preview-themes.html
 
 # Keybinds específicos de cada máquina (VM passthrough, etc.)
 .config/hypr/keybinds-local.conf
+.config/hypr/keybinds-local.lua
 
 # Archivos de tema activo — generados en runtime por rofi-theme-cycle.sh
 # y apply-theme.sh. Son symlinks a rutas absolutas de la máquina local,
