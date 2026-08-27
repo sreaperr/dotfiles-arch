@@ -4,8 +4,7 @@
 
 #custom-distro {
 	padding: 0 12px;
-	background-color: @accent;
-	color: @main-bg;
+	color: @accent;
 }
 
 /*---------
@@ -14,5 +13,4 @@
 
 #clock {
 	padding: 0 12px;
-	background-color: alpha(shade(@main-bg, 0.7), 0.88);
 }

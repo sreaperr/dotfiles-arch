@@ -76,7 +76,7 @@ hl.env("CLUTTER_BACKEND", "wayland")
 hl.config({
     general = {
         gaps_in          = 8,
-        gaps_out         = 20,
+        gaps_out         = 8,
         border_size      = 1,
         resize_on_border = true,
         layout           = "master",

@@ -4,7 +4,6 @@
 
 #workspaces {
 	padding: 0 4px;
-	background-color: alpha(shade(@main-bg, 0.7), 0.88);
 }
 #workspaces button.active label,
 #workspaces button.focused label {
