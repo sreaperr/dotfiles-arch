@@ -135,10 +135,11 @@ hl.curve("fadeEase", { type = "bezier", points = { { 0.16, 1 }, { 0.3, 1 } } })
 hl.curve("linear", { type = "bezier", points = { { 0, 0 }, { 1, 1 } } })
 
 -- ── VENTANAS ────────────────────────────────────────────────────
--- Entrada: parte del 87% del tamaño final (efecto popin)
-hl.animation({ leaf = "windowsIn",  enabled = true, speed = 3,   bezier = "springOpen", style = "popin 87%" })
+-- Entrada: sin popin ("fade" no es un estilo válido para windowsIn/Out;
+-- "popin 100%" = sin reducción de tamaño, así el fade de opacidad queda puro)
+hl.animation({ leaf = "windowsIn",  enabled = true, speed = 3,   bezier = "fadeEase", style = "popin 100%" })
 -- Salida: más rápida que la entrada
-hl.animation({ leaf = "windowsOut", enabled = true, speed = 1.5, bezier = "quickClose", style = "popin 87%" })
+hl.animation({ leaf = "windowsOut", enabled = true, speed = 1.5, bezier = "quickClose", style = "popin 100%" })
 -- Movimiento y resize: fluido, sin rebote (antes "windowsMove", ahora leaf "windows")
 hl.animation({ leaf = "windows",    enabled = true, speed = 3,   bezier = "slideEase" })
 
@@ -160,12 +161,12 @@ hl.animation({ leaf = "fadeLayersIn",  enabled = true, speed = 2, bezier = "fade
 hl.animation({ leaf = "fadeLayersOut", enabled = true, speed = 2, bezier = "fadeEase" })
 
 -- ── WORKSPACES ──────────────────────────────────────────────────
--- Slide horizontal suave con inercia que frena al llegar
-hl.animation({ leaf = "workspaces", enabled = true, speed = 5, bezier = "slideEase", style = "slide" })
+-- Fade puro, sin desplazamiento
+hl.animation({ leaf = "workspaces", enabled = true, speed = 3, bezier = "fadeEase", style = "fade" })
 -- NOTA: "specialWorkspace" ya no existe como leaf independiente en 0.55+.
--- Aproximación con workspacesIn/workspacesOut + style "slidevert" — verificar visualmente.
-hl.animation({ leaf = "workspacesIn",  enabled = true, speed = 4, bezier = "slideEase", style = "slidevert" })
-hl.animation({ leaf = "workspacesOut", enabled = true, speed = 4, bezier = "slideEase", style = "slidevert" })
+-- Aproximación con workspacesIn/workspacesOut + style "fade" — verificar visualmente.
+hl.animation({ leaf = "workspacesIn",  enabled = true, speed = 3, bezier = "fadeEase", style = "fade" })
+hl.animation({ leaf = "workspacesOut", enabled = true, speed = 3, bezier = "fadeEase", style = "fade" })
 
 --------------
 -- LAYOUT MASTER
