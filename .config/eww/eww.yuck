@@ -1,4 +1,0 @@
-(include "cheatsheet/cheatsheet.yuck")
-(include "profilecard/profilecard.yuck")
-(include "player/player.yuck")
-(include "fetch/fetch.yuck")
