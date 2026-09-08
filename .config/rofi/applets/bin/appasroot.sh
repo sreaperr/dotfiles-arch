@@ -70,7 +70,7 @@ run_cmd() {
 	if [[ "$1" == '--opt1' ]]; then
 		${polkit_cmd} alacritty
 	elif [[ "$1" == '--opt2' ]]; then
-		${polkit_cmd} dbus-run-session thunar
+		${polkit_cmd} dbus-run-session nemo
 	elif [[ "$1" == '--opt3' ]]; then
 		${polkit_cmd} geany
 	elif [[ "$1" == '--opt4' ]]; then

@@ -55,12 +55,8 @@ if [[ -f "$THEME_FUNCS" && -f "$THEME_META" ]]; then
         apply_theme_symlinks "$CURRENT_THEME"
     fi
 
-    gsettings set org.gnome.desktop.interface gtk-theme    "$GTK_THEME"
-    gsettings set org.gnome.desktop.interface icon-theme   "$ICON_THEME"
-    gsettings set org.gnome.desktop.interface cursor-theme "$CURSOR"
-    gsettings set org.gnome.desktop.interface cursor-size  "$CURSOR_SIZE"
-    gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"
-    apply_gtk_cursor "$GTK_THEME" "$ICON_THEME" "$CURSOR" "$CURSOR_SIZE"
+    # GTK + iconos + cursor + color-scheme: los gestiona nwg-look, no este script.
+    # No tocar los .ini ni gsettings aquí para no pisar lo que ajustes en su GUI.
 
     hyprctl reload &>/dev/null || true
 fi

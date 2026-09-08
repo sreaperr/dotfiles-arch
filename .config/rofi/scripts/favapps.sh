@@ -4,11 +4,10 @@
 
 declare -A APPS=(
     ["Terminal"]="kitty"
-    ["Archivos"]="thunar"
+    ["Archivos"]="nemo"
     ["Editor"]="kitty -e nvim"
     ["Navegador"]="brave"
     ["Música"]="spotify"
-    ["Settings"]="nwg-look"
 )
 
 declare -A ICONS=(
@@ -17,11 +16,10 @@ declare -A ICONS=(
     ["Editor"]="text-editor"
     ["Navegador"]="brave"
     ["Música"]="spotify"
-    ["Settings"]="preferences-system"
 )
 
 if [[ -z "$1" ]]; then
-    for name in Terminal Archivos Editor Navegador Música Settings; do
+    for name in Terminal Archivos Editor Navegador Música; do
         printf "%s\0icon\x1f%s\n" "$name" "${ICONS[$name]}"
     done
 else

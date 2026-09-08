@@ -66,7 +66,7 @@ sudo pacman -S --needed --noconfirm wlsunset grim slurp wf-recorder flameshot
 # Portapapeles
 sudo pacman -S --needed --noconfirm wl-clipboard cliphist
 # Sistema
-sudo pacman -S --needed --noconfirm polkit-gnome kanshi udiskie libnotify thunar xdg-user-dirs
+sudo pacman -S --needed --noconfirm polkit-gnome kanshi udiskie libnotify nemo xdg-user-dirs
 # Terminal y utilidades CLI
 sudo pacman -S --needed --noconfirm kitty tmux neovim yazi btop fastfetch calcurse bat jq ffmpeg lazygit eza fd fzf ripgrep brightnessctl pacman-contrib figlet glow git-delta
 # Python
@@ -98,10 +98,14 @@ paru -S --needed --noconfirm brave-bin google-chrome tor-browser
 # Entretenimiento
 paru -S --needed --noconfirm spotify
 # Temas y apariencia
-paru -S --needed --noconfirm bibata-cursor-theme kora-icon-theme tokyonight-gtk-theme-git
+paru -S --needed --noconfirm orchis-theme-git xcursor-hackneyed-dark papirus-icon-theme papirus-folders
+# Colorea las carpetas de Papirus en gris (necesita sudo, no automatizable sin contraseña)
+echo "Tras el reinicio ejecuta: sudo papirus-folders -C grey -t Papirus-Dark"
+# Tema GTK "gnome-professional-solid" (descarga manual, no está empaquetado):
+# extraer el .tar.xz a ~/.local/share/themes/ y seleccionarlo en nwg-look.
 # Terminal extras
 paru -S --needed --noconfirm tty-clock oh-my-posh-bin zsh-history-substring-search procs dust duf
-# GTK settings (Wayland)
+# GTK settings (Wayland) — fuente de verdad para tema/iconos/cursor GTK
 paru -S --needed --noconfirm nwg-look
 # == TPM - Gestor de plugins de tmux ==
 git clone https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
@@ -160,13 +164,6 @@ if [[ -f "$THEME_SRC/calcurse.conf" ]]; then
     calcurse_color=$(tr -d '\n' <"$THEME_SRC/calcurse.conf")
     sed -i "s|^appearance\.theme=.*|appearance.theme=$calcurse_color|" "$HOME/.config/calcurse/conf"
 fi
-
-# GTK, iconos y cursor
-gsettings set org.gnome.desktop.interface gtk-theme "$GTK_THEME"
-gsettings set org.gnome.desktop.interface icon-theme "$ICON_THEME"
-gsettings set org.gnome.desktop.interface cursor-theme "$CURSOR"
-gsettings set org.gnome.desktop.interface cursor-size "$CURSOR_SIZE"
-gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"
 
 echo "desktop" >"$HOME/.config/.current-theme"
 clear

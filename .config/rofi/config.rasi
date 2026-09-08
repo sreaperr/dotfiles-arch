@@ -3,7 +3,7 @@
 configuration {
     /* modes se define por launcher individual para no sobreescribir */
     show-icons:          true;
-    icon-theme:          "Kora-dark";
+    icon-theme:          "Papirus-Dark";
     drun-display-format: "{name}";
     drun-match-fields:   "name,generic,exec,categories";
     terminal:            "kitty";

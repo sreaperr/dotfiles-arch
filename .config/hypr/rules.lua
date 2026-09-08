@@ -50,10 +50,18 @@ hl.window_rule({
 })
 
 hl.window_rule({
-    name   = "thunar",
-    match  = { class = "^thunar$" },
+    name   = "nemo",
+    match  = { class = "^nemo$" },
     float  = true,
     size   = "1100 700",
+    center = true,
+})
+
+hl.window_rule({
+    name   = "thunderbird",
+    match  = { class = "^org.mozilla.Thunderbird$" },
+    float  = true,
+    size   = "1300 850",
     center = true,
 })
 

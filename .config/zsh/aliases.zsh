@@ -5,10 +5,10 @@
 # NAVEGACIÓN
 alias ..="cd .."
 alias ...="cd ../.."
-alias ls="eza --icons"
-alias list="eza --icons"
-alias ll="eza -lah --icons"
-alias lt="eza --tree --icons"
+alias ls="eza --icons=auto"
+alias list="eza --icons=auto"
+alias ll="eza -lah --icons=auto"
+alias lt="eza --tree --icons=auto"
 alias mkdir="mkdir -p"
 
 # HERRAMIENTAS MODERNAS
