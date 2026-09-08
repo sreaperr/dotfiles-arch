@@ -3,7 +3,7 @@
 --------*/
 
 #network {
-	padding: 0 12px;
+	padding: 0 10px;
 }
 
 /*---------
@@ -11,7 +11,7 @@
 ---------*/
 
 #pulseaudio {
-	padding: 0 12px;
+	padding: 0 10px;
 }
 
 /*-----------
@@ -19,7 +19,7 @@
 -----------*/
 
 #bluetooth {
-	padding: 0 12px;
+	padding: 0 10px;
 }
 
 /*-----------------
@@ -27,7 +27,7 @@
 -----------------*/
 
 #custom-notifications {
-	padding: 0 14px;
+	padding: 0 12px;
 	color: @accent;
 }
 #custom-notifications:hover {
@@ -39,7 +39,7 @@
 --------*/
 
 #memory {
-	padding: 0 12px;
+	padding: 0 10px;
 }
 
 /*--------
@@ -47,5 +47,5 @@
 --------*/
 
 #cpu {
-	padding: 0 12px;
+	padding: 0 10px;
 }

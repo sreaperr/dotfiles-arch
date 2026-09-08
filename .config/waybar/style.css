@@ -12,8 +12,8 @@
 @import "styles/states.css";
 
 .module {
-	margin: 2px 4px;
-	padding: 5px 0;
+	margin: 2px 3px;
+	padding: 3px 0;
 }
 
 #waybar {
@@ -26,9 +26,9 @@
 }
 
 button {
-	border-radius: 18px;
-	min-width: 18px;
-	padding: 2px 12px;
+	border-radius: 16px;
+	min-width: 16px;
+	padding: 2px 10px;
 }
 button:hover {
 	background-color: @hover-bg;

@@ -104,6 +104,14 @@ if [[ -n "$TARGET_OUTPUTS" ]]; then
 else
     echo "$WP" > "$HOME/.config/.wallpaper-$THEME"
     echo "$WP" > "$HOME/.config/.current-wallpaper"
+    # Sincronizar también el fondo guardado por monitor: si no se hace,
+    # start-wallpaper.sh/theme-startup.sh seguirán leyendo en el próximo
+    # login un fondo por-monitor antiguo en vez del que se acaba de elegir.
+    for _mon in "${MONITORS[@]}"; do
+        [[ -z "$_mon" ]] && continue
+        [[ -f "$HOME/.config/.wallpaper-fixed-$_mon" ]] && continue
+        echo "$WP" > "$HOME/.config/.wallpaper-$THEME-$_mon"
+    done
 fi
 
 MON_LABEL="${TARGET_OUTPUTS:-Todos}"

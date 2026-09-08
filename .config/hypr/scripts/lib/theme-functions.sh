@@ -107,27 +107,27 @@ apply_theme_symlinks() {
     fi
 }
 
-apply_gtk_cursor() {
-    local GTK_THEME=$1 ICON_THEME=$2 CURSOR=$3 CURSOR_SIZE=$4
+# GTK + iconos + cursor + color-scheme ya no se gestionan desde aquí: nwg-look
+# es la fuente de verdad y escribe directamente en los .ini y en dconf.
 
-    _gtk_set_key() {
-        local file="$1" key="$2" val="$3"
-        if grep -q "^${key}" "$file" 2>/dev/null; then
-            sed -i "s|^${key}.*|${key} = ${val}|" "$file"
-        else
-            printf '%s = %s\n' "$key" "$val" >> "$file"
-        fi
-    }
+# ── Corrección: GTK4 no auto-cambia a gtk-dark.css ──────────────────────────
+# GTK4 solo carga ~/.config/gtk-4.0/gtk.css como override de usuario y jamás
+# lo sustituye por gtk-dark.css según gtk-application-prefer-dark-theme (ese
+# cambio automático solo existe para la Adwaita interna). nwg-look enlaza ahí
+# siempre la variante clara del tema, así que con modo oscuro activado las
+# apps GTK4 puras (pavucontrol, etc.) se ven claras. Si el usuario prefiere
+# oscuro, repuntamos el override a gtk-dark.css tras cada aplicación de tema.
+fix_gtk4_dark_symlink() {
+    local ini="$HOME/.config/gtk-4.0/settings.ini"
+    local dark_css="$HOME/.config/gtk-4.0/gtk-dark.css"
+    local main_css="$HOME/.config/gtk-4.0/gtk.css"
 
-    for ini in "$HOME/.config/gtk-3.0/settings.ini" \
-               "$HOME/.config/gtk-4.0/settings.ini"; do
-        # Crear fichero con cabecera si no existe
-        [[ -f "$ini" ]] || printf '[Settings]\n' > "$ini"
-        _gtk_set_key "$ini" "gtk-theme-name"                    "$GTK_THEME"
-        _gtk_set_key "$ini" "gtk-icon-theme-name"               "$ICON_THEME"
-        _gtk_set_key "$ini" "gtk-cursor-theme-name"             "$CURSOR"
-        _gtk_set_key "$ini" "gtk-cursor-theme-size"             "$CURSOR_SIZE"
-        _gtk_set_key "$ini" "gtk-font-name"                     "JetBrainsMono Nerd Font 11"
-        _gtk_set_key "$ini" "gtk-application-prefer-dark-theme" "1"
-    done
+    [[ -f "$ini" ]] || return 0
+    grep -q '^gtk-application-prefer-dark-theme=1' "$ini" || return 0
+    [[ -e "$dark_css" ]] || return 0
+
+    local target
+    target=$(readlink -f "$dark_css")
+    [[ -n "$target" ]] || return 0
+    ln -sf "$target" "$main_css"
 }

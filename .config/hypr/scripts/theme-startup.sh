@@ -18,13 +18,10 @@ source "$THEMES_DIR/$THEME/meta.sh"
 # Aplicar symlinks de todos los componentes
 apply_theme_symlinks "$THEME"
 
-# GTK + cursor
-gsettings set org.gnome.desktop.interface gtk-theme    "$GTK_THEME"
-gsettings set org.gnome.desktop.interface icon-theme   "$ICON_THEME"
-gsettings set org.gnome.desktop.interface cursor-theme "$CURSOR"
-gsettings set org.gnome.desktop.interface cursor-size  "$CURSOR_SIZE"
-gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"
-apply_gtk_cursor "$GTK_THEME" "$ICON_THEME" "$CURSOR" "$CURSOR_SIZE"
+# GTK + iconos + cursor + color-scheme: los gestiona nwg-look, no este script.
+# No tocar los .ini ni gsettings aquí para no pisar lo que ajustes en su GUI.
+# Excepción: GTK4 no cambia de gtk.css a gtk-dark.css solo, hay que corregirlo.
+fix_gtk4_dark_symlink
 
 # Recargar tmux si hay sesiones activas
 tmux source-file "$HOME/.config/tmux/theme.conf" 2>/dev/null || true
@@ -42,7 +39,7 @@ for _mon in "${MONITORS[@]}"; do
     if [[ -n "$_mon" && -f "$fixed_file" ]]; then
         FIXED_WP=$(cat "$fixed_file")
         if [[ -f "$FIXED_WP" ]]; then
-            awww query &>/dev/null || { awww-daemon &; sleep 1; }
+            awww query &>/dev/null || { awww-daemon & sleep 1; }
             awww img "$FIXED_WP" --outputs "$_mon" --transition-type none
             [[ -z "$FIRST_WP" ]] && FIRST_WP="$FIXED_WP"
             continue

@@ -42,13 +42,10 @@ else
     hyprctl reload &>/dev/null || true
 fi
 
-# ── GTK + iconos + cursor (todos los temas, incluidos los parciales) ──────────
-gsettings set org.gnome.desktop.interface gtk-theme    "$GTK_THEME"
-gsettings set org.gnome.desktop.interface icon-theme   "$ICON_THEME"
-gsettings set org.gnome.desktop.interface cursor-theme "$CURSOR"
-gsettings set org.gnome.desktop.interface cursor-size  "$CURSOR_SIZE"
-gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"
-apply_gtk_cursor "$GTK_THEME" "$ICON_THEME" "$CURSOR" "$CURSOR_SIZE"
+# GTK + iconos + cursor + color-scheme: los gestiona nwg-look, no este script.
+# No tocar los .ini ni gsettings aquí para no pisar lo que ajustes en su GUI.
+# Excepción: GTK4 no cambia de gtk.css a gtk-dark.css solo, hay que corregirlo.
+fix_gtk4_dark_symlink
 
 pkill -SIGUSR1 kitty 2>/dev/null || true
 oh-my-posh cache clear 2>/dev/null || rm -rf "$HOME/.cache/oh-my-posh/" 2>/dev/null || true
