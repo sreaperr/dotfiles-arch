@@ -37,12 +37,12 @@ preview-themes.html
 .config/omp/theme.json
 
 # Keybinds específicos de cada máquina (VM passthrough, etc.)
-.config/hypr/keybinds-local.conf
 .config/hypr/keybinds-local.lua
 
-# Archivos de tema activo — generados en runtime por rofi-theme-cycle.sh
-# y apply-theme.sh. Son symlinks a rutas absolutas de la máquina local,
-# nunca deben estar en el repo.
+# Archivos de tema activo — generados en runtime por apply_color_scheme()
+# en hypr/scripts/lib/theme-functions.sh (invocada desde theme-startup.sh).
+# Son symlinks a rutas absolutas de la máquina local, nunca deben estar en
+# el repo.
 .config/waybar/theme.css
 .config/swaync/theme.css
 .config/rofi/theme.rasi
