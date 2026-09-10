@@ -73,12 +73,15 @@ sudo pacman -S --needed --noconfirm kitty tmux neovim yazi btop fastfetch calcur
 sudo pacman -S --needed --noconfirm python python-pip
 # Fuentes e iconos
 sudo pacman -S --needed --noconfirm papirus-icon-theme
+# Inter — fuente de UI en waybar, kitty y los temas de rofi activos
+sudo pacman -S --needed --noconfirm inter-font
 # Nerd Fonts — solo las familias que realmente se usan en los configs
-# (JetBrainsMono en waybar/kitty/rofi/hyprlock/gtk, Hack en hyprexpose/swayosd,
-# Iosevka en varios temas de rofi, GeistMono en mpv/swaync, y "Symbols Nerd
-# Font Mono" como fallback de iconos en waybar). El meta-paquete `nerd-fonts`
-# de AUR descarga la colección entera (varios GB) y es, con diferencia, lo
-# que más tarda del script entero — evitarlo.
+# (JetBrainsMono en hyprlock/gtk/fontconfig y en las plantillas de rofi sin
+# usar del pack de adi1090x, Hack en hyprexpose/swayosd, Iosevka en varios
+# temas de rofi, GeistMono en mpv/swaync, y "Symbols Nerd Font Mono" como
+# fallback de iconos en waybar). El meta-paquete `nerd-fonts` de AUR
+# descarga la colección entera (varios GB) y es, con diferencia, lo que
+# más tarda del script entero — evitarlo.
 sudo pacman -S --needed --noconfirm ttf-jetbrains-mono-nerd ttf-hack-nerd ttf-iosevka-nerd otf-geist-mono-nerd ttf-nerd-fonts-symbols-mono
 # Shell
 sudo pacman -S --needed --noconfirm zsh zoxide zsh-autosuggestions zsh-syntax-highlighting
