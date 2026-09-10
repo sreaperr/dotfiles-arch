@@ -67,6 +67,12 @@ sudo pacman -S --needed --noconfirm wlsunset grim slurp wf-recorder flameshot
 sudo pacman -S --needed --noconfirm wl-clipboard cliphist
 # Sistema
 sudo pacman -S --needed --noconfirm polkit-gnome kanshi udiskie libnotify nemo xdg-user-dirs
+# Brillo de monitor externo vía DDC/CI (brightnessctl solo sirve para el
+# backlight interno de un portátil; en un PC de sobremesa no existe ese
+# sysfs y hay que hablar con el monitor por el propio cable HDMI/DP)
+sudo pacman -S --needed --noconfirm ddcutil
+echo i2c-dev | sudo tee /etc/modules-load.d/i2c-dev.conf >/dev/null
+sudo modprobe i2c-dev
 # Terminal y utilidades CLI
 sudo pacman -S --needed --noconfirm kitty tmux neovim yazi btop fastfetch calcurse bat jq ffmpeg lazygit eza fd fzf ripgrep brightnessctl pacman-contrib figlet glow git-delta
 # Python

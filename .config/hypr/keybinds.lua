@@ -76,8 +76,12 @@ hl.bind("XF86AudioMicMute",     hl.dsp.exec_cmd("~/.config/hypr/scripts/volume.s
 -------
 -- BRILLO
 -------
-hl.bind("XF86MonBrightnessUp",   hl.dsp.exec_cmd("ddcutil setvcp 10 + 10 --display 1 & ddcutil setvcp 10 + 10 --display 2"), { locked = true, repeating = true })
-hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("ddcutil setvcp 10 - 10 --display 1 & ddcutil setvcp 10 - 10 --display 2"), { locked = true, repeating = true })
+-- F1-F2 como alternativa (mismo motivo que F7-F12 con medios/volumen):
+-- un teclado de PC normal no siempre tiene las teclas XF86MonBrightness*.
+hl.bind("f1", hl.dsp.exec_cmd("~/.config/hypr/scripts/brightness.sh down"), { locked = true, repeating = true })
+hl.bind("f2", hl.dsp.exec_cmd("~/.config/hypr/scripts/brightness.sh up"),   { locked = true, repeating = true })
+hl.bind("XF86MonBrightnessUp",   hl.dsp.exec_cmd("~/.config/hypr/scripts/brightness.sh up"),   { locked = true, repeating = true })
+hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("~/.config/hypr/scripts/brightness.sh down"), { locked = true, repeating = true })
 
 --------------------------------------
 -- NAVEGACIÓN DE VENTANAS (master layout)
