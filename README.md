@@ -31,11 +31,17 @@ Dotfiles personales para **Arch Linux + Hyprland**.
 | Git TUI | lazygit |
 | Wallpaper | awww |
 | Fetch | Fastfetch |
+| Vista de workspaces | hyprexpose |
 | Temas | Tokyo Night Night |
 
 ---
 
-Wallpapers intercambiables con `SUPER + T`:
+Wallpapers intercambiables con `SUPER + T`.
+
+Multi-monitor dinámico: `kanshi` detecta qué pantallas hay conectadas y
+`hypr/scripts/assign-workspaces.sh` reparte los workspaces 1-10 entre ellas
+según resolución (el monitor más grande se lleva 1-8, el resto 9-10),
+reevaluándose en cada hotplug.
 
 ---
 
@@ -121,9 +127,10 @@ git pull
 | `SUPER + W` | Cerrar ventana |
 | `SUPER + F` | Fullscreen |
 | `SUPER + SHIFT + F` | Flotar ventana |
-| `F4` | Widgets |
+| `F4` | Vista general de workspaces (hyprexpose) |
 | `SUPER + 1–0` | Cambiar workspace |
 | `SUPER + SHIFT + 1–0` | Mover ventana a workspace |
+| `SUPER + CTRL + ← ↑ → ↓` | Redimensionar ventana activa |
 
 ---
 
