@@ -1,14 +1,30 @@
 # ======================================
-# KANSHI — PERFIL POR DEFECTO
-# Pensado para uso en máquina virtual:
-# un único perfil "auto" que se aplica
-# siempre, sea cual sea la salida detectada.
+# KANSHI — PERFILES DE MONITORES
 # ======================================
 #
 # Para ver los nombres exactos de tus salidas ejecuta:
 #   hyprctl monitors
 # ======================================
 
+# Perfil real: HDMI (WFK) a la izquierda + DisplayPort (Microstep MP275PG E14) a su derecha.
+# Workspaces: assign-workspaces.sh reparte 1-8 al monitor alfabéticamente antes (DP-1)
+# y 9-10 al otro (HDMI-A-1) cuando la resolución empata, que es el caso aquí.
+profile dual {
+    output HDMI-A-1 mode 1920x1080@60Hz position 0,0 scale 1
+    output DP-1 mode 1920x1080@144Hz position 1920,0 scale 1
+    exec ~/.config/hypr/scripts/assign-workspaces.sh
+}
+
+# Único monitor actual: Microstep MP275PG E14 por HDMI, a 144Hz
+profile single-hdmi {
+    output HDMI-A-1 mode 1920x1080@144Hz position 0,0 scale 1
+    exec ~/.config/hypr/scripts/assign-workspaces.sh
+}
+
+# Fallback — cualquier otra combinación no contemplada arriba (p.ej. los futuros
+# 2x27" QHD por puertos aún sin definir). Asigna workspaces según tamaño de monitor,
+# calculado dinámicamente por el script.
 profile auto {
     output * mode preferred position 0,0 scale 1
+    exec ~/.config/hypr/scripts/assign-workspaces.sh
 }

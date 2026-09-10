@@ -4,7 +4,7 @@
 
 configuration {
     show-icons:  true;
-    font:        "JetBrainsMono Nerd Font Bold 10";
+    font:        "Inter Bold 10";
     icon-size:   300;
 }
 

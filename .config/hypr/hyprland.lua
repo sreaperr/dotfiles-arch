@@ -161,12 +161,12 @@ hl.animation({ leaf = "fadeLayersIn",  enabled = true, speed = 2, bezier = "fade
 hl.animation({ leaf = "fadeLayersOut", enabled = true, speed = 2, bezier = "fadeEase" })
 
 -- ── WORKSPACES ──────────────────────────────────────────────────
--- Fade puro, sin desplazamiento
-hl.animation({ leaf = "workspaces", enabled = true, speed = 3, bezier = "fadeEase", style = "fade" })
+-- Slide — desplazamiento lateral con momentum (slideEase = easeOutQuad)
+hl.animation({ leaf = "workspaces", enabled = true, speed = 5, bezier = "slideEase", style = "slide" })
 -- NOTA: "specialWorkspace" ya no existe como leaf independiente en 0.55+.
--- Aproximación con workspacesIn/workspacesOut + style "fade" — verificar visualmente.
-hl.animation({ leaf = "workspacesIn",  enabled = true, speed = 3, bezier = "fadeEase", style = "fade" })
-hl.animation({ leaf = "workspacesOut", enabled = true, speed = 3, bezier = "fadeEase", style = "fade" })
+-- Aproximación con workspacesIn/workspacesOut + style "slide" — verificar visualmente.
+hl.animation({ leaf = "workspacesIn",  enabled = true, speed = 5, bezier = "slideEase", style = "slide" })
+hl.animation({ leaf = "workspacesOut", enabled = true, speed = 5, bezier = "slideEase", style = "slide" })
 
 --------------
 -- LAYOUT MASTER
@@ -184,6 +184,7 @@ hl.config({
 ------------------------
 hl.config({
     input = {
+        left_handed = true,
         kb_layout  = "es",
         kb_model   = "pc105",
         -- terminate:ctrl_alt_bksp → Ctrl+Alt+Retroceso mata el servidor gráfico
@@ -229,14 +230,7 @@ hl.config({
 -----------
 -- WORKSPACES
 -----------
--- 1-8 en el ultrawide (DP-1), 9-10 en el monitor secundario (HDMI-A-1)
-hl.workspace_rule({ workspace = "1", monitor = "DP-1", default = true })
-hl.workspace_rule({ workspace = "2", monitor = "DP-1" })
-hl.workspace_rule({ workspace = "3", monitor = "DP-1" })
-hl.workspace_rule({ workspace = "4", monitor = "DP-1" })
-hl.workspace_rule({ workspace = "5", monitor = "DP-1" })
-hl.workspace_rule({ workspace = "6", monitor = "DP-1" })
-hl.workspace_rule({ workspace = "7", monitor = "DP-1" })
-hl.workspace_rule({ workspace = "8", monitor = "DP-1" })
-hl.workspace_rule({ workspace = "9", monitor = "HDMI-A-1", default = true })
-hl.workspace_rule({ workspace = "10", monitor = "HDMI-A-1" })
+-- La asignación workspace -> monitor ya NO es estática aquí: depende de qué
+-- monitores haya conectados en cada momento y de cuál sea más grande. La calcula
+-- ~/.config/hypr/scripts/assign-workspaces.sh, invocado desde cada perfil de
+-- ~/.config/kanshi/config (así se reevalúa en cada hotplug, no solo al arrancar).

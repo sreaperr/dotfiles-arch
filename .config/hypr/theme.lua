@@ -8,7 +8,7 @@ hl.config({
     },
     decoration = {
         shadow = {
-            color          = "rgba(000000cc)",
+            color          = "rgba(00000000)",
             color_inactive = "rgba(00000066)",
         },
     },

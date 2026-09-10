@@ -15,6 +15,13 @@ alias mkdir="mkdir -p"
 alias cat="bat --paging=never"
 alias ps="procs"
 alias df="duf"
+alias du="dust"
+
+# HERRAMIENTAS MODERNAS — búsqueda exhaustiva
+# rg/fd NO se alias-ean a grep/find: por defecto ignoran ocultos y .gitignore,
+# lo que puede dar falsos negativos silenciosos. Estos dos fuerzan modo exhaustivo.
+alias rgall="rg --no-ignore --hidden"
+alias fdall="fd --no-ignore --hidden"
 
 # RED
 alias ping="ping -c 5"

@@ -76,6 +76,14 @@ hl.window_rule({
 })
 
 hl.window_rule({
+    name   = "nwg-look",
+    match  = { class = "^nwg-look$" },
+    float  = true,
+    size   = "900 650",
+    center = true,
+})
+
+hl.window_rule({
     name   = "nm-connection-editor",
     match  = { class = "^nm-connection-editor$" },
     float  = true,
