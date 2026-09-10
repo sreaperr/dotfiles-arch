@@ -23,7 +23,7 @@ Dotfiles personales para **Arch Linux + Hyprland**.
 | Launcher | Rofi |
 | Notificaciones | SwayNC |
 | Scratchpads | Pyprland |
-| File manager | Yazi · Thunar |
+| File manager | Yazi · Nemo |
 | ls / tree | eza |
 | cat / pager | bat |
 | cd inteligente | zoxide |
