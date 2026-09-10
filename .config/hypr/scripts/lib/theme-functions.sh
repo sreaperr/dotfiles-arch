@@ -73,12 +73,6 @@ apply_partial_theme_symlinks() {
         sed -i "s|^appearance\.theme=.*|appearance.theme=$calcurse_color|" \
             "$HOME/.config/calcurse/conf"
     fi
-
-    # ── Bordes de ventana ────────────────────────────────────────────────────
-    if [[ -f "$T/hypr.conf" ]]; then
-        safe_cp "$T/hypr.conf" "$HOME/.config/hypr/theme.conf"
-        hyprctl reload &>/dev/null || true
-    fi
 }
 
 apply_theme_symlinks() {

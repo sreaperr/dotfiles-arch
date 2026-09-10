@@ -147,7 +147,6 @@ cp -f "$HOME/.config/rofi/colors-bridge.rasi" "$HOME/.config/rofi/theme.rasi"
 cp -f "$HOME/.config/rofi/colors/$ROFI_COLORS.rasi" "$HOME/.config/rofi/colors/current.rasi"
 cp -f "$HOME/.config/swaync/colors/$ROFI_COLORS.css" "$HOME/.config/swaync/theme.css"
 
-cp -f "$THEME_SRC/hypr.conf" "$HOME/.config/hypr/theme.conf"
 cp -f "$THEME_SRC/hyprlock.conf" "$HOME/.config/hypr/hyprlock-theme.conf"
 cp -f "$THEME_SRC/kitty.conf" "$HOME/.config/kitty/theme.conf"
 cp -f "$THEME_SRC/tmux.conf" "$HOME/.config/tmux/theme.conf"
