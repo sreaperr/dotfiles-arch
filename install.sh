@@ -80,8 +80,6 @@ sudo pacman -S --needed --noconfirm papirus-icon-theme
 # de AUR descarga la colección entera (varios GB) y es, con diferencia, lo
 # que más tarda del script entero — evitarlo.
 sudo pacman -S --needed --noconfirm ttf-jetbrains-mono-nerd ttf-hack-nerd ttf-iosevka-nerd otf-geist-mono-nerd ttf-nerd-fonts-symbols-mono
-# Navegadores
-sudo pacman -S --needed --noconfirm firefox
 # Shell
 sudo pacman -S --needed --noconfirm zsh zoxide zsh-autosuggestions zsh-syntax-highlighting
 # Notificaciones (en repos oficiales desde 2024)
@@ -94,17 +92,17 @@ paru -S --needed --noconfirm pyprland
 paru -S --needed --noconfirm swww 2>/dev/null || paru -S --needed --noconfirm awww 2>/dev/null ||
     echo "Aviso: no se encontró swww ni awww en AUR — instala el daemon de wallpaper manualmente."
 # Navegadores
-paru -S --needed --noconfirm brave-bin google-chrome tor-browser
+paru -S --needed --noconfirm google-chrome tor-browser-alpha-bin
 # Entretenimiento
 paru -S --needed --noconfirm spotify
 # Temas y apariencia
-paru -S --needed --noconfirm orchis-theme-git xcursor-hackneyed-dark papirus-icon-theme papirus-folders
+paru -S --needed --noconfirm orchis-theme xcursor-hackneyed-dark papirus-icon-theme papirus-folders
 # Colorea las carpetas de Papirus en gris (necesita sudo, no automatizable sin contraseña)
 echo "Tras el reinicio ejecuta: sudo papirus-folders -C grey -t Papirus-Dark"
 # Tema GTK "gnome-professional-solid" (descarga manual, no está empaquetado):
 # extraer el .tar.xz a ~/.local/share/themes/ y seleccionarlo en nwg-look.
 # Terminal extras
-paru -S --needed --noconfirm tty-clock oh-my-posh-bin zsh-history-substring-search procs dust duf
+paru -S --needed --noconfirm oh-my-posh-bin zsh-history-substring-search procs dust duf
 # GTK settings (Wayland) — fuente de verdad para tema/iconos/cursor GTK
 paru -S --needed --noconfirm nwg-look
 # == TPM - Gestor de plugins de tmux ==
@@ -129,7 +127,7 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 cp -r "$PATH_REPO/.config/." "$HOME/.config/"
 
 # Crear archivo vacío de keybinds locales si no existe (gitignored, cada máquina lo gestiona)
-touch "$HOME/.config/hypr/keybinds-local.conf"
+touch "$HOME/.config/hypr/keybinds-local.lua"
 
 # == Copiar configs del sistema ==
 sudo mkdir -p /etc/xdg/reflector
