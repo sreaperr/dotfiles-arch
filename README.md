@@ -49,28 +49,16 @@ reevaluándose en cada hotplug.
 
 <table>
 <tr>
-<td width="25%"><img src="assets/screenshots/desktop-clean.png" alt="Escritorio limpio"></td>
+<td width="25%"><img src="assets/screenshots/tiled-terminals.png" alt="Terminales en mosaico"></td>
 <td width="25%"><img src="assets/screenshots/launcher-rofi.png" alt="Launcher Rofi"></td>
 <td width="25%"><img src="assets/screenshots/wallpaper-selector.png" alt="Selector de wallpapers"></td>
 <td width="25%"><img src="assets/screenshots/fastfetch-btop.png" alt="Fastfetch + btop"></td>
 </tr>
 <tr>
-<td align="center">Escritorio</td>
+<td align="center">Terminales en mosaico</td>
 <td align="center">Launcher (Rofi)</td>
 <td align="center">Selector de wallpapers<br><code>SUPER + T</code></td>
 <td align="center">Fastfetch + btop</td>
-</tr>
-<tr>
-<td width="25%"><img src="assets/screenshots/hyprland-overview.png" alt="Terminales en mosaico"></td>
-<td width="25%"><img src="assets/screenshots/dashboard.png" alt="Cheatsheet de atajos"></td>
-<td width="25%"><img src="assets/screenshots/theme-auditory.png" alt="Tema Auditory"></td>
-<td width="25%"><img src="assets/screenshots/theme-auditory-terminal.png" alt="Tema Auditory en terminal"></td>
-</tr>
-<tr>
-<td align="center">Terminales en mosaico</td>
-<td align="center">Cheatsheet de atajos</td>
-<td align="center">Tema Auditory</td>
-<td align="center">Tema Auditory (terminal)</td>
 </tr>
 </table>
 
